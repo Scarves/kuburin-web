@@ -1,0 +1,1503 @@
+<table class="table bg-light" id="dataPendaftarTable">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                <input type="checkbox" id="boxAll" onchange="allCheckboxes()">
+            </th>
+            <th>
+                <b>Kode Daftar</b>
+            </th>
+            <th>
+                <b>Nama Jenazah</b>
+            </th>
+            <th>
+                <b>Tgl. Lahir</b>
+            </th>
+            <th>
+                <b>Tempat Lahir</b>
+            </th>
+            <th>
+                <b>Kelamin</b>
+            </th>
+            <th>
+                <b>Agama</b>
+            </th>
+            <th>
+                <b>Alamat</b>
+            </th>
+            <th>
+                <b>Tgl. Wafat</b>
+            </th>
+            <th>
+                <b>Tgl. Makam</b>
+            </th>
+            <th>
+                <b>Nama Ahli Waris</b>
+            </th>
+            <th>
+                <b>Status</b>
+            </th>
+            <th>
+                
+            </th>
+            <button class="btn menu-visited btn-info" id="btnModalPilihAhli" data-toggle="modal" data-target="#pilihAhliWaris" hidden>
+                Lihat Selengkapnya
+            </button>
+            <button class="btn menu-visited btn-info" id="btnModalPilihMakam" data-toggle="modal" data-target="#pilihDataMakam" hidden>
+                Lihat Selengkapnya
+            </button>
+            <th class="text-right">
+                <!-- <button class="btn  btn-info" data-toggle="modal" data-target="#tambahPegawai">tambah</button> -->
+                <!--  Modal Pilih Data Makam -->
+                <input type="hidden" id="ubahSelectedMakam">
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pilihAhliWaris" aria-hidden="true" id="pilihDataMakam">
+                    <div class="modal-dialog modal-lg" role="document" >
+                        <div class="modal-content lihat-modal">
+                            <div class="row">
+                                <h5 class="mx-auto">Pilih Data Makam</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group px-2">
+                                        <input type="text" id="searchMakam" class="form-control">
+                                        <button type="button" class="btn btn-outline-info" onclick="searchMakam()">Find</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-left px-2">
+                                <div class="col-3 text-info">NIK</div>
+                                <div class="col-3 text-info">Nama Jenazah</div>
+                                <div class="col-1 text-info">Agama</div>
+                                <div class="col-1 text-info">Blok</div>
+                                <div class="col-1 text-info">Blad</div>
+                                <div class="col-1 text-info">Petak</div>
+                                <div class="col text-info"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col text-left" id="listDataMakam">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Pilih Ahli Waris -->
+                <input type="hidden" id="ubahSelectedAhli">
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pilihAhliWaris" aria-hidden="true" id="pilihAhliWaris">
+                    <div class="modal-dialog " role="document" >
+                        <div class="modal-content lihat-modal">
+                            <div class="row">
+                                <h5 class="mx-auto">Pilih Ali Waris</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group px-2">
+                                        <input type="text" id="searchAhliWaris" class="form-control">
+                                        <button type="button" class="btn btn-outline-info" onclick="searchAhli()">Find</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-left px-2">
+                                <div class="col text-info">NIK</div>
+                                <div class="col text-info">Nama Ahli Waris</div>
+                                <div class="col text-info"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col text-left" id="listAhliWaris">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Tambah -->
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="tambahModal" aria-hidden="true" id="tambahPendaftar">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content lihat-modal">
+                            <form action="add-daftar-tumpang" method="post" enctype="multipart/form-data">
+                            <input type="hidden" id="nikSelectedAhli" name="nikSelectedAhli">
+                            <input type="hidden" id="selectedLokasi" name="selectedLokasi">
+                            <input type="hidden" id="selectedBlok" name="selectedBlok">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h4 class="text-center">
+                                        <b>
+                                            Data Pendaftar Tumpang
+                                        </b>
+                                    </h4>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Nama Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            NIK Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Tanggal Wafat
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <input type="text" class="form-control" name="tambahNamaJenazah" required>
+                                        </div>
+                                        <div class="col text-left">
+                                            <input type="text" class="form-control" name="tambahNik" required>
+                                        </div>
+                                        <div class="col text-left">
+                                            <input type="date" class="form-control" name="tambahTglWafat" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Kelamin Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Nama Depan Ahli Waris
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Tanggal Makam
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <select class="form-control" name="tambahKelamin" id="">
+                                                <option value="Pria">Pria</option>
+                                                <option value="Wanita">Wanita</option>
+                                            </select>
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="namaDepanAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <input type="date" class="form-control" name="tambahTglMakam" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Tanggal Lahir
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Nama Belakang Ahli Waris
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            NIK Ahli Waris
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <input type="date" class="form-control" name="tambahTglLahir" required>
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="namaBelakangAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="nikAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Tempat Lahir
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            No. Telepon
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Blok
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <input type="text" class="form-control" name="tambahTmptLahir" required>
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="teleponAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="blokField"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Agama Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Email
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Blad
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <select class="form-control" name="tambahAgama" id="">
+                                                <option value="islam">Islam</option>
+                                                <option value="kristen">Kristen</option>
+                                                <option value="hindu">Hindu</option>
+                                                <option value="budha">Budha</option>
+                                            </select>
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="emailAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="bladField"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Alamat Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Alamat Ahli Waris
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Petak
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <input type="text" class="form-control" name="tambahAlamatJenazah" required>
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="alamatAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="petakField"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            Foto KTP Jenazah
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            Foto KK Jenazah
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" class="btn btn-info" onclick="triggerKtp('')">Upload</button>
+                                            <input type="file" id="tambahKtp" name="tambahKtp" hidden required>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" class="btn btn-info" onclick="triggerKk('')">Upload</button>
+                                            <input type="file" id="tambahKk" name="tambahKk" hidden required>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            Foto Surat Meninggal
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            Foto IPTM Tumpang
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" class="btn btn-info" onclick="triggerSkm('')" >Upload</button>
+                                            <input type="file" id="tambahSkm" name="tambahSkm" hidden required>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" class="btn btn-info" onclick="triggerIptm('')">Upload</button>
+                                            <input type="file" id="tambahIptm" name="tambahIptm" hidden required>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <!-- Status -->
+                                            Data Ahli Waris
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            Data Makam
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <!-- <select class="form-control" name="tambahStatus" id="">
+                                                <option selected>Pilih</option>
+                                                <option value="y">Disetujui</option>
+                                                <option value="n"></option>
+                                            </select> -->
+                                            <button type="button" class="btn btn-info" data-dismiss="modal" onclick="pilihAhliWaris('')">Pilih</button>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" class="btn btn-info" data-dismiss="modal" onclick="pilihDataMakam('')">Pilih</button>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            Status Pembayaran
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <select class="form-control" name="tambahStatusPembayaran" id="">
+                                                <option  selected>Pilih</option>
+                                                <option value="y">Dibayar</option>
+                                                <option value="n">Belum Dibayar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <button type="submit" class="btn btn-info" id="submitBtn" disabled>Tambah</button>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <!-- <tbody id="tpuValues">
+    </tbody> -->
+</table>
+<div class="row  mx-auto justify-content-center">
+    <div class="col text-center">
+        <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+        <span id="pageList"></span>
+        <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+    </div>
+</div>
+<script>
+
+    // Triggers
+    function triggerKtp(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahKtp' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahKtp').click();
+        }
+    }
+    function triggerKk(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahKk' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahKk').click();
+        }
+    }
+    function triggerSkm(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahSkm' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahSkm').click();
+        }
+    }
+    function triggerIptm(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahIptm' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahIptm').click();
+        }
+    }
+    function pilihDataMakam(nikJenazah) {
+        var assignMakam = document.getElementById('ubahSelectedMakam');
+        assignMakam.value = nikJenazah;
+        displayMakam('', '', assignMakam.value);
+        document.getElementById('btnModalPilihMakam').click();
+    }
+    function pilihAhliWaris(nikJenazah) {
+        var assignAhli = document.getElementById('ubahSelectedAhli');
+        assignAhli.value = nikJenazah;
+        displayAhli('', '', assignAhli.value);
+        document.getElementById('btnModalPilihAhli').click();
+    }
+    
+    // enabling Tambah button
+    function enableTambahBtn() {
+        if(document.getElementById('nikSelectedAhli').value && document.getElementById('selectedLokasi').value) {
+            document.getElementById('submitBtn').removeAttribute('disabled');
+        }
+    }
+
+    // Onchange
+    function onChangeKtp(nikJenazah) {
+        document.getElementById('ubahKtp' + nikJenazah).setAttribute('name', 'ubahKtp');
+    }
+    function onChangeKk(nikJenazah) {
+        document.getElementById('ubahKk' + nikJenazah).setAttribute('name', 'ubahKk');
+    }
+    function onChangeSkm(nikJenazah) {
+        document.getElementById('ubahSkm' + nikJenazah).setAttribute('name', 'ubahSkm');
+    }
+    function onChangeIptm(nikJenazah) {
+        document.getElementById('ubahIptm' + nikJenazah).setAttribute('name', 'ubahIptm');
+    }
+
+    // Data Makam converting into JS from EJS
+    var dataMakam = [];
+    <% dataMakam.forEach(makam => { %>
+        var makamObj = {};
+        makamObj.nik = '<%= makam.nik_jenazah %>';
+        makamObj.namaJenazah = '<%= makam.nama_jenazah %>';
+        makamObj.agama = '<%= makam.agama %>';
+        makamObj.blok = '<%= makam.blok %>';
+        makamObj.blad = '<%= makam.blad %>';
+        makamObj.petak = '<%= makam.petak %>';
+        makamObj.kdLokasi = '<%= makam.kd_lokasi %>';
+        dataMakam.push(makamObj);
+    <% }) %>
+
+    // displayMakam('', '', getNikJenazahMakam);
+
+    function displayMakam(displayMode, searchResult, nikJenazah) {
+        var list;
+        var listDataMakamLayout = document.getElementById('listDataMakam');
+        var newRowLayer = document.createElement('div');
+        var newColLayer = document.createElement('div');
+        var newRow = document.createElement('div');
+        var newCol = document.createElement('div');
+        newRowLayer.setAttribute('class', 'row');
+        newColLayer.setAttribute('class', 'col');
+        newRow.setAttribute('class', 'row');
+        newCol.setAttribute('class', 'col');
+
+        // Flushing listAhliWaris
+        listDataMakamLayout.innerHTML = '';
+
+        if(displayMode == 'search') {
+            list = searchResult;
+        } else {
+            list = dataMakam;
+        }
+        
+        list.forEach(e => {
+            var listContent = `
+                <div class="row mb-2 px-2">
+                    <div class="col-3" >
+                        ${e.nik}
+                    </div>
+                    <div class="col-3" >
+                        ${e.namaJenazah}
+                    </div>
+                    <div class="col-1" >
+                        ${e.agama}
+                    </div>
+                    <div class="col-1" >
+                        ${e.blok}
+                    </div>
+                    <div class="col-1" >
+                        ${e.blad}
+                    </div>
+                    <div class="col-1" >
+                        ${e.petak}
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-info" data-dismiss="modal" onclick="selectMakam('${e.kdLokasi}', '${nikJenazah}')">Pilih</button>
+                    </div>
+                </div>
+            `;
+            newCol.innerHTML += listContent;
+            newRow.appendChild(newCol);
+            newColLayer.appendChild(newRow);
+            newRowLayer.appendChild(newColLayer);
+        })
+        listDataMakamLayout.appendChild(newRowLayer);
+    }
+
+    // Search from data local (makam)
+    function searchMakam() {
+        var keyword = document.getElementById('searchMakam').value;
+        var getNikJenazah = document.getElementById('ubahSelectedMakam').value;
+        console.log('valuenya ' + keyword);
+        var result = dataMakam.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaJenazah'].toLowerCase()) == true || regex.test(data['nik'].toLowerCase()) == true ) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        if(getNikJenazah.length > 0) {
+            displayMakam('search', result, getNikJenazah);    
+        } else {
+            displayMakam('search', result, '');
+        }
+    }
+
+    function selectMakam(kdLokasi, nikJenazah) {
+        console.log('select makam triggered');
+        var indexMakam = dataMakam.map(makam => makam.kdLokasi.trim()).indexOf(kdLokasi);
+        var selectedLokasi = document.getElementById('selectedLokasi');
+        var selectedBlok = document.getElementById('selectedBlok');
+        var blokField = document.getElementById('blokField');
+        var bladField = document.getElementById('bladField');
+        var petakField = document.getElementById('petakField');
+        if(nikJenazah.length > 0) {
+            console.log('select makam kondisional');
+            var selectedLokasi = document.getElementById('selectedLokasi' + nikJenazah);
+            var selectedBlok = document.getElementById('selectedBlok' + nikJenazah);
+            var blokField = document.getElementById('ubahBlok' + nikJenazah);
+            var bladField = document.getElementById('bladField' + nikJenazah);
+            var petakField = document.getElementById('petakField' + nikJenazah);
+        }
+        console.log('lenght makam ' + nikJenazah.length);
+        console.table(dataMakam[indexMakam]);
+        selectedLokasi.value = dataMakam[indexMakam].kdLokasi;
+        selectedBlok.value = dataMakam[indexMakam].blok;
+        blokField.innerText = dataMakam[indexMakam].blok;
+        bladField.innerText = dataMakam[indexMakam].blad;
+        petakField.innerText = dataMakam[indexMakam].petak;
+
+        if(nikJenazah.length > 0) {
+            $('#ubahPendaftar' + nikJenazah).modal('show');
+        } else {
+            enableTambahBtn();
+            tambahBtn.click();
+        }
+    }
+
+    // Data Ahli Waris converting into JS from EJS
+    var dataAhliWaris = [];
+    <% dataAhliWaris.forEach(ahli => { %>
+        var ahliObj = {};
+        ahliObj.nik = '<%= ahli.nik %>';
+        ahliObj.namaDepan = '<%= ahli.nama_depan %>';
+        ahliObj.namaBelakang = '<%= ahli.nama_belakang %>';
+        ahliObj.telp = '<%= ahli.telp %>';
+        ahliObj.email = '<%= ahli.email %>';
+        ahliObj.alamat = '<%= ahli.alamat %>';
+        dataAhliWaris.push(ahliObj);
+    <% }) %>
+
+    
+
+    // displayAhli('', '', getNikJenazah);
+    
+    function displayAhli(displayMode, searchResult, nikJenazah) {
+        var list;
+        var listAhliWarisLayout = document.getElementById('listAhliWaris');
+        var newRowLayer = document.createElement('div');
+        var newColLayer = document.createElement('div');
+        var newRow = document.createElement('div');
+        var newCol = document.createElement('div');
+        newRowLayer.setAttribute('class', 'row');
+        newColLayer.setAttribute('class', 'col');
+        newRow.setAttribute('class', 'row');
+        newCol.setAttribute('class', 'col');
+
+        // Flushing listAhliWaris
+        listAhliWarisLayout.innerHTML = '';
+
+        if(displayMode == 'search') {
+            list = searchResult;
+        } else {
+            list = dataAhliWaris;
+        }
+        
+        list.forEach(e => {
+            var listContent = `
+                <div class="row mb-2 px-2">
+                    <div class="col" >
+                        ${e.nik}
+                    </div>
+                    <div class="col" >
+                        ${e.namaDepan} ${e.namaBelakang} 
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-info" data-dismiss="modal" onclick="selectAhliWaris('${e.nik.trim()}', '${nikJenazah}')">Pilih</button>
+                    </div>
+                </div>
+            `;
+            newCol.innerHTML += listContent;
+            newRow.appendChild(newCol);
+            newColLayer.appendChild(newRow);
+            newRowLayer.appendChild(newColLayer);
+        })
+        listAhliWarisLayout.appendChild(newRowLayer);
+    }
+
+    // Search from data local (Ahli Waris)
+    function searchAhli() {
+        var keyword = document.getElementById('searchAhliWaris').value;
+        var getNikJenazah = document.getElementById('ubahSelectedAhli').value;
+        console.log('valuenya ' + keyword);
+        var result = dataAhliWaris.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaDepan'].toLowerCase()) == true || regex.test(data['namaBelakang'].toLowerCase()) == true || regex.test(data['nik'].toLowerCase()) == true ) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        if(getNikJenazah.length > 0) {
+            displayAhli('search', result, getNikJenazah);    
+        } else {
+            displayAhli('search', result, '');
+        }
+    }
+
+    // Assign data of selected Ahli Waris into Data Pendaftar Baru Form
+    function selectAhliWaris(nik, nikJenazah) {
+        console.log('inserting selected ahli waris');
+        var indexAhli = dataAhliWaris.map(ahli => ahli.nik.trim()).indexOf(nik);
+        var nikSelectedAhli = document.getElementById('nikSelectedAhli');
+        var namaDepanAhli = document.getElementById('namaDepanAhli');
+        var namaBelakangAhli = document.getElementById('namaBelakangAhli');
+        var nikAhli = document.getElementById('nikAhli');
+        var telpAhli = document.getElementById('teleponAhli');
+        var emailAhli = document.getElementById('emailAhli');
+        var alamatAhli = document.getElementById('alamatAhli');
+        if(nikJenazah.length > 0) {
+            console.log('masuk kondisional');
+            console.table(dataAhliWaris);
+            console.log('index ke', indexAhli);
+            console.log(dataAhliWaris[indexAhli]);
+            var nikSelectedAhli = document.getElementById('ubahNikSelectedAhli' + nikJenazah);
+            var namaDepanAhli = document.getElementById('ubahNamaDepanAhli' + nikJenazah);
+            var namaBelakangAhli = document.getElementById('ubahNamaBelakangAhli' + nikJenazah);
+            var nikAhli = document.getElementById('ubahNikAhli' + nikJenazah);
+            var telpAhli = document.getElementById('ubahTeleponAhli' + nikJenazah);
+            var emailAhli = document.getElementById('ubahEmailAhli' + nikJenazah);
+            var alamatAhli = document.getElementById('ubahAlamatAhli' + nikJenazah);
+        }
+
+        // Put selected ahli waris
+        nikSelectedAhli.value = dataAhliWaris[indexAhli].nik;
+        namaDepanAhli.innerText = dataAhliWaris[indexAhli].namaDepan;
+        namaBelakangAhli.innerText = dataAhliWaris[indexAhli].namaBelakang;
+        nikAhli.innerText = dataAhliWaris[indexAhli].nik;
+        telpAhli.innerText = dataAhliWaris[indexAhli].telp;
+        emailAhli.innerText = dataAhliWaris[indexAhli].email;
+        alamatAhli.innerText = dataAhliWaris[indexAhli].alamat;
+
+        if(nikJenazah.length > 0) {
+            // Back to Ubah Data Pendaftar Baru Form
+            document.getElementById('ubahSelectedAhli').value = '';
+            $('#ubahPendaftar' + nikJenazah).modal('show')
+        } else {
+            // Back to Data Pendaftar Baru Form
+            enableTambahBtn();
+            tambahBtn.click();
+        }
+    }
+
+    // Data Pendaftar converting into JS from EJS
+    var dataPendaftar = [];
+
+    <% dataPendaftar.forEach(pendaftar => { %>
+        var pendaftarObj = {};
+        pendaftarObj.kdDaftar = '<%= pendaftar.kd_daftar %>';
+        pendaftarObj.namaJenazah = '<%= pendaftar.nama_jenazah %>';
+        pendaftarObj.kelamin = '<%= pendaftar.kelamin %>';
+        pendaftarObj.agama = '<%= pendaftar.agama_jenazah %>';
+        pendaftarObj.namaAhli = '<%= pendaftar.nama_ahli %>';
+        pendaftarObj.kdLokasi = '<%= pendaftar.kd_lokasi %>';
+        pendaftarObj.tglKadaluarsa = '<%= pendaftar.tgl_kadaluarsa %>';
+        pendaftarObj.statusPembayaran = <%= pendaftar.status_pembayaran %>;
+        pendaftarObj.tglWafat = '<%= pendaftar.tgl_wafat %>';
+        pendaftarObj.tglDaftar = '<%= pendaftar.tgl_daftar %>';
+        pendaftarObj.tglMakam = '<%= pendaftar.tgl_makam %>';
+        pendaftarObj.tglLahir = '<%= pendaftar.tgl_lahir %>';
+        pendaftarObj.tmptLahir = '<%= pendaftar.tmpt_lahir %>';
+        pendaftarObj.telp = '<%= pendaftar.telp %>';
+        pendaftarObj.blok = '<%= pendaftar.blok %>';
+        pendaftarObj.email = '<%= pendaftar.email %>';
+        pendaftarObj.blad = '<%= pendaftar.blad %>';
+        pendaftarObj.alamatJenazah = '<%= pendaftar.alamat_jenazah %>';
+        pendaftarObj.alamatAhli = '<%= pendaftar.alamat_ahli %>';
+        pendaftarObj.petak = '<%= pendaftar.petak %>';
+        pendaftarObj.statusDaftar = '<%= pendaftar.status_daftar %>';
+        pendaftarObj.nikAhli = '<%= pendaftar.nik_ahli %>';
+        dataPendaftar.push(pendaftarObj);
+    <% }) %>
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+    
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        // var getPosition = document.getElementById('tpuValues');
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataPendaftarTable');
+        var pageList = document.getElementById('pageList');
+
+        // getPosition.innerHTML = '';
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            flushTbody(table, true);
+            emptyData = `
+                <h4 class="text-center text-secondary"> Data Tidak Ditemukan </h4>
+            `;
+        } else {
+            putData = dataPendaftar;
+            emptyData = `
+                <h4 class="text-center text-secondary">Belum Ada Data Saat Ini </h4>
+            `;
+        }
+
+        // flush all tbodies || Coba letakkan flush sebelum count, jangan sebelum kondisi displaymode
+        flushTbody(table, false);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page1');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData(putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    // Search from data local (Pendaftar Baru)
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' + keyword);
+        var result = dataPendaftar.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaJenazah'].toLowerCase()) == true || regex.test(data['namaAhli'].toLowerCase()) == true ) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+
+    
+
+    document.getElementById('dataPendaftar').classList.add('menu-visited'); // On data TPU menu
+    document.getElementById('search').removeAttribute('hidden'); // Search bar visible
+    document.getElementById('actionBtn').removeAttribute('hidden'); // Action buttons visible
+
+    var actionButtons = document.getElementById('actionBtn');
+    // Applying link to print report / cetak button
+    const cetakBtn = actionButtons.children[2];
+    const linkCetak = document.createElement('a');
+    linkCetak.setAttribute('href', '/admin-tpu/cetak-data-pendaftar-tumpang');
+    linkCetak.appendChild(cetakBtn);
+    actionButtons.insertBefore(linkCetak, document.getElementById('actionBtn').children[2]);
+    // Applying link to add pegawai / tambah button
+    const tambahBtn = actionButtons.children[0];
+    tambahBtn.onclick = () => {$('#tambahPendaftar').modal('show')};
+    // Applying link to delete pegawai / hapus button
+    const hapusBtn = actionButtons.children[3];
+    hapusBtn.setAttribute('disabled', '');
+    hapusBtn.setAttribute('onclick', 'removeData("/admin-tpu/delete-daftar-tumpang")');
+    // Applying link Modal Ubah into ubah button
+    const ubahBtn = actionButtons.children[1];
+    ubahBtn.setAttribute('disabled', '');
+    
+    function getFoto(email, nik) {
+        var ktpAhliField = document.getElementById('ktpAhli' + nik.trim());
+        var kkAhliField = document.getElementById('kkAhli' + nik);
+        var ktpJenazahField = document.getElementById('ktpJenazah' + nik);
+        var kkJenazahField = document.getElementById('kkJenazah' + nik);
+        var skmField = document.getElementById('skm' + nik);
+        var iptmField = document.getElementById('iptm' + nik);
+        console.log(ktpAhliField);
+
+        // Get KTP Ahli Waris
+        ktpAhliField.src = `/admin-tpu/foto-ktp-perpanjang/${email}/${nik}`;
+        ktpAhliField.style.width = '100%';
+        ktpAhliField.onerror = () => {
+            console.log('get KTP Ahli Waris error');
+        };
+        // Get KK Ahli Waris
+        kkAhliField.src = `/admin-tpu/foto-kk-perpanjang/${email}/${nik}`;
+        kkAhliField.style.width = '100%';
+        kkAhliField.onerror = () => {
+            console.log('get KK Ahli Waris error');
+        };
+        // Get KTP Jenazah
+        ktpJenazahField.src = `/admin-tpu/foto-ktp-jenazah/${nik}`;
+        ktpJenazahField.style.width = '100%';
+        ktpJenazahField.onerror = () => {
+            console.log('get KTP Jenazah error');
+        };
+        // Get KK Jenazah
+        kkJenazahField.src = `/admin-tpu/foto-kk-jenazah/${nik}`;
+        kkJenazahField.style.width = '100%';
+        kkJenazahField.onerror = () => {
+            console.log('get KK Jenazah error');
+        };
+        // Get SKM
+        skmField.src = `/admin-tpu/foto-skm-jenazah/${nik}`;
+        skmField.style.width = '100%';
+        skmField.onerror = () => {
+            console.log('get SKM Jenazah error');
+        };
+        // Get IPTM
+        iptmField.src = `/admin-tpu/foto-tumpang-jenazah/${nik}`;
+        iptmField.style.width = '100%';
+        iptmField.onerror = () => {
+            console.log('get IPTM Jenazah error');
+        };
+    }
+
+    //  Set default options for Ubah Data Daftar Baru form
+    function setDefaultOptions(nikJenazah, kelamin, agama, stat) {
+        // Set default kelamin
+        document.getElementById(kelamin + nikJenazah).selected = true;
+        // Set default Agama
+        document.getElementById(agama + nikJenazah).selected = true;
+        // Set default statusPembayaran
+        if(stat == true) {
+            document.getElementById('dibayar' + nikJenazah).selected = true;
+        }
+        if(stat == false) {
+            document.getElementById('belumBayar' + nikJenazah).selected = true;
+        }
+    }
+    
+    function rowsOfData(pendaftar) {
+        return `
+            <tr>
+                <td><input type="checkbox" 
+                        name="checkbox${pendaftar.kdDaftar.trim()}" 
+                        id="checkbox${pendaftar.kdDaftar.trim()}" 
+                        class="checkbox" 
+                        onchange="isCheckedPendaftarTumpang(
+                            '${pendaftar.email}', 
+                            '${pendaftar.kdDaftar.trim()}', 
+                            '${pendaftar.nikAhli.trim()}', 
+                            '${pendaftar.kelamin}', 
+                            '${pendaftar.kdLokasi}',
+                            '${pendaftar.blok}', 
+                            '${pendaftar.blad}', 
+                            '${pendaftar.petak}', 
+                            '${pendaftar.agama}', 
+                            ${pendaftar.statusPembayaran}
+                        )"
+                    >
+                </td>
+                <td>${pendaftar.kdDaftar}</td>
+                <td>${pendaftar.namaJenazah}</td>
+                <td>${pendaftar.tglLahir}</td>
+                <td>${pendaftar.tmptLahir}</td>
+                <td>${pendaftar.kelamin}</td>
+                <td>${pendaftar.agama}</td>
+                <td>${pendaftar.alamatJenazah}</td>
+                <td>${pendaftar.tglWafat}</td>
+                <td>${pendaftar.tglMakam}</td>
+                <td>${pendaftar.namaAhli}</td>
+                <td>${pendaftar.statusDaftar}</td>
+                <td class="text-right">
+                    
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target="#lihat${pendaftar.kdDaftar.trim()}"
+                            onclick="getFoto('${pendaftar.email}', '${pendaftar.kdDaftar.trim()}')">
+                            Lihat Selengkapnya
+                        </button>
+                    </a>
+                    <!-- Modal Lihat -->
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="lihat${pendaftar.kdDaftar.trim()}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <h4 class="text-center">
+                                    <b>
+                                        Data Pendaftar Tumpang
+                                    </b>
+                                </h4>
+                                <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Nama Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        NIK Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Wafat
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.namaJenazah}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.kdDaftar}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.tglWafat}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Kelamin Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Daftar
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Makam
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.kelamin}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.tglDaftar}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.tglMakam}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Lahir
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Nama Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Kadaluarsa
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.tglLahir}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.namaAhli}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.tglKadaluarsa}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tempat Lahir
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        No. Telepon
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Blok
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.tmptLahir}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.telp}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.blok}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Agama Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Email
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Blad
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.agama}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.email}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.blad}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Alamat Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Alamat Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Petak
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.alamatJenazah}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.alamatAhli}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${pendaftar.petak}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Status Pembayaran
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${pendaftar.statusPembayaran == true ? 'Dibayar' : 'Menunggu Pembayaran'}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        KTP Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        KK Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Surat Keterangan Meninggal
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col"> 
+                                        <img src="" id="ktpJenazah${pendaftar.kdDaftar.trim()}" />
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="kkJenazah${pendaftar.kdDaftar.trim()}" />
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="skm${pendaftar.kdDaftar.trim()}" />
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        KTP Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        KK Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        IPTM Tumpangan
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col"> 
+                                        <img src="" id="ktpAhli${pendaftar.kdDaftar.trim()}" />
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="kkAhli${pendaftar.kdDaftar.trim()}" />
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="iptm${pendaftar.kdDaftar.trim()}" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col text-right px-4">
+                                        <button class="btn btn-secondary mx-4" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- modal ubah --!>
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubahModal" aria-hidden="true" id="ubahPendaftar${pendaftar.kdDaftar.trim()}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <form action="update-daftar-tumpang" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="oldNikAhli" value="${pendaftar.nikAhli}">
+                                <input type="hidden" name="oldNikJenazah" value="${pendaftar.kdDaftar}">
+                                <input type="hidden" id="ubahNikSelectedAhli${pendaftar.kdDaftar.trim()}" name="ubahNikSelectedAhli">
+                                <input type="hidden" id="selectedLokasi${pendaftar.kdDaftar.trim()}" name="ubahSelectedLokasi">
+                                <input type="hidden" id="selectedBlok${pendaftar.kdDaftar.trim()}" name="ubahSelectedBlok">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h4 class="text-center">
+                                            <b>
+                                                Ubah Data Pendaftar Tumpang
+                                            </b>
+                                        </h4>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Nama Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                NIK Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Wafat
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <input type="text" class="form-control" name="ubahNamaJenazah" value="${pendaftar.namaJenazah}" required>
+                                            </div>
+                                            <div class="col text-left">
+                                                <input type="text" class="form-control" name="ubahNik" value="${pendaftar.kdDaftar.trim()}" required>
+                                            </div>
+                                            <div class="col text-left">
+                                                <input type="date" class="form-control" name="ubahTglWafat" value="${pendaftar.tglWafat}" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Kelamin Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Nama Depan Ahli Waris
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Makam
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <select class="form-control" name="ubahKelamin" id="ubahKelamin${pendaftar.kdDaftar.trim()}">
+                                                    <option id="Pria${pendaftar.kdDaftar.trim()}" value="Pria">Pria</option>
+                                                    <option id="Wanita${pendaftar.kdDaftar.trim()}" value="Wanita">Wanita</option>
+                                                </select>
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahNamaDepanAhli${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <input type="date" class="form-control" name="ubahTglMakam" value="${pendaftar.tglMakam}" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Lahir
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Nama Belakang Ahli Waris
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                NIK Ahli Waris
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <input type="date" class="form-control" name="ubahTglLahir" value="${pendaftar.tglLahir}" required>
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahNamaBelakangAhli${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahNikAhli${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tempat Lahir
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                No. Telepon
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Blok
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <input type="text" class="form-control" name="ubahTmptLahir" value="${pendaftar.tmptLahir}" required>
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahTeleponAhli${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahBlok${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Agama Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Email
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Blad
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <select class="form-control" name="ubahAgama" id="ubahAgama${pendaftar.kdDaftar.trim()}">
+                                                    <option id="islam${pendaftar.kdDaftar.trim()}" value="islam">Islam</option>
+                                                    <option id="kristen${pendaftar.kdDaftar.trim()}" value="kristen">Kristen</option>
+                                                    <option id="hindu${pendaftar.kdDaftar.trim()}" value="hindu">Hindu</option>
+                                                    <option id="budha${pendaftar.kdDaftar.trim()}" value="budha">Budha</option>
+                                                </select>
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahEmailAhli${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="bladField${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                            <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Alamat Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Alamat Ahli Waris
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Petak
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <input type="text" class="form-control" name="ubahAlamatJenazah" value="${pendaftar.alamatJenazah}" required>
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahAlamatAhli${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="petakField${pendaftar.kdDaftar.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                                <!--
+                                                <button type="button" class="btn btn-info mt-2" onclick="checkLoc()">Check Lokasi</button> <br>
+                                                <span id="checkLocNote"></span>
+                                                -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                Foto KTP Jenazah
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                Foto KK Jenazah
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" class="btn btn-info" onclick="triggerKtp('${pendaftar.kdDaftar.trim()}')">Upload</button>
+                                                <input type="file" id="ubahKtp${pendaftar.kdDaftar.trim()}" onchange="onChangeKtp('${pendaftar.kdDaftar.trim()}')" hidden>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" class="btn btn-info" onclick="triggerKk('${pendaftar.kdDaftar.trim()}')">Upload</button>
+                                                <input type="file" id="ubahKk${pendaftar.kdDaftar.trim()}" onchange="onChangeKk('${pendaftar.kdDaftar.trim()}')" hidden>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                Foto Surat Meninggal
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                Foto IPTM Tumpang
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" class="btn btn-info" onclick="triggerSkm('${pendaftar.kdDaftar.trim()}')">Upload</button>
+                                                <input type="file" id="ubahSkm${pendaftar.kdDaftar.trim()}" onchange="onChangeSkm('${pendaftar.kdDaftar.trim()}')" hidden>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" class="btn btn-info" onclick="triggerIptm('${pendaftar.kdDaftar.trim()}')">Upload</button>
+                                                <input type="file" id="ubahIptm${pendaftar.kdDaftar.trim()}" onchange="onChangeIptm('${pendaftar.kdDaftar.trim()}')" hidden>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                Data Ahli Waris
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                Data Makam
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal" onclick="pilihAhliWaris(${pendaftar.kdDaftar})">Pilih</button>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" class="btn btn-info" data-dismiss="modal" onclick="pilihDataMakam(${pendaftar.kdDaftar.trim()})">Pilih</button>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <!-- Status -->
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                Status Pembayaran
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <!-- <select class="form-control" name="ubahStatus" id="">
+                                                    <option selected>Pilih</option>
+                                                    <option value="y">Disetujui</option>
+                                                    <option value="n"></option>
+                                                </select> -->
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                <select class="form-control" name="ubahStatusPembayaran" id="ubahStatusPembayaran${pendaftar.kdDaftar.trim()}">
+                                                    <option id="dibayar${pendaftar.kdDaftar.trim()}" value="true">Dibayar</option>
+                                                    <option id="belumBayar${pendaftar.kdDaftar.trim()}" value="false">Belum Dibayar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <button type="submit" class="btn btn-info" id="ubahSubmitBtn" >ubah</button>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </td>
+            </tr>
+        `;
+    }
+</script>

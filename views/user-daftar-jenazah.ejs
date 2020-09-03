@@ -1,0 +1,341 @@
+<div class="container-fluid py-4 top-nav-color">
+    <div class="container bg-white py-4">
+        <form action="/daftar-jenazah" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="email" value="<%= dataAkun.email %>">
+        <div class="row justify-content-center my-4 ">
+            <div class="col text-center">
+                <h4 class="font-header">
+                    Daftar Jenazah
+                </h4>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- LEFT SIDE -->
+            <div class="col-5 ">
+                <div class="row">
+                    <div class="col">
+                        <label for="jenisPendaftaran">
+                            <b> Jenis Pendaftaran</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <input type="radio" name="jenisPendaftaran" id="jenisPendaftaran" value="baru" onclick="hideTumpanganUpload()" checked> Baru
+                        <input type="radio" name="jenisPendaftaran" id="jenisPendaftaran" class="ml-2"  value="tumpang" onclick="showTumpanganUpload()"> Tumpangan
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nik">
+                            <b>NIK</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <input type="text" class="form-control" id="nik" name="nik"required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="namaJenazah">
+                            <b> Nama Jenazah</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <input type="text" class="form-control" id="namaJenazah" name="namaJenazah" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="jenisPendaftaran">
+                            <b> Kelamin</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <input type="radio" name="kelamin" id="kelamin" value="pria" checked> Laki - laki
+                        <input type="radio" name="kelamin" id="kelamin" class="ml-2"  value="wanita"> Perempuan
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="agama">
+                            <b> Agama</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <select name="agama" id="agama" class="form-control" >
+                            <option value="islam" selected>Islam</option>
+                            <option value="kristen" >Kristen</option>
+                            <option value="hinduBudha" >Hindu / Budha</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="alamat">
+                            <b> Alamat</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <input type="text" class="form-control" id="alamat" name="alamat" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="tmptTglLahir">
+                            <b> Tempat, Tanggal Lahir</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="tempat" name="tempat" required>
+                            <input type="date" class="form-control" id="tglLahir" name="tglLahir" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="tglWafat">
+                            <b> Tanggal Wafat</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="date" class="form-control" id="tglWafat" name="tglWafat" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="tglMakam">
+                            <b> Tanggal Makam</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="date" class="form-control" id="tglMakam" name="tglMakam" required>
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT SIDE -->
+            <div class="col-5 ">
+                <div class="row">
+                    <div class="col">
+                        <label for="nikAhliWaris">
+                            <b> NIK Ahli Waris</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <%= dataAkun.nik %> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="namaAhliWaris">
+                            <b> Nama Ahli Waris</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <%= dataAkun.nama_depan %> <%= dataAkun.nama_belakang %> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="alamat">
+                            <b> Alamat Ahli Waris</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <%= dataAkun.alamat %> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nikAhliWaris">
+                            <b> No Telepon</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <%= dataAkun.telepon %> 
+                    </div>
+                </div>
+                <div class="row" id="blokField">
+                    <div class="col">
+                        <label for="blok">
+                            <b> Blok</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row" id="blokOption">
+                    <div class="col">
+                        <select name="blok" id="blok" class="form-control">
+                            <option value="aa01" selected>AA01</option>
+                            <option value="aa02" >AA02</option>
+                            <option value="a001" >A001</option>
+                            <option value="a002" >A002</option>
+                            <option value="a003" >A003</option>
+                        </select>
+                        
+                        <sup>
+                            <b>
+                                *Sewa tanah makam untuk jangka waktu 3 (tiga) tahun :
+                            </b>
+                        </sup>
+                        <table class="table-sm-1">
+                            <tr>
+                                <td>
+                                    <small>
+                                        Blok AA01
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        Rp.100.000
+                                    </small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <small>
+                                        Blok AA02
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        Rp.80.000
+                                    </small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <small>
+                                        Blok A001
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        Rp.60.000
+                                    </small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <small>
+                                        Blok A002
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        Rp.40.000
+                                    </small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <small>
+                                        Blok A003
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        Rp.0
+                                    </small>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" id="nikTumpangRow" hidden>
+                    <div class="col">
+                        <label for="NIKTumpang">
+                            <b>NIK Makam Yang Ditumpang Tindih</b>
+                        </label>
+                    </div>
+                </div>
+                <div class="row" id="nikTumpangField" hidden>
+                    <div class="col">
+                        <input type="text" id="nikTumpang", name="nikTumpang">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-10 ">
+                <label for="suratKeteranganMeninggal"> 
+                    <b> Surat Keterangan Meninggal</b>
+                </label>
+                <input type="file" name="suratKeteranganMeninggal" id="suratKeteranganMeninggal" hidden required>
+                <button type="button" class="btn btn-info form-control" onclick="fileSkmEvent()">Upload</button>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-5 ">
+                <label for="ktpJenazah">
+                    <b> KTP Jenazah</b>
+                </label>
+                <input type="file" name="ktpJenazah" id="ktpJenazah" hidden required>
+                <button type="button" class="btn btn-info form-control" onclick="ktp()">Upload</button>
+            </div>
+            <div class="col-5 ">
+                <label for="kkJenazah">
+                    <b> KK Jenazah</b>
+                </label>
+                <input type="file" name="kkJenazah" id="kkJenazah" hidden required>
+                <button type="button" class="btn btn-info form-control" onclick="kk()">Upload</button>
+            </div>
+        </div>
+        <!-- <div class="row justify-content-center">
+            <div class="col-5 border">
+                <label for="ktpAhliWaris">
+                    <b> KTP Ahli Waris</b>
+                </label>
+                <input type="file" name="ktpAhliWaris" id="ktpAhliWaris" hidden required>
+                <button type="button" class="btn btn-info form-control">Upload</button>
+            </div>
+            <div class="col-5 border">
+                <label for="kkAhliWaris">
+                    <b> KK Ahli Waris</b>
+                </label>
+                <input type="file" name="kkAhliWaris" id="kkAhliWaris" hidden required>
+                <button type="button" class="btn btn-info form-control">Upload</button>
+            </div>
+        </div> -->
+        <div class="row justify-content-center" id="fileTumpangan" hidden>
+            <div class="col-10  ">
+                <label for="suratITPMtumpang">
+                    <b> Surat IPTM dari yang ditumpangi *</b>
+                </label>
+                <input type="file" name="suratTumpang" id="suratTumpang" hidden>
+                <button type="button" class="btn btn-info form-control" onclick="tumpang()">Upload</button>
+                <sup>
+                    *diisi jika tumpangan
+                </sup>
+            </div>
+        </div>
+        <div class="row my-4">
+            <button type="submit" class="mx-auto btn-lg btn-primary px-4">Daftar</button>
+        </div>
+        </form>
+    </div>
+</div>

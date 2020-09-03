@@ -1,0 +1,444 @@
+<table class="table bg-light" id="dataAhliWarisTable">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                <b>No</b>
+            </th>
+            <th>
+                <b>Kode Ahli Waris</b>
+            </th>
+            <th>
+                <b>Nama Depan</b>
+            </th>
+            <th>
+                <b>Nama Belakang</b>
+            </th>
+            <th>
+                <b>NIK</b>
+            </th>
+            <th>
+                <b>Terakhir Login</b>
+            </th>
+            <th>
+                <input type="checkbox" name="allItems" id="allItems">
+            </th>
+            <th class="text-right">
+                <a href="/admin/cetak-data-ahli-waris" class="no-underline">
+                    <button class="btn menu-visited btn-info">Cetak</button>
+                </a>
+            </th>
+        </tr>
+    </thead>
+</table>
+<div class="row  mx-auto justify-content-center">
+    
+    <div class="col text-center">
+        <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+        <span id="pageList"></span>
+        <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+    </div>
+</div>
+<script>
+    
+    var dataAhliWaris = [];
+    <% dataAhliWaris.forEach(waris => { %>
+        var ahliWarisObj = {};
+        ahliWarisObj.kodeAhliWaris = '<%= waris.kode_ahli_waris %>';
+        ahliWarisObj.namaDepan = '<%= waris.nama_depan %>';
+        ahliWarisObj.namaBelakang = '<%= waris.nama_belakang %>';
+        ahliWarisObj.nik = '<%= waris.nik %>';
+        ahliWarisObj.terakhirLogin = '<%= waris.terakhir_login %>';
+        ahliWarisObj.noKk = '<%= waris.no_kk %>';
+        ahliWarisObj.jenisKelamin = '<%= waris.jenis_kelamin %>';
+        ahliWarisObj.email = '<%= waris.email %>';
+        ahliWarisObj.alamat = '<%= waris.alamat %>';
+        ahliWarisObj.kelurahan = '<%= waris.kelurahan %>';
+        ahliWarisObj.kodePos = '<%= waris.kode_pos %>';
+        ahliWarisObj.kecamatan = '<%= waris.kecamatan %>';
+        ahliWarisObj.kotkab = '<%= waris.kotkab %>';
+        ahliWarisObj.provinsi = '<%= waris.provinsi %>';
+        ahliWarisObj.tglRegist = '<%= waris.tgl_regist %>';
+        ahliWarisObj.telp = '<%= waris.telp %>';
+        dataAhliWaris.push(ahliWarisObj);
+    <% }) %>
+    // console.table(dataAhliWaris);
+    // var copyOfData = JSON.parse(JSON.stringify(dataAhliWaris));
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+
+    // Adjusting display data, wether it search mode or main modes
+    function displayData(displayMode, searchResult){
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataAhliWarisTable');
+        var pageList = document.getElementById('pageList');
+
+        // Define wheter its to display search or not
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengtnya ', putData.length);
+            // tbody.innerHTML = `
+            //     <tr>
+            //         <td colspan="8">
+            //             <h4> Data Tidak Ditemukan </h4>
+            //         </td>
+            //     </tr>
+            // `;
+            // table.appendChild(tbody);
+            // table.tBodies.page1.remove();
+            // table.tBodies.page2.remove();
+
+            // Just put flush function, so both search and pagination functions
+            // ... doesn't buggy... still don't know why
+            flushTbody(table, true);
+        } else {
+            putData = dataAhliWaris;
+        }
+        // flushing all tbodies
+        flushTbody(table, false);
+
+        // Put data to page
+        var count = 1;
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page777');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+        
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData((getIndex + 1), putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    // Search from data local
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' + keyword);
+        var result = dataAhliWaris.filter(data => {
+            var regex = RegExp(keyword, 'g');
+            if(regex.test(data['namaDepan']) == true || regex.test(data['namaBelakang']) == true) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+
+    function rowsOfData(count, data) {
+        return `
+            <tr>
+                <td>${count}</td>
+                <td>${data.kodeAhliWaris}</td>
+                <td>${data.namaDepan}</td>
+                <td>${data.namaBelakang}</td>
+                <td>${data.nik}</td>
+                <td>${data.terakhirLogin}</td>
+                <td>
+                    <input type="checkbox" name="a" id="a">
+                </td>
+                <td class="text-right">
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target=".modal${data.kodeAhliWaris}" onclick="getJenazah(${data.kodeAhliWaris});">Lihat</button>
+                    </a>
+                    <a href="/admin/delete-ahli-waris/${data.nik}/${data.kodeAhliWaris}" class="no-underline">
+                        <button class="btn menu-visited btn-info">Hapus</button>
+                    </a>
+                </td>
+
+                <!-- Modal -->
+                <div class="modal fade modal${data.kodeAhliWaris}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content lihat-modal">
+                            <h4 class="text-center">
+                                <b>
+                                    Data Ahli Waris
+                                </b>
+                            </h4>
+                            <p class="text-center">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                            </p>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Kode Ahli Waris
+                                </div>
+                                <div class="col title-modal-color">
+                                    NIK
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.kodeAhliWaris}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.nik}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Nama Ahli Waris
+                                </div>
+                                <div class="col title-modal-color">
+                                    No KK
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.namaDepan} ${data.namaBelakang}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.noKk}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Jenis Kelamin
+                                </div>
+                                <div class="col title-modal-color">
+                                    Email
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.jenisKelamin}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.email}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Alamat
+                                </div>
+                                <div class="col title-modal-color">
+                                    Kelurahan
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.alamat}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.kelurahan}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Kode Pos
+                                </div>
+                                <div class="col title-modal-color">
+                                    Kecamatan
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.kodePos}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.kecamatan}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Kota / Kabupaten
+                                </div>
+                                <div class="col title-modal-color">
+                                    Provinsi
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.kotkab}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.provinsi}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div class="row mx-4">
+                                <div class="col title-modal-color">
+                                    Tanggal Register
+                                </div>
+                                <div class="col title-modal-color">
+                                    No Telepon
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3">
+                                <div class="col ">
+                                    ${data.tglRegist}
+                                    <hr class="bg-info">
+                                </div>
+                                <div class="col ">
+                                    ${data.telp}
+                                    <hr class="bg-info">
+                                </div>
+                            </div>
+                            <div id="jenazahTable${data.kodeAhliWaris}"></div>
+                            <!-- Table data in modal -->
+                            <div class="row mb-3">
+                                <div class="col text-right px-4">
+                                    <button class="btn btn-secondary mx-4" data-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+        `;
+    }
+
+    // Get data jenazah by kode ahli waris
+    var getJenazah = (kdAhliWaris) => new Promise((resolve, reject) => {
+        var count = 1;
+        var jenazahTable = document.getElementById(`jenazahTable${kdAhliWaris}`);
+        
+        jenazahTable.innerHTML = '';
+        fetch(`/admin/get-data-jenazah/${kdAhliWaris}`)
+            .then(data => {
+                return data.json();
+            })
+            .then(data => {
+                console.log('data jenazah ');
+                console.table(data);
+                jenazahTable.innerHTML = ` 
+                    <table class="mx-auto table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK Jenazah</th>
+                                <th>Nama Jenazah</th>
+                                <th>Nama TPU</th>
+                                <th>Blok</th>
+                                <th>Blad</th>
+                                <th>Petak</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jenazahValues${kdAhliWaris}">
+
+                        </tbody>
+                    </table>
+                `;
+                var jenazahValue = document.getElementById(`jenazahValues${kdAhliWaris}`);
+                data.forEach(jenazah => {
+                    console.log('niknya : ', jenazah.nik_jenazah);
+                        jenazahValue.innerHTML += `
+                        <tr>
+                            <td>${count}</td>
+                            <td>${jenazah.nik_jenazah}</td>
+                            <td>${jenazah.nama_jenazah}</td>
+                            <td>${jenazah.nama_tpu}</td>
+                            <td>${jenazah.blok}</td>
+                            <td>${jenazah.blad}</td>
+                            <td>${jenazah.petak}</td>
+                        </tr>
+                        `;
+                    count++;
+                });
+            })
+            .catch(error => console.error(error));
+    });
+    document.getElementById('dataAhliWaris').classList.add('menu-visited');
+    document.getElementById('search').removeAttribute('hidden');
+</script>

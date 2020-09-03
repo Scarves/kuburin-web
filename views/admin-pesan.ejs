@@ -1,0 +1,401 @@
+<div class="container-fluid bg-dark" id="adminPesan">
+    <div class="row " id="pesanBody">
+        <!-- Admin List -->
+        <div class="col-3 py-4 admin-list-color">
+            <!-- search bar -->
+            <div class="row justtify-content-center pb-4">
+                <div class="col-10 mx-auto">
+                    <div class="input-group">
+                        <input type="text" id="searchAdmin" class="form-control">
+                        <button type="button" id="searchAdminBtn" class="btn btn-outline-success" onclick="searchAdmin()">Search</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Listing -->
+            <div class="" id="chatListLayout">
+            
+            </div>
+        </div>    
+        <!-- Chat content -->
+        <div class="col-9 bg-white " style="max-height: 100%; position: relative;">
+            <!-- Header Chat -->
+            <div class="row header-chat" style="max-height: 120px;">
+                <div class="col-11 ">    
+                    <h4 id="namaAdmin" class="my-3 "><img src="/icons/at.svg" style="width: 30px;" /> &nbsp;<%= kdAdmin %></h4>
+                </div>
+                <div class="col-1 text-right">
+                    <h3 class="my-3 fas fa-ellipsis-v"></h3>
+                </div>
+            </div>
+            <div class="row content-chat" style="position: relative;">
+                <div class="col " id="chatField" style="overflow: auto; position: relative; max-height: 100%; width: 100%;"></div>
+            </div>
+            <div class="row footer-chat" style="">
+                <div class="col">
+                    <span class="border border-outline-info mr-2" id="imageStatus" hidden>
+                        <b> Image : </b>
+                        <span id="imageName"></span>
+                        <button type="button" class="btn" id="removeImage" onclick="resetImage()">&times;</button>
+                    </span>
+                    <span class="border border-outline-info" id="fileStatus" hidden>
+                        <b> File : </b>
+                        <span id="fileName"></span>
+                        <button type="button" class="btn" id="removeFile" onclick="resetFile()">&times;</button>
+                    </span>
+                    <!-- <form action="" method="post"> -->
+                        <div class="input-group border rounded">
+                            <form method="post" id="postChat" enctype="multipart/form-data" target="cobaFrame">
+                                <input type="text" id="renameFileField" name="renameFileField" style="display: none;" />
+                                <input type="text" id="renameImageField" name="renameImageField" style="display: none;" />
+                                <input type="file" class="form-control border-0" id="chatImage" name="chatImage" hidden />
+                                <input type="file" class="form-control border-0" id="chatFile" name="chatFile" hidden />
+                                <button type="submit" class="btn btn-outline-secondary" id="postChatBtn" hidden>KirimFe</button>
+                            </form>
+                            <input type="text" class="form-control border-0" id="chat" disabled>
+                            <input type="hidden" id="tujuan">
+                            <button id="fileTriggerBtn" class="btn" onclick="inputFile()" disabled>
+                                <img src="/icons/file-earmark.svg"  alt="file-icon" style="width: 30px;">
+                            </button>
+                            <button id="imageTriggerBtn" class="btn" onclick="inputImage()" disabled>
+                                <img src="/icons/image.svg" alt="image-icon" style="width: 30px;">
+                            </button>
+                            <button id="sendChatBtn" type="button" class="btn btn-outline-secondary" onclick="sendChat()" disabled>Kirim</button>
+                        </div>
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<iframe src="" name="cobaFrame" hidden></iframe>
+<script src="/js/admin-layout.js" onload="document.getElementById('pesan').classList.add('menu-visited')">
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io(); 
+    var chatField = document.getElementById('chatField');
+    var namaAdminTujuan = document.getElementById('tujuan');
+    var urlAdminType = '<%= adminType %>' == 'pusat' ? '/admin/' : '/admin-tpu/';
+    var fileBtn = document.getElementById('chatFile');
+    var imageBtn = document.getElementById('chatImage');
+    var fileStat = document.getElementById('fileStatus');
+    var imageStat = document.getElementById('imageStatus');
+    var fileName = document.getElementById('fileName');
+    var imageName = document.getElementById('imageName');
+    var removeFile = document.getElementById('removeFile');
+    var removeImage = document.getElementById('removeImage');
+    var renameFileField = document.getElementById('renameFileField');
+    var renameImageField = document.getElementById('renameImageField');
+    var postBtn = document.getElementById('postChatBtn');
+    var form = document.getElementById('postChat');
+    var chatInput = document.getElementById('chat');
+    var fileTriggerBtn = document.getElementById('fileTriggerBtn');
+    var imageTriggerBtn = document.getElementById('imageTriggerBtn');
+    var sendChatBtn = document.getElementById('sendChatBtn');
+    var currentChatWith;
+    var currentNewFileName;
+    var currentNewImageName;
+
+    //  Retrieves data form srv
+    var listAdmin = [];
+    <% listAdmin.forEach(admin => { %>
+        var adminObj = {};
+        adminObj.kdAdmin = '<%= admin.kd_admin %>';
+        listAdmin.push(adminObj);
+    <% }) %>
+
+    // Display chat list
+    displayChatList('', '');
+
+    function displayChatList(mode, result) {
+        var layout = document.getElementById('chatListLayout');
+        layout.innerHTML = '';
+        if(mode == 'search') {
+            listChat = result;
+        } else {
+            listChat = listAdmin;
+        }
+
+        listChat.forEach(list => {
+            layout.innerHTML += listTemplate(list);
+        })
+    }
+
+    // Search admin in chat list
+    function searchAdmin() {
+        var keyword = document.getElementById('searchAdmin').value;
+        var result = listAdmin.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['kdAdmin'].toLowerCase()) == true  ) {
+                return data;
+            }
+
+        });
+        displayChatList('search', result);
+    }
+
+    // ListChat template
+    function listTemplate(admin) {
+        return `
+            <div class="row justtify-content-center ">
+                <div class="col-10 mx-auto">
+                    <div class="card btn text-left admin-card" onclick="chatWith('${admin.kdAdmin}')">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h4 id="namaAdmin">${admin.kdAdmin}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Defines url for posting file/image
+    // form.setAttribute('action', urlAdminType + 'send-file');
+    // Trigger form to post file and prevent it to reload the page
+    // form.addEventListener('submit', (e) => {
+    //     console.log('masuk event listener');
+    //     e.preventDefault();
+    //     form.submit();
+    //     form.reset();
+    //     // return false;
+    // })
+    // postBtn.addEventListener('click')
+    // form.on('submit', (e) => {
+    //     console.log('masuk event listener');
+    //     e.preventDefault();
+    //     form.reset();
+    // })
+
+    // Generate Date till minute format
+    function generatedDate() {
+        var currentDate = new Date();
+        var getDate = currentDate.getDate();
+        var getMonth = currentDate.getMonth();
+        var getYear = currentDate.getFullYear();
+        var getHour = currentDate.getHours();
+        var getMinute = currentDate.getMinutes();
+        var getSecond = currentDate.getSeconds();
+        return getDate + '-' + getMonth + '-' + getYear + ', ' + getHour + ':' + getMinute + ':' + getSecond;
+    }
+
+    // Input File
+    function inputFile() {
+        fileBtn.click();
+        fileBtn.addEventListener('change', (e) => {
+            fileStat.hidden = false;
+            fileName.innerText = fileBtn.files[0].name;
+            var oldName = fileBtn.files[0].name;
+            var getDot = oldName.lastIndexOf('.');
+            var ext = oldName.substring(getDot + 1);
+            newName = '<%= kdAdmin %>' + generatedDate();
+            currentNewFileName = `${newName}.${ext}`;
+            renameFileField.value = newName;
+            console.log('nama baru filenya ' + newName);
+        });
+    }
+    // Remove attached file
+    // removeFile.addEventListener('click', (e) => {
+    //     console.log('hapus file');
+    //     fileBtn.value = null;
+    //     fileStat.hidden = true;
+    //     currentNewFileName = null;
+    //     renameFileField.value = null;
+    // })
+    function resetFile() {
+        console.log('hapus file');
+        fileBtn.value = null;
+        fileStat.hidden = true;
+        // currentNewFileName = null;
+        // renameFileField.value = null;
+        currentNewFileName = '';
+        renameFileField.value = '';
+    }
+    // Input image
+    function inputImage() {
+        imageBtn.click();
+        imageBtn.addEventListener('change', (e) => {
+            imageStat.hidden = false;
+            imageName.innerText = imageBtn.files[0].name;
+            var oldName = imageBtn.files[0].name;
+            var getDot = oldName.lastIndexOf('.');
+            var ext = oldName.substring(getDot + 1);
+            newName = '<%= kdAdmin %>' + generatedDate();
+            currentNewImageName = `${newName}.${ext}`;
+            renameImageField.value = newName;
+            console.log('nama baru imagenya ' + newName);
+        });
+    }
+    // Remove attached image
+    // removeImage.addEventListener('click', (e) => {
+    //     console.log('hapus image');
+    //     imageBtn.value = null;
+    //     imageStat.hidden = true;
+    //     currentNewImageName = null;
+    //     renameImageField.value = null;
+    // })
+    function resetImage() {
+        console.log('hapus image');
+        imageBtn.value = null;
+        imageStat.hidden = true;
+        // currentNewImageName = null;
+        // renameImageField.value = null;
+        currentNewImageName = '';
+        renameImageField.value = '';
+    }
+    
+
+    function chatWith(kdAdmin) {
+        chatField.innerHTML = '';
+        namaAdminTujuan.value = kdAdmin;
+        // Set url inside form
+        form.action = null; // Set null action
+        form.action = urlAdminType + 'send-item';
+        // Enable input chat
+        chatInput.disabled = false;
+        fileTriggerBtn.disabled = false;
+        imageTriggerBtn.disabled = false; 
+        sendChatBtn.disabled = false;   
+
+        // Close chat with currentChat
+        if(currentChatWith !== undefined) {
+            console.log('permintaan close chat');
+            socket.emit('closeChat', {pengirim: '<%= kdAdmin %>', tujuan: currentChatWith});
+        }
+        // chat image-based template
+        // var imageChat = document.createElement('img');
+        fetch(urlAdminType + 'get-pesan/' + kdAdmin)
+        .then(pesan => {return pesan.json()})
+        .then(dataPesan => {
+            dataPesan.forEach(pesan => {
+                addChat(pesan);
+            })
+            // coba(kdAdmin);
+            socket.emit('chatWith', {pengirim: '<%= kdAdmin %>', tujuan: kdAdmin});
+            currentChatWith = kdAdmin;
+        })
+        .catch(error => console.error(error));
+    }
+
+    function addChat(pesan) {
+            
+        // Converting
+        if(pesan.kd_admin) {
+            console.log('converting');
+            pesan['pengirim'] = pesan['kd_admin'];
+            pesan['msg'] = pesan['pesan'];
+            pesan['tglPesan'] = pesan['tgl_pesan'];
+            delete pesan['kd_admin'];
+            delete pesan['pesan'];
+            delete pesan['tgl_pesan'];
+        }
+        // chat text-based template
+        var rowChat = document.createElement('div');
+        var columnChat = document.createElement('div');
+        var spanChat = document.createElement('span');
+
+        rowChat.setAttribute('class', 'row my-3 border');
+        // rowChat.classList.add('border');
+        rowChat.style.maxWidth = '90%';
+        columnChat.setAttribute('class', 'col ');
+        columnChat.appendChild(spanChat);
+        rowChat.appendChild(columnChat);
+        
+        // chat items
+        var imageChat = document.createElement('img');
+        var fileChat = document.createElement('a');
+        imageChat.style.width = '100%';
+        fileChat.setAttribute('class', 'btn btn-info');
+        fileChat.style.textDecoration = 'none';
+        fileChat.innerText = 'Download File';
+        
+        console.log('pesan Dbnya');
+        console.table(pesan);
+        
+        // Define chat time
+        var waktuPesan;
+        var tglPesan = new Date(pesan.tglPesan);
+        var getDate = tglPesan.getDate();
+        var getMonth = tglPesan.getMonth();
+        var getYear = tglPesan.getFullYear();
+        var getHour = tglPesan.getHours();
+        var getMinute = tglPesan.getMinutes();
+        if(pesan.tujuan == '<%= kdAdmin %>') {
+            // rowChat.style.marginRight = '0%';
+            // rowChat.style.margin = '10%';
+            console.log('dari admin lain');
+            console.log('dari <%= kdAdmin %>, pengirim ', pesan.pengirim, ' penerima ', pesan.tujuan);
+            rowChat.classList.add('rounded-right');
+            rowChat.classList.add('border-info');
+            rowChat.classList.add('ml-3');
+            waktuPesan = '<hr> Dikirim pada : ';
+        } else{
+            // rowChat.style.marginRight = '0%';
+            console.log('dari <%= kdAdmin %>, pengirim ', pesan.pengirim, ' penerima ', pesan.tujuan);
+            rowChat.style.marginLeft = '10%';
+            rowChat.classList.add('rounded-left');
+            rowChat.classList.add('border-success');
+            waktuPesan = '<hr> Terkirim pada : ';
+        }
+        waktuPesan += getDate + '-' + getMonth + '-' + getYear + ', ' + getHour + ':' + getMinute;
+        spanChat.innerText = pesan.msg;
+        if(pesan.foto && pesan.foto.length > 0) {
+            console.log('get chat with image included');
+            imageChat.src = decodeURIComponent(`${urlAdminType}get-image/${pesan.foto}`);
+            spanChat.innerHTML += '<br/>';
+            spanChat.appendChild(imageChat);
+            spanChat.innerHTML += '<br/>';
+        }
+        if(pesan.file && pesan.file.length > 0) {
+            console.log('get chat with file included');
+            fileChat.href = `${urlAdminType}get-file/${pesan.file}`;
+            spanChat.innerHTML += '<br/>';
+            spanChat.appendChild(fileChat);
+            spanChat.innerHTML += '<br/>';
+        }
+        spanChat.innerHTML += waktuPesan;
+        chatField.appendChild(rowChat);
+        chatField.scrollTop = chatField.scrollHeight; // Scrolling to the latest chat
+            
+    }
+
+    function sendChat() {
+        var getChat = document.getElementById('chat');
+        if(currentNewImageName || currentNewFileName) {
+            console.log('postBtn triggerred');
+            postBtn.click();
+            // form.submit();
+            
+        }
+        fetch(urlAdminType + 'send-pesan', {
+            method: 'POST',
+            body: JSON.stringify({pesan: getChat.value, tujuan: namaAdminTujuan.value, foto: currentNewImageName, file: currentNewFileName}),
+            headers: {'Content-type': 'application/json; charset=UTF-8'}
+        })
+        .then(result => {return result.json()})
+        .then(result => {
+            console.log('terkirim');
+            console.log(result);
+            // var storedPesan = {pesan: getChat.value, tujuan: namaAdminTujuan.value, foto: null, file: null};
+            var storedPesan = {pengirim: '<%= kdAdmin %>', tujuan: namaAdminTujuan.value, msg: getChat.value, foto: currentNewImageName, file: currentNewFileName, tglPesan: result.tgl_pesan};
+            getChat.value = '';
+            socket.emit('pesan', storedPesan);
+            resetFile(); // Reset value input file
+            resetImage(); // Reset value input image
+        })
+        .catch(error => console.error(error));
+    }
+
+    
+    // function coba(kdAdmin) {
+    //     // socket.emit('pesan', {pengirim:'<%= kdAdmin %>', tujuan:'sianu', pesan:'selamat datang'});
+    //     // socket.on('pesan', 'coba kiriimmmm');
+    //     socket.emit('pesan', {pengirim: '<%= kdAdmin %>', tujuan: kdAdmin, msg: 'good?'});
+    // }
+    socket.on('pesan', (msg) => {
+        console.log('dapat pesan : ', msg);
+        addChat(msg);
+    })
+    
+</script>

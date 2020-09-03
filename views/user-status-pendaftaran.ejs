@@ -1,0 +1,252 @@
+<div class="" style="width: 100%; padding-left: 10%; padding-right: 10%;">
+    <!-- NOTIFIKASI -->
+    <!-- <a href="" data-toggle="modal" data-target="#notifikasiPendaftaran">
+        asd
+    </a> -->
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="notifikasiPendaftaran" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered border" role="document">
+            <% if(notif == true) {%>
+            <div class="modal-body">
+                <b>Mohon maaf silahkan server tidak bisa memproses permintaan Anda <br> 
+                    Untuk memproses ulang,
+                    Pastikan Anda mengijinkan sistem kami untuk mengakses lokasi Anda <br>
+                </b>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Baik!</button>
+            </div>
+            <% } else { %>
+            <div class="spinner-border mx-auto" role="status" style="width: 40vh; height: 40vh; border-width: 24px;">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <% } %>
+        </div>
+    </div> -->
+    <div class="modal " id="mapModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sized " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Silahkan Pilih Lokasi Anda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-auto" id="modalBody">
+                    <div class="spinner-border mx-auto" role="status" style="width: 40vh; height: 40vh; border-width: 24px;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer" id="modalFooter">
+                    <form action="/rekomendasi-tpu" method="post">
+                        <input type="text" name="long" id="long" value="" hidden>
+                        <input type="text" name="lat" id="lat" value="" hidden>
+                        <input type="text" name="nikJenazah" id="nikJenazah" value="" hidden>
+                        <input type="text" name="blok" id="blok" value="" hidden>
+                        <input type="text" name="agama" id="agama" value="" hidden>
+                        <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Pilh TPU</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-3 profile-box " style="height: 100vh;">
+        <!-- COLUMN 1 -->
+        <div class="col-2 color-edge-profile py-4 " style="height: 100%;">
+            <div class="row justify-content-center mt-4 ">
+                <div class="col">
+                    <a href="/profile" class="btn btn-outline-light side-menu-profile">
+                        Profile Ahli Waris
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2 ">
+                <div class="col">
+                    <a href="/akun" class="btn btn-outline-light side-menu-profile">
+                        Akun
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/perpanjang-makam" class="btn btn-outline-light side-menu-profile">
+                        Perpanjang Makam
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-pendaftaran" class="btn btn-outline-light side-menu-profile visited-stat">
+                        Status Pendaftaran
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-perpanjangan" class="btn btn-outline-light side-menu-profile ">
+                        Status Perpanjang
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/status-pembayaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="col-8 my-4 ">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Jenis Pendaftaran</th>
+                        <th>NIK Jenazah</th>
+                        <th>Nama Jenazah</th>
+                        <th>Kelamin</th>
+                        <th>Alamat</th>
+                        <th>Status</th>
+                        <th>Lokasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% var count = 1; %> 
+                    <% dataPendaftar.forEach(pendaftar => { %>
+                        <tr>
+                            <td>
+                                <%= count %> 
+                            </td>
+                            <td>
+                                <% if(pendaftar.jenis_daftar == true) { %>
+                                    Makam Baru 
+                                <% } else { %>
+                                    Tumpang Tindih
+                                <% } %>
+                            </td>
+                            <td>
+                                <%= pendaftar.nik_jenazah %> 
+                            </td>
+                            <td>
+                                <%= pendaftar.nama_jenazah %> 
+                            </td>
+                            <td>
+                                <% if(pendaftar.kelamin == true) { %> 
+                                    Wanita
+                                <% } else { %>
+                                    Pria
+                                <% } %>  
+                            </td>
+                            <td>
+                                <%= pendaftar.alamat %> 
+                            </td>
+                            <td>
+                                <% switch(pendaftar.status) {
+                                    case true : %>
+                                        Disetujui
+                                        <% break;
+                                    case false :  %> 
+                                        Ditolak
+                                        <% break;
+                                    default : %>
+                                        Menunggu Konfirmasi
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if(pendaftar.status == true && pendaftar.jenis_daftar == true) { %> 
+                                    <button class="badge badge-success" onclick="getLoc('<%= pendaftar.nik_jenazah.trim() %>','<%= pendaftar.blok.trim() %>', '<%= pendaftar.agama %>')">Pilih</button>
+                                <% } else if(pendaftar.jenis_daftar == false && pendaftar.status == true) { %>
+                                    <form action="/pembayaran-tumpang" method="post">
+                                        <input type="hidden" name="nikJenazah" value="<%= pendaftar.nik_jenazah.trim() %>">
+                                        <input type="hidden" name="kdLokasi" value="<%= pendaftar.blok %>">
+                                        <button type="submit" class="badge badge-success">Bayar Makam</button>
+                                    </form>
+                                    
+                                <% } %>  
+                            </td>
+                        </tr>
+                        <% count++; %> 
+                    <% }) %> 
+                </tbody>
+            </table>
+        </div>
+        <!-- COLUMN 3 -->
+        <div class="col-2 color-edge-profile ">
+            
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function getLoc(nikJenazah, blok, agama) {
+        $('#mapModal').modal('show');
+        fetch('https://location.services.mozilla.com/v1/geolocate?key=test')
+        .then(res => {
+            if(res.status == 200) {
+                clearInterval();
+                return res.json();
+            }
+        })
+        .then(res => {
+            console.log('masuk ko');
+            var lat = res.lat || null;
+            var long = res.lng || null;
+            var nikJenazahField = document.getElementById('nikJenazah');
+            var blokField = document.getElementById('blok');
+            var agamaField = document.getElementById('agama');
+            nikJenazahField.value = nikJenazah;
+            blokField.value = blok;
+            agamaField.value = agama;
+            const mapLayout = document.createElement('div');
+            mapLayout.setAttribute('id', 'mapLayout');
+            mapLayout.style.height = '70vh';
+            mapLayout.style.width = '78vw';
+            document.getElementById('modalBody').innerHTML = '';
+            document.getElementById('modalBody').appendChild(mapLayout);
+            showMap(long, lat);
+        })
+    }
+    
+    // GIS
+    function showMap(long, lat) {
+        var longField = document.getElementById('long');
+        var latField = document.getElementById('lat');
+        
+
+        if(long == null || lat == null) {
+            long = 106.82719;
+            lat = -6.17540;
+        }
+
+        longField.setAttribute('value', long);
+        latField.setAttribute('value', lat);
+        
+        myMap = L.map('mapLayout').setView([lat, long], 15);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(myMap);
+
+        var marker = L.marker([lat, long]).addTo(myMap)
+        .bindPopup('IM HERE!')
+        .openPopup();
+
+        myMap.on('click', function(position) {
+            lat = position.latlng.lat;
+            long = position.latlng.lng;
+            myMap.removeLayer(marker);
+            marker = L.marker([lat, long]).addTo(myMap)
+            .bindPopup('IM HERE!')
+            .openPopup();
+            longField.value = long;
+            latField.value = lat;
+        });
+
+    }
+
+
+</script>

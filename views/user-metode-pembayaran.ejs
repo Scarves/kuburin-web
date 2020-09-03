@@ -1,0 +1,94 @@
+<div class="container ">
+    <div class="row justify-content-center my-4 ">
+        <h1 class="">Pilih Metode Pembayaran</h1>
+    </div>
+    <div class="row mt-4">
+        <h5><b>Tunai</b></h5>
+    </div>
+    <div class="row ">
+        <div class="col">
+            <button type="button" class="btn btn-outline-success" id="bankDKI" onclick="setPembayaran('langsungDKI')">
+                Bayar Langsung ke Bank DKI
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <h5><b>Virtual Akun</b></h5>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-outline-success" id="bni" onclick="setPembayaran('transferBNI')">
+                BNI
+            </button>
+            <button type="button" class="btn btn-outline-success" id="Mandiri" onclick="setPembayaran('transferMandiri')">
+                Mandiri
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <h5><b>Dompet Digital</b></h5>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-outline-success" id="dana" onclick="setPembayaran('transferDana')">
+                Dana
+            </button>
+            <button type="button" class="btn btn-outline-success" id="ovo" onclick="setPembayaran('transferOvo')">
+                Ovo
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <h5><b>Kartu Kredit</b></h5>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-outline-success" id="bca" onclick="setPembayaran('transferBCA')">
+                BCA
+            </button>
+            <button type="button" class="btn btn-outline-success" id="Mandiri" onclick="setPembayaran('transferMandiri')">
+                Mandiri
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <h5><b>Retailer</b></h5>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-outline-success" id="indomart" onclick="setPembayaran('langsungIndomart')">
+                Indomart
+            </button>
+            <button type="button" class="btn btn-outline-success" id="alfamart" onclick="setPembayaran('langsungAlfamart')">
+                Alfamart
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            <form action="/metode-pembayaran", method="post">
+                <input type="hidden" name="metodePembayaran" id="metodePembayaran" >
+                <input type="hidden" name="pembayaran" id="pembayaran" value="<%= pembayaran %>">
+                <button type="submit" class="btn btn-primary">
+                    Konfirmasi
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setPembayaran(pembayaran) {
+        console.log('isinya ', document.getElementById('metodePembayaran').value);
+        if(pembayaran.search('transfer') == -1) {
+            document.getElementById('metodePembayaran').value = 'langsung';
+        } else {
+            document.getElementById('metodePembayaran').value = 'transfer';
+        }
+        console.log('isinya latest ', document.getElementById('metodePembayaran').value);
+    }
+</script>

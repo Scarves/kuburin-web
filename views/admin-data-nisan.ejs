@@ -1,0 +1,1446 @@
+<table class="table bg-light" id="dataPemesanTable">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                <input type="checkbox" id="boxAll" onchange="allCheckboxes()">
+            </th>
+            <th>
+                <b>Kode Nisan</b>
+            </th>
+            <th>
+                <b>Model Nisan</b>
+            </th>
+            <th>
+                <b>Blok</b>
+            </th>
+            <th>
+                <b>Blad</b>
+            </th>
+            <th>
+                <b>Petak</b>
+            </th>
+            <th>
+                <b>Tgl. Makam</b>
+            </th>
+            <th>
+                <b>Tgl.Pemesanan</b>
+            </th>
+            <th>
+                <b>Status Pembayaran</b>
+            </th>
+            <th>
+                
+            </th>
+            <button class="btn menu-visited btn-info" id="btnModalPilihJenazah" data-toggle="modal" data-target="#pilihJenazah" hidden>
+                Lihat Selengkapnya
+            </button>
+            <button class="btn menu-visited btn-info" id="btnModalPilihModelNisan" data-toggle="modal" data-target="#pilihModelNisan" hidden>
+                Lihat Selengkapnya
+            </button>
+            <th class="text-right">
+                <!-- <button class="btn  btn-info" data-toggle="modal" data-target="#tambahPegawai">tambah</button> -->
+                <!--  Modal Pilih Data Makam -->
+                <input type="hidden" id="ubahSelectedMakam">
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pilihJenazah" aria-hidden="true" id="pilihJenazah">
+                    <div class="modal-dialog modal-lg" role="document" >
+                        <div class="modal-content lihat-modal">
+                            <div class="row">
+                                <h5 class="mx-auto">Pilih Jenazah</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group px-2">
+                                        <input type="text" id="searchJenazah" class="form-control">
+                                        <button type="button" class="btn btn-outline-info" onclick="searchJenazah(false)">Find</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-left px-2">
+                                <div class="col-3 text-info">NIK</div>
+                                <div class="col-3 text-info">Nama Jenazah</div>
+                                <div class="col-1 text-info">Agama</div>
+                                <div class="col-1 text-info">Blok</div>
+                                <div class="col-1 text-info">Blad</div>
+                                <div class="col-1 text-info">Petak</div>
+                                <div class="col text-info"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col text-left" id="listDataJenazah">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Pilih Model Nisan -->
+                <input type="hidden" id="ubahSelectedAhli">
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pilihModelNisan" aria-hidden="true" id="pilihModelNisan">
+                    <div class="modal-dialog modal-xl" role="document" >
+                        <div class="modal-content lihat-modal">
+                            <div class="row">
+                                <h5 class="mx-auto">Pilih Nisan</h5>
+                            </div>
+                            <div class="row row-cols-3 text-left px-2" id="pilihNisanLayout"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Tambah -->
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="tambahModal" aria-hidden="true" id="tambahPemesanNisan">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content lihat-modal">
+                            <form action="add-pesan-nisan" method="post">
+                            <input type="hidden" id="selectedKodeNisan" name="selectedKodeNisan">
+                            <input type="hidden" id="selectedNikJenazah" name="selectedNikJenazah">
+                            <input type="hidden" id="selectedAgama" name="selectedAgama">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h4 class="text-center">
+                                        <b>
+                                            Data Pemesanan Nisan
+                                        </b>
+                                    </h4>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Nama Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Kode Nisan
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Tanggal Wafat
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <span id="tambahNamaJenazah"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahKodeNisan"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahTglWafat"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            NIK Jenazah
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Model Nisan
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Tanggal Makam
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <span id="tambahNikJenazah"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahModelNisan"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahTglMakam"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Tanggal Lahir
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Harga Nisan
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            <!-- Tanggal Pemesanan -->
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <span id="tambahTglLahir"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahHargaNisan"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <!-- <span id="tambahTglPemesanan"></span> &nbsp;
+                                            <hr class="bg-info"> -->
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Tempat Lahir
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Text Nisan
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Blok
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <span id="tambahTmptLahir"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahTextNisan"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahBlok"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Nama Ahli Waris
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Email
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Blad
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <span id="tambahNamaAhli"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahEmail"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahBlad"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            No. Telepon
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            <!-- Status Pembayaran -->
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Petak
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            <span id="tambahTelepon"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            <!-- <select name="tambahStatusPembayaran" id="tambahStatusPembayaran" class="form-control">
+                                                <option selected>Pilih</option>
+                                                <option value="true">Dibayar</option>
+                                                <option value="false">Belum Dibayar</option>
+                                            </select> -->
+                                        </div>
+                                        <div class="col text-left">
+                                            <span id="tambahPetak"></span> &nbsp;
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            Pilih Jenazah
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            Pilih Nisan
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" class="btn btn-info" data-dismiss="modal" onclick="pilihJenazah('')">Pilih</button>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <button type="button" id="pilihNisanBtn" class="btn btn-info" data-dismiss="modal" onclick="pilihModelNisan('')" disabled>Pilih</button>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    <div class="row mx-4 mb-3">&nbsp;</div>
+                                    
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            Status Pembayaran
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <select name="tambahStatusPembayaran" id="tambahStatusPembayaran" class="form-control">
+                                                <option selected>Pilih</option>
+                                                <option value="true">Dibayar</option>
+                                                <option value="false">Belum Dibayar</option>
+                                            </select>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mx-4 mb-3 row-cols-2">
+                                        <div class="col text-center title-modal-color">
+                                            <button type="submit" class="btn btn-info" id="submitBtn" disabled>Tambah</button>
+                                        </div>
+                                        <div class="col text-center title-modal-color">
+                                            <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <!-- <tbody id="tpuValues">
+    </tbody> -->
+</table>
+<div class="row  mx-auto justify-content-center">
+    <div class="col text-center">
+        <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+        <span id="pageList"></span>
+        <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+    </div>
+</div>
+<script>
+
+    if(document.getElementById('selectedAgama').value.length < 1){
+        document.getElementById('pilihNisanBtn').setAttribute('disabled', '');
+    }
+
+    function enableSubmitBtn() {
+        if(document.getElementById('selectedNikJenazah').value.length > 0 && document.getElementById('selectedKodeNisan').value.length > 0) {
+            document.getElementById('submitBtn').removeAttribute('disabled');
+        }
+    }
+
+    // Model Nisan Converter
+    function modelNisanConverter(modelNisan) {
+        var output;
+        switch(modelNisan) {
+            case 1:
+                output = 'islam';
+            break;
+            case 2:
+                output = 'kristen';
+            break;
+            case 3:
+                output = 'hindu';
+            break;
+            case 4:
+                output = 'budha';
+            break;
+        }
+        return output;
+    }
+
+    // Triggers
+    function triggerKtp(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahKtp' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahKtp').click();
+        }
+    }
+    function triggerKk(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahKk' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahKk').click();
+        }
+    }
+    function triggerSkm(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahSkm' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahSkm').click();
+        }
+    }
+    function triggerIptm(nikJenazah) {
+        if(nikJenazah.length > 0) {
+            document.getElementById('ubahIptm' + nikJenazah).click();
+        } else {
+            document.getElementById('tambahIptm').click();
+        }
+    }
+    function pilihJenazah(nikJenazah) {
+        // var assignMakam = document.getElementById('ubahSelectedMakam');
+        // assignMakam.value = nikJenazah;
+        if(nikJenazah && nikJenazah.length > 0) {
+            console.log('ubah pesan nisan');
+            displayJenazah('', '', true);    
+        }
+        displayJenazah('', '', false);
+        document.getElementById('btnModalPilihJenazah').click();
+    }
+    function pilihModelNisan(nikJenazah) {
+        // var assignAhli = document.getElementById('ubahSelectedAhli');
+        // assignAhli.value = nikJenazah;
+        displayModelNisan('', '', nikJenazah);
+        document.getElementById('btnModalPilihModelNisan').click();
+    }
+    
+    // enabling Tambah button
+    function enableTambahBtn() {
+        if(document.getElementById('nikSelectedAhli').value && document.getElementById('selectedLokasi').value) {
+            document.getElementById('submitBtn').removeAttribute('disabled');
+        }
+    }
+
+    // Onchange
+    function onChangeKtp(nikJenazah) {
+        document.getElementById('ubahKtp' + nikJenazah).setAttribute('name', 'ubahKtp');
+    }
+    function onChangeKk(nikJenazah) {
+        document.getElementById('ubahKk' + nikJenazah).setAttribute('name', 'ubahKk');
+    }
+    function onChangeSkm(nikJenazah) {
+        document.getElementById('ubahSkm' + nikJenazah).setAttribute('name', 'ubahSkm');
+    }
+    function onChangeIptm(nikJenazah) {
+        document.getElementById('ubahIptm' + nikJenazah).setAttribute('name', 'ubahIptm');
+    }
+
+    // Data Makam converting into JS from EJS
+    var dataJenazah = [];
+    <% listJenazah.forEach(jenazah => { %>
+        var jenazahObj = {};
+        jenazahObj.nikJenazah = '<%= jenazah.nik_jenazah %>';
+        jenazahObj.namaJenazah = '<%= jenazah.nama_jenazah %>';
+        jenazahObj.tglLahir = '<%= jenazah.tgl_lahir %>';
+        jenazahObj.tmptLahir = '<%= jenazah.tmpt_lahir %>';
+        jenazahObj.namaAhli = '<%= jenazah.nama_ahli %>';
+        jenazahObj.telp = '<%= jenazah.telp %>';
+        jenazahObj.email = '<%= jenazah.email %>';
+        jenazahObj.tglWafat = '<%= jenazah.tgl_wafat %>';
+        jenazahObj.tglMakam = '<%= jenazah.tgl_makam %>';
+        jenazahObj.blok = '<%= jenazah.blok %>';
+        jenazahObj.blad = '<%= jenazah.blad %>';
+        jenazahObj.petak = '<%= jenazah.petak %>';
+        jenazahObj.agama = '<%= jenazah.agama %>';
+        dataJenazah.push(jenazahObj);
+    <% }) %>
+
+    // displayMakam('', '', getNikJenazahMakam);
+
+    function displayJenazah(displayMode, searchResult, ubah) {
+        var list;
+        var listDataJenazahLayout = document.getElementById('listDataJenazah');
+        var newRowLayer = document.createElement('div');
+        var newColLayer = document.createElement('div');
+        var newRow = document.createElement('div');
+        var newCol = document.createElement('div');
+        newRowLayer.setAttribute('class', 'row');
+        newColLayer.setAttribute('class', 'col');
+        newRow.setAttribute('class', 'row');
+        newCol.setAttribute('class', 'col');
+
+        // Flushing listAhliWaris
+        listDataJenazahLayout.innerHTML = '';
+
+        if(displayMode == 'search') {
+            list = searchResult;
+        } else {
+            list = dataJenazah;
+        }
+        
+        list.forEach(e => {
+            var listContent = `
+                <div class="row mb-2 px-2">
+                    <div class="col-3" >
+                        ${e.nikJenazah}
+                    </div>
+                    <div class="col-3" >
+                        ${e.namaJenazah}
+                    </div>
+                    <div class="col-1" >
+                        ${e.agama}
+                    </div>
+                    <div class="col-1" >
+                        ${e.blok}
+                    </div>
+                    <div class="col-1" >
+                        ${e.blad}
+                    </div>
+                    <div class="col-1" >
+                        ${e.petak}
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-info" data-dismiss="modal" onclick="selectJenazah('${e.nikJenazah.trim()}', ${ubah})">Pilih</button>
+                    </div>
+                </div>
+            `;
+            newCol.innerHTML += listContent;
+            newRow.appendChild(newCol);
+            newColLayer.appendChild(newRow);
+            newRowLayer.appendChild(newColLayer);
+        })
+        listDataJenazahLayout.appendChild(newRowLayer);
+    }
+
+    // Search from data local (makam)
+    function searchJenazah(ubah) {
+        var keyword = document.getElementById('searchJenazah').value;
+        console.log('valuenya ' + keyword);
+        var result = dataJenazah.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaJenazah'].toLowerCase()) == true || regex.test(data['nikJenazah'].toLowerCase()) == true ) {
+                return data;
+            }
+
+        });
+        displayJenazah('search', result, ubah);    
+    }
+
+    function selectJenazah(nikJenazah, ubah) {
+        console.log('select jenazah triggered');
+        var indexJenazah = dataJenazah.map(jenazah => jenazah.nikJenazah.trim()).indexOf(nikJenazah);
+        var selectedNikJenazah = document.getElementById('selectedNikJenazah');
+        var selectedAgama = document.getElementById('selectedAgama');
+        var namaJenazah = document.getElementById('tambahNamaJenazah');
+        var tglWafat = document.getElementById('tambahTglWafat');
+        var nikJenazah = document.getElementById('tambahNikJenazah');
+        var tglMakam = document.getElementById('tambahTglMakam');
+        var tglLahir = document.getElementById('tambahTglLahir');
+        var tmptLahir = document.getElementById('tambahTmptLahir');
+        var blok = document.getElementById('tambahBlok');
+        var namaAhli = document.getElementById('tambahNamaAhli');
+        var email = document.getElementById('tambahEmail');
+        var blad = document.getElementById('tambahBlad');
+        var telepon = document.getElementById('tambahTelepon');
+        var petak = document.getElementById('tambahPetak');
+        if(ubah == true) {
+            console.log('select Jenazah kondisional');
+            selectedNikJenazah = document.getElementById('selectedNikJenazah' + nikJenazah);
+            selectedAgama = document.getElementById('selectedAgama' + nikJenazah);
+            namaJenazah = document.getElementById('ubahNamaJenazah' + nikJenazah);
+            tglWafat = document.getElementById('ubahTglWafat' + nikJenazah);
+            nikJenazah = document.getElementById('ubahNikJenazah' + nikJenazah);
+            tglMakam = document.getElementById('ubahTglMakam' + nikJenazah);
+            tglLahir = document.getElementById('ubahTglLahir' + nikJenazah);
+            tmptLahir = document.getElementById('ubahTmptLahir' + nikJenazah);
+            blok = document.getElementById('ubahBlok' + nikJenazah);
+            namaAhli = document.getElementById('ubahNamaAhli' + nikJenazah);
+            email = document.getElementById('ubahEmail' + nikJenazah);
+            blad = document.getElementById('ubahBlad' + nikJenazah);
+            telepon = document.getElementById('ubahTelepon' + nikJenazah);
+            petak = document.getElementById('ubahPetak' + nikJenazah);
+            $('#ubahPemesanNisan' + nikJenazah).modal('show');
+        } else {
+            console.table(dataJenazah[indexJenazah]);
+            selectedNikJenazah.value = dataJenazah[indexJenazah].nikJenazah;
+            selectedAgama.value = dataJenazah[indexJenazah].agama;
+            namaJenazah.innerText = dataJenazah[indexJenazah].namaJenazah;
+            tglWafat.innerText = dataJenazah[indexJenazah].tglWafat;
+            nikJenazah.innerText = dataJenazah[indexJenazah].nikJenazah;
+            tglMakam.innerText = dataJenazah[indexJenazah].tglMakam;
+            tglLahir.innerText = dataJenazah[indexJenazah].tglLahir;
+            tmptLahir.innerText = dataJenazah[indexJenazah].tmptLahir;
+            blok.innerText = dataJenazah[indexJenazah].blok;
+            namaAhli.innerText = dataJenazah[indexJenazah].namaAhli;
+            email.innerText = dataJenazah[indexJenazah].email;
+            blad.innerText = dataJenazah[indexJenazah].blad;
+            telepon.innerText = dataJenazah[indexJenazah].telp;
+            petak.innerText = dataJenazah[indexJenazah].petak;
+            var pilihNisanBtn = document.getElementById('pilihNisanBtn');
+            if(selectedAgama.value && selectedAgama.value.length > 0) {
+                pilihNisanBtn.removeAttribute('disabled');
+            }
+            enableSubmitBtn();
+            tambahBtn.click();
+        }
+    }
+
+    // Data Model Nisan converting into JS from EJS
+    var dataModelNisan = [];
+    <% listModelNisan.forEach(nisan => { %>
+        var nisanObj = {};
+        nisanObj.kdNisan = '<%= nisan.kd_nisan %>';
+        nisanObj.gambarNisan = '<%= nisan.gambar_nisan %>';
+        nisanObj.namaNisan = '<%= nisan.nama_nisan %>';
+        nisanObj.hargaNisan = '<%= nisan.harga_nisan %>';
+        nisanObj.modelNisan = <%= nisan.model_nisan %>;
+        dataModelNisan.push(nisanObj);
+    <% }) %>
+    
+
+    // displayAhli('', '', getNikJenazah);
+    
+    function displayModelNisan(displayMode, searchResult, nikJenazah) {
+        nisanKonten(nikJenazah)
+        // var list;
+        // var listModelLayout = document.getElementById('pilihModelNisan');
+        // var newRowLayer = document.createElement('div');
+        // var newColLayer = document.createElement('div');
+        // var newRow = document.createElement('div');
+        // var newCol = document.createElement('div');
+        // newRowLayer.setAttribute('class', 'row');
+        // newColLayer.setAttribute('class', 'col');
+        // newRow.setAttribute('class', 'row');
+        // newCol.setAttribute('class', 'col');
+
+        // // Flushing listAhliWaris
+        // listAhliWarisLayout.innerHTML = '';
+
+        // if(displayMode == 'search') {
+        //     list = searchResult;
+        // } else {
+        //     list = dataAhliWaris;
+        // }
+        
+        // list.forEach(e => {
+        //     var listContent = `
+        //         <div class="row mb-2 px-2">
+        //             <div class="col" >
+        //                 ${e.nik}
+        //             </div>
+        //             <div class="col" >
+        //                 ${e.namaDepan} ${e.namaBelakang} 
+        //             </div>
+        //             <div class="col text-right">
+        //                 <button class="btn btn-info" data-dismiss="modal" onclick="selectAhliWaris('${e.nik.trim()}', '${nikJenazah}')">Pilih</button>
+        //             </div>
+        //         </div>
+        //     `;
+        //     newCol.innerHTML += listContent;
+        //     newRow.appendChild(newCol);
+        //     newColLayer.appendChild(newRow);
+        //     newRowLayer.appendChild(newColLayer);
+        // })
+        // listAhliWarisLayout.appendChild(newRowLayer);
+    }
+
+    // Search from data local (Ahli Waris)
+    function searchAhli() {
+        var keyword = document.getElementById('searchAhliWaris').value;
+        var getNikJenazah = document.getElementById('ubahSelectedAhli').value;
+        console.log('valuenya ' + keyword);
+        var result = dataAhliWaris.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaDepan'].toLowerCase()) == true || regex.test(data['namaBelakang'].toLowerCase()) == true || regex.test(data['nik'].toLowerCase()) == true ) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        if(getNikJenazah.length > 0) {
+            displayAhli('search', result, getNikJenazah);    
+        } else {
+            displayAhli('search', result, '');
+        }
+    }
+
+    // Assign data of selected Ahli Waris into Data Pendaftar Baru Form
+    function selectModelNisan(nikJenazah, kdNisan) {
+        console.log('inserting selected model nisan');
+        var indexModel = dataModelNisan.map(nisan => nisan.kdNisan.trim()).indexOf(kdNisan);
+        var selectedKodeNisan = document.getElementById('selectedKodeNisan');
+        var kdNisan = document.getElementById('tambahKodeNisan');
+        var modelNisan = document.getElementById('tambahModelNisan');
+        var hargaNisan = document.getElementById('tambahHargaNisan');
+        if(nikJenazah.length > 0) {
+            console.log('masuk kondisional model nisan');
+            console.table(dataModelNisan[indexModel]);
+            var selectedKodeNisan = document.getElementById('ubahSelectedKdNisan' + nikJenazah);
+            var kdNisan = document.getElementById('ubahKdNisan' + nikJenazah);
+            var modelNisan = document.getElementById('ubahModelNisan' + nikJenazah);
+            var hargaNisan = document.getElementById('ubahHargaNisan' + nikJenazah);
+        }
+
+        // Put selected ahli waris
+        selectedKodeNisan.value = dataModelNisan[indexModel].kdNisan;
+        kdNisan.innerText = dataModelNisan[indexModel].kdNisan;
+        modelNisan.innerText = dataModelNisan[indexModel].modelNisan;
+        hargaNisan.innerText = dataModelNisan[indexModel].hargaNisan;
+
+        if(nikJenazah.length > 0) {
+            // Back to Ubah Data Pendaftar Baru Form
+            document.getElementById('ubahSelectedAhli').value = '';
+            $('#ubahPemesanNisan' + nikJenazah).modal('show');
+        } else {
+            // Back to Data Pendaftar Baru Form
+            enableSubmitBtn();
+            tambahBtn.click();
+        }
+    }
+
+    // Data Pemesan Nisan converting into JS from EJS
+    var dataNisan = [];
+    <% listNisan.forEach(nisan => { %>
+        var nisanObj = {};
+        nisanObj.nikJenazah = '<%= nisan.nik_jenazah %>';
+        nisanObj.kdNisan = '<%= nisan.kd_nisan %>';
+        nisanObj.modelNisan = <%= nisan.model_nisan %>;
+        nisanObj.blok = '<%= nisan.blok %>';
+        nisanObj.blad = '<%= nisan.blad %>';
+        nisanObj.petak = '<%= nisan.petak %>';
+        nisanObj.tglMakam = '<%= nisan.tgl_makam %>';
+        nisanObj.tglPemesanan = '<%= nisan.tgl_pemesanan %>';
+        nisanObj.statusPembayaran = <%= nisan.status_pembayaran %>;
+        nisanObj.namaJenazah = '<%= nisan.nama_jenazah %>';
+        nisanObj.tglLahir = '<%= nisan.tgl_lahir %>';
+        nisanObj.namaAhli = '<%= nisan.nama_ahli %>';
+        nisanObj.telp = '<%= nisan.telp %>';
+        nisanObj.hargaNisan = '<%= nisan.harga_nisan %>';
+        nisanObj.textNisan = '<%= nisan.text_nisan %>';
+        nisanObj.email = '<%= nisan.email %>';
+        nisanObj.tglWafat = '<%= nisan.tgl_wafat %>';
+        nisanObj.gambarNisan = '<%= nisan.gambar_nisan %>';
+        nisanObj.tmptLahir = '<%= nisan.tmpt_lahir %>';
+        nisanObj.modelConverted = modelNisanConverter(nisanObj.modelNisan);
+        dataNisan.push(nisanObj);
+    <% }) %>
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+    
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        // var getPosition = document.getElementById('tpuValues');
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataPemesanTable');
+        var pageList = document.getElementById('pageList');
+
+        // getPosition.innerHTML = '';
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            flushTbody(table, true);
+            emptyData = `
+                <h4 class="text-center text-secondary"> Data Tidak Ditemukan </h4>
+            `;
+        } else {
+            putData = dataNisan;
+            emptyData = `
+                <h4 class="text-center text-secondary">Belum Ada Data Saat Ini </h4>
+            `;
+        }
+
+        // flush all tbodies || Coba letakkan flush sebelum count, jangan sebelum kondisi displaymode
+        flushTbody(table, false);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page1');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData(putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    // Search from data local (Pendaftar Baru)
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' + keyword);
+        var result = dataNisan.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['modelConverted'].toLowerCase()) == true || regex.test(data['namaAhli'].toLowerCase()) == true || regex.test(data['namaJenazah'].toLowerCase()) == true) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+
+    
+
+    document.getElementById('dataNisan').classList.add('menu-visited'); // On data TPU menu
+    document.getElementById('search').removeAttribute('hidden'); // Search bar visible
+    document.getElementById('actionBtn').removeAttribute('hidden'); // Action buttons visible
+
+    var actionButtons = document.getElementById('actionBtn');
+    // Applying link to print report / cetak button
+    const cetakBtn = actionButtons.children[2];
+    const linkCetak = document.createElement('a');
+    linkCetak.setAttribute('href', '/admin-tpu/cetak-pesan-nisan');
+    linkCetak.appendChild(cetakBtn);
+    actionButtons.insertBefore(linkCetak, document.getElementById('actionBtn').children[2]);
+    // Applying link to add pegawai / tambah button
+    const tambahBtn = actionButtons.children[0];
+    tambahBtn.onclick = () => {$('#tambahPemesanNisan').modal('show')};
+    // Applying link to delete pegawai / hapus button
+    const hapusBtn = actionButtons.children[3];
+    hapusBtn.setAttribute('disabled', '');
+    hapusBtn.setAttribute('onclick', 'removeData("/admin-tpu/delete-pesan-nisan")');
+    // Applying link Modal Ubah into ubah button
+    const ubahBtn = actionButtons.children[1];
+    ubahBtn.setAttribute('disabled', '');
+    
+    function getFoto(nikJenazah) {
+        var nisanJenazah = document.getElementById('nisanJenazah' + nikJenazah);
+        var indexJenazah = dataNisan.map(nisan => nisan.nikJenazah.trim()).indexOf(nikJenazah);
+        // Get Gambar Nisan
+        nisanJenazah.src = `/admin-tpu//foto-model-nisan/${dataNisan[indexJenazah].gambarNisan}`;
+        nisanJenazah.style.width = '100%';
+        nisanJenazah.onerror = () => {
+            console.log('get Gambar Nisan Jenazah error');
+        };
+    }
+
+    //  Set default options for Ubah Data Daftar Baru form
+    function setDefaultOptions(nikJenazah, kelamin, agama, stat) {
+        // Set default statusPembayaran
+        if(stat == true) {
+            document.getElementById('dibayar' + nikJenazah).selected = true;
+        }
+        if(stat == false) {
+            document.getElementById('belumBayar' + nikJenazah).selected = true;
+        }
+    }
+    
+    function rowsOfData(nisan) {
+        console.log(nisan);
+        return `
+            <tr>
+                <td><input type="checkbox" 
+                        name="checkbox${nisan.nikJenazah.trim()}" 
+                        id="checkbox${nisan.nikJenazah.trim()}" 
+                        class="checkbox" 
+                        onchange="isCheckedPemesanNisan(
+                            '${nisan.nikJenazah.trim()}', 
+                            ${nisan.statusPembayaran},
+                            '${nisan.kdNisan}'
+                        )"
+                    >
+                </td>
+                <td>${nisan.kdNisan}</td>
+                <td>${nisan.modelNisan}</td>
+                <td>${nisan.blok}</td>
+                <td>${nisan.blad}</td>
+                <td>${nisan.petak}</td>
+                <td>${nisan.tglMakam}</td>
+                <td>${nisan.tglPemesanan}</td>
+                <td>${nisan.statusPembayaran == true ? 'Dibayar' : 'Menunggu Pembayaran'}</td>
+                <td class="text-right">
+                    
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target="#lihat${nisan.nikJenazah.trim()}"
+                            onclick="getFoto('${nisan.nikJenazah.trim()}')">
+                            Lihat Selengkapnya
+                        </button>
+                    </a>
+                    <!-- Modal Lihat -->
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="lihat${nisan.nikJenazah.trim()}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <h4 class="text-center">
+                                    <b>
+                                        Data Pemesanan Nisan
+                                    </b>
+                                </h4>
+                                <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Nama Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Kode Nisan
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Wafat
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${nisan.namaJenazah}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.kdNisan}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.tglWafat}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        NIK Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Model Nisan
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Makam
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${nisan.nikJenazah}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.modelConverted}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.tglMakam}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Lahir
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Harga Nisan
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Pemesanan
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${nisan.tglLahir}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.hargaNisan}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        &nbsp;
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tempat Lahir
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Text Nisan
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Blok
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${nisan.tmptLahir}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        &nbsp;
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.blok}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Nama Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Email
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Blad
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${nisan.namaAhli}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.email}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.blad}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        No. Telepon
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Status Pembayaran
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Petak
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${nisan.telp}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.statusPembayaran == true ? 'Dibayar' : 'Menunggu Pembayaran'}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${nisan.petak}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Gambar Nisan
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col"> 
+                                        &nbsp;
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="nisanJenazah${nisan.nikJenazah.trim()}" />
+                                    </div>
+                                    <div class="col"> 
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col text-right px-4">
+                                        <button class="btn btn-secondary mx-4" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- modal ubah --!>
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubahModal" aria-hidden="true" id="ubahPemesanNisan${nisan.nikJenazah.trim()}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <form action="update-pesan-nisan" method="post">
+                                <input type="hidden" id="oldKdNisan${nisan.nikJenazah.trim()}" name="oldKdNisan" value="${nisan.kdNisan}">
+                                <input type="hidden" id="ubahSelectedKdNisan${nisan.nikJenazah.trim()}" name="ubahKdNisan">
+                                <input type="hidden" id="selectedNikJenazah${nisan.nikJenazah.trim()}" name="ubahSelectedJenazah" value="${nisan.nikJenazah.trim()}">
+                                <input type="hidden" id="selectedAgama${nisan.nikJenazah.trim()}" name="ubahSelectedAgama" value="${nisan.modelConverted}">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h4 class="text-center">
+                                            <b>
+                                                Ubah Data Pemesanan Nisan
+                                            </b>
+                                        </h4>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Nama Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Kode Nisan
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Wafat
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${nisan.namaJenazah}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahKdNisan${nisan.nikJenazah.trim()}">${nisan.kdNisan}</span>
+                                            <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${nisan.tglWafat}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                NIK Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Model Nisan
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Makam
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${nisan.nikJenazah}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahModelNisan${nisan.nikJenazah.trim()}">${nisan.modelConverted}</span>
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${nisan.tglMakam}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Lahir
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Harga Nisan
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Pemesanan
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${nisan.tglLahir}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahHargaNisan${nisan.nikJenazah.trim()}">${nisan.hargaNisan}</span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tempat Lahir
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Text Nisan
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Blok
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${nisan.tmptLahir}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <span id="ubahTextNisan${nisan.nikJenazah.trim()}"></span> &nbsp;
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${nisan.blok}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Nama Ahli Waris
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Email
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Blad
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${nisan.namaAhli}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${nisan.email}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${nisan.blad}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                No. Telepon
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                <!-- Status Pembayaran -->
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Petak
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${nisan.telp}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <!-- ${nisan.statusPembayaran == true ? 'Dibayar' : 'Menunggu Pembayaran'} 
+                                                <hr class="bg-info"> -->
+                                            </div>
+                                            <div class="col text-left">
+                                                ${nisan.petak}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                Pilih Nisan
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <button type="button" id="ubahNisanBtn" class="btn btn-info" data-dismiss="modal" onclick="pilihModelNisan('${nisan.nikJenazah.trim()}')">Pilih</button>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3">&nbsp;</div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <!-- Status -->
+                                                Status Pembayaran
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <!-- <select class="form-control" name="ubahStatus" id="">
+                                                    <option selected>Pilih</option>
+                                                    <option value="y">Disetujui</option>
+                                                    <option value="n"></option>
+                                                </select> -->
+                                                <select class="form-control" name="ubahStatusPembayaran" id="ubahStatusPembayaran${nisan.nikJenazah.trim()}">
+                                                    <option id="dibayar${nisan.nikJenazah.trim()}" value="true">Dibayar</option>
+                                                    <option id="belumBayar${nisan.nikJenazah.trim()}" value="false">Belum Dibayar</option>
+                                                </select>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3 row-cols-2">
+                                            <div class="col text-center title-modal-color">
+                                                <button type="submit" class="btn btn-info" id="ubahSubmitBtn" >ubah</button>
+                                            </div>
+                                            <div class="col text-center title-modal-color">
+                                                <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </td>
+            </tr>
+        `;
+    }
+
+    // Pilih Nisan Konten
+    var nisanKonten = (nikJenazah) => {
+        var pilihNisanLayout = document.getElementById('pilihNisanLayout');
+        pilihNisanLayout.innerHTML =''; //Flushing list nisan
+        var selectedAgama = document.getElementById('selectedAgama').value;
+        if(nikJenazah.length > 0) {
+            selectedAgama = document.getElementById('selectedAgama' + nikJenazah).value;
+        }
+        var agamaConverted;
+        switch(selectedAgama) {
+            case 'islam':
+                agamaConverted = 1;
+            break;
+            case 'kristen':
+                agamaConverted = 2;
+            break;
+            case 'hindu':
+                agamaConverted = 3;
+            break;
+            case 'budha':
+                agamaConverted = 4;
+            break;
+        }
+        dataModelNisan.forEach(nisan => {
+            if(nisan.modelNisan == agamaConverted) {
+                var model = modelNisanConverter(nisan.modelNisan);
+                pilihNisanLayout.innerHTML += `
+                    <div class="col border mx-2 mb-4">
+                        <div class="box-nisan mx-auto">
+                            <div class="foto-nisan " style="max-height: 100%;">
+                                <img src="/admin-tpu//foto-model-nisan/${nisan.gambarNisan}" alt="foto ${nisan.kdNisan}" style="width: 100%; max-height: 100%;" />    
+                            </div>
+                            <div class="row justify-content-center my-2">
+                                <span id="namaNisan">${nisan.namaNisan}</span>
+                            </div>
+                            <div class="row px-4 my-2">
+                                <div class="col-4 ">
+                                    Harga :
+                                </div>
+                                <div class="col">
+                                    <span id="harga">${nisan.hargaNisan}</span>
+                                </div>
+                            </div>
+                            <div class="row px-4 my-2">
+                                <div class="col-4 ">
+                                    Model :
+                                </div>
+                                <div class="col">
+                                    <span id="model">
+                                        ${model}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row px-4 my-2 justify-content-center">
+                                <div class="col-2 "></div>
+                                <div class="col mx-auto">
+                                    <button type="button" class="btn btn-outline-info form-control" style="width: 100%;" data-dismiss="modal" onclick="selectModelNisan('${nikJenazah}', '${nisan.kdNisan}')">Pilih</button>
+                                </div>
+                                <div class="col-2 mx-auto"> </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+    }
+</script>

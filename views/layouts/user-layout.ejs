@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS  & Asset -->
+    <script src="/jquery"></script>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/user-layout.css">
+    <!-- CDN Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""> </script>
+    <!-- Leaflet route -->
+    <link rel="stylesheet" href="/gis/leaflet-routing-machine.css">
+    <script src="/gis/leaflet-routing-machine.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <title><%= title %> </title>
+  </head>
+  <body >
+    <ul class="nav justify-content-center top-nav-color font-white">
+        <li class="nav-link h4">
+            Kuburin
+        </li>
+        <li class="nav-item col-left-navbar link-nav">
+            <a class="nav-link font-white" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-white" href="/daftar-jenazah">Daftar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-white" href="/tpu">TPU</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-white" href="/nisan">Nisan</a>
+        </li>
+        <li class="nav-item col-right-navbar">
+            <a class="nav-link font-white" href="/kontak-kami">Kontak</a>
+        </li>
+        <% if(logged == true && notifikasi) { %>
+        <li class="nav-item">
+            <a href="#" class="nav-link dropdown dropdown-toggle" id="notifDropdown" onclick="changeBell()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <!-- 
+                    if no new realtime notification then use :
+                    font-white
+                    if there is then use:
+                    text-danger
+                 -->
+                <h4 id="bellIcon" class="far fa-bell font-white"></h4>
+                <div id="notifTemplate" class="dropdown-menu px-4" aria-labelledby="notifDropdown" style="width: 25vw; max-height: 600px; overflow-y: auto;">
+                    
+                </div>
+            </a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link font-white" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link font-white" href="/logout" onclick="leaveChat()">Logout</a>
+        </li>
+        <script>
+            var socket = io();
+            var dataNotifikasi = [];
+
+            // If user click on bell with a new realtime notification it will change the bellicon color
+            var notifDropdown = document.getElementById('notifDropdown');
+            var bellIcon = document.getElementById('bellIcon');
+            function changeBell() {
+                notifDropdown.onclick = bellIcon.classList.replace('text-danger', 'font-white');
+            }
+            
+            function addNotif(content, date, realtime) {
+                console.log('isi notifnya ' +  content + ' ' + date);
+                console.log(notifTemplate);
+                var notifTemplate = document.getElementById('notifTemplate');
+                var newLine = document.createElement('br');
+                var breakLine = document.createElement('hr');
+                var newDropdownItem = document.createElement('div');
+                var subText = document.createElement('sub');
+                newDropdownItem.setAttribute('class', 'dropdown-item');
+                newDropdownItem.innerText = content;
+                subText.innerText = date;
+                newDropdownItem.appendChild(newLine);
+                newDropdownItem.appendChild(subText);
+                notifTemplate.insertBefore(breakLine, notifTemplate.firstChild);
+                notifTemplate.insertBefore(newDropdownItem, notifTemplate.firstChild);
+                if(realtime == true) {
+                    bellIcon.classList.replace('font-white', 'text-danger');
+                }
+            }
+            <% notifikasi.forEach(notif => { %> 
+                addNotif('<%= notif.content %>', '<%= notif.get_date %>', false);
+            <% }) %>
+
+            console.log('memasuki room' + document.cookie + 'notif');
+            socket.emit('joinNotif', document.cookie + 'notif');
+            socket.on('notif', (kontenNotif) => {
+                console.log('isi notifnya ', kontenNotif);
+                addNotif(kontenNotif.content, kontenNotif.date);
+            })
+            
+            // Check Kadaluarsa
+            fetch('/check-kadaluarsa')
+            .then(data => {
+                if(data.status == 200) {
+                    return data.json();
+                }
+            })
+            .then(result => {
+                console.log('data notif masuk');
+                console.log(result);
+                if(result && result.length > 0) {
+                    console.log('data notif masuk kondisi');
+                    var dataKadaluarsa = [];
+                    var content = (kdDaftar, tglKadaluarsa) => {
+                        return `Sewa ${kdDaftar} berakhir pada ${tglKadaluarsa}`;
+                    };
+                    console.log('get data :');
+                    console.table(result);
+                    result.forEach(kadaluarsa => {
+                        var kadaluarsaObj = {};
+                        kadaluarsaObj.kdNotif = 'KDL';
+                        kadaluarsaObj.nik = kadaluarsa.nik_jenazah;
+                        kadaluarsaObj.tglKadaluarsa = kadaluarsa.tgl_kadaluarsa;
+                        kadaluarsaObj.content = content(kadaluarsa.nik_jenazah, kadaluarsa.tgl_kadaluarsa);
+                        dataKadaluarsa.push(kadaluarsaObj);
+                    });
+                    console.table(dataKadaluarsa);
+                    fetch('/add-notification', {
+                        method: 'POST',
+                        body: JSON.stringify(dataKadaluarsa),
+                        headers: {'Content-type': 'application/json; charset=UTF-8'}
+                    })
+                    .then(data => {
+                        if(data.status == 200) {
+                            return data.json();
+                        }
+                    })
+                    .then(data => {
+                        // console.log('balasan diterima');
+                        // console.table(data);
+                        data.forEach(notif => {
+                            addNotif(notif.content, notif.tglInserted, true);
+                        })
+                    })
+                    .catch(error => console.error(error));
+                }
+            })
+        </script>
+        <% } else { %>
+        <li class="nav-item ">
+            <a class="nav-link font-white" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-white" href="/register">Register</a>
+        </li>
+        <% } %>
+
+        <!--kalau pake button 
+            <li class="nav-link col-auth">
+            <a href="/login" class="btn-navbar px-4">Login</a>
+        </li>
+        <li class="nav-link">
+            <a href="/register" class="btn-navbar px-4">Register</a>
+        </li> -->
+    </ul>
+    
+    <%- body %>
+
+    <ul id="nav-bottom" class="nav justify-content-center">
+        <li class="nav-link">
+            Alfi Nurfazri 41816010007 - Naldi Nashih Ulwan 41816010064
+        </li>
+    </ul>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="/popper"></script>
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <script src="/js/user-layout.js"></script>
+    <script>
+        navBottomPosition("<%= footer %>");
+        navBottomColor("<%= halaman %>");
+        console.log("<%= halaman %>");
+        function leaveChat() {
+            socket.emit('leaveNotif', {roomName: document.cookie + 'notif'});
+        }
+        function sendChat() {
+            socket.emit('notif', {msg:'hai hai dari user nih'});
+        }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+html, body, #containerPerpanjang {
+    height: 100%;
+}
+
+.top-nav-color {
+    background-color: #00B894;
+}
+
+.font-white {
+    color: white;
+}
+
+.col-left-navbar {
+    margin-left: 15%;
+}
+
+.col-right-navbar {
+    margin-right: 15%;
+}
+
+/* .col-kuburin {
+    margin-right: 17%;
+}
+
+.col-auth {
+    margin-left: 10%;
+} */
+
+.btn-navbar {
+    /* height: 20px; */
+    border: unset;
+    border-radius: 3px;
+    background-color: #00B894;
+    color: white;
+    text-decoration: unset;
+}
+/* .btn-navbar:hover, :focus {
+    background-color: #006266;
+    color: white;
+    text-decoration: unset;
+} */
+.btn-navbar:visited {
+    background-color: white;
+    color: #00B894;
+    text-decoration: unset;
+}
+
+
+/* 
+.link-nav, :hover, :active, :visited {
+    background-color: white;
+    color: #00B894;
+} */
+
+.size-per-screen {
+    height: 100%;
+}
+
+.margin-box {
+    margin-top: 20%;
+}
+
+.first-screen {
+    background-color: #00B894;
+    padding-top: 10%;
+}
+
+.second-screen {
+    background-color: white;
+    padding-top: 5%;
+}
+
+.third-screen {
+    background-color: #006266;
+    padding-top: 5%;
+}
+
+.fourth-screen {
+    height: 40%;
+    padding-top: 2%;
+    background-color: gray;
+}
+
+.big-top-border {
+    border-style: solid;
+    border-color: #00B894;
+    border-top-width: 20px;
+}
+
+.font-header {
+    color: #00B894;
+}
+
+.login-margin {
+    margin-top: 12%;
+}
+
+.textarea-kontak {
+    resize: none;
+}
+
+.hr-pembayaran {
+    height: 4px;
+    background-color: #00B894;
+}
+
+.layout-box-tpu {
+    width: 100%;
+}
+
+.box-tpu {
+    border-style: solid;
+    border-top-color: #00B894;
+    border-top-width: 10px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+
+.box-nisan {
+    width: 350px;
+    border-style: solid;
+    border-top-color: #00B894;
+    border-top-width: 10px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+
+.foto-nisan {
+    width: 100%;
+    height: 300px;
+}
+
+.profile-box {
+    height: 100%;
+}
+
+.color-edge-profile {
+    background-color: #006266;
+}
+
+.side-menu-profile {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+}
+
+.side-menu-profile.visited-stat {
+    border: unset;
+    background-color: #00B894;
+    color: white;
+}
+
+.label-perpanjang-color {
+    color: #006266;
+    font-weight: bold;
+}
+
+.menu-visited {
+    background-color: #00B894;
+    color: white;
+}
+
+.modal-sized {
+    height: 70vh;
+    max-width: 80vw;
+}

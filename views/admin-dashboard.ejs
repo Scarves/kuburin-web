@@ -1,0 +1,97 @@
+<!-- <script src="/js/admin-layout.js">
+    window.onload = (event) => {
+        // whatAdmin('admin');
+        console.log('asd');
+    }
+    
+    insertInfoDashboard('1', '2', '3', '4', '5');
+</script> -->
+<div class="container-fluid">
+    <div class="row my-4 justify-content-center">
+        <div class="col-sm-2 my-4 ">
+            <div class="title-dashboard text-center mx-auto">
+                <h4>
+                    Dashboard <br> Admin
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-5 justify-content-center">
+        <div class="col">
+            <div class="card bg-info text-light box-angka">
+                <div class="card-header title-box" id="firstCard">
+                    Jumlah Pendaftar Baru Hari Ini
+                </div>
+                <div class="card-body text-center">
+                    <h3 id="firstCardValue"> </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-info text-light box-angka">
+                <div class="card-header title-box" id="secondCard">
+                    Jumlah Pendaftar Tumpangan Hari Ini
+                </div>
+                <div class="card-body text-center">
+                    <h3 id="secondCardValue"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-info text-light box-angka">
+                <div class="card-header title-box" id="thirdCard">
+                    Jumlah Perpanjang Hari Ini
+                </div>
+                <div class="card-body text-center">
+                    <h3 id="thirdCardValue"></h3>
+                </div>
+            </div>
+        </div>
+        <% if(adminType == 'pusat') { %>
+        <div class="col">
+            <div class="card bg-info text-light box-angka" >
+                <div class="card-header title-box" id="fourthCard">
+                    Jumlah Pemesanan Nisan Hari Ini
+                </div>
+                <div class="card-body text-center">
+                    <h3 id="fourthCardValue"></h3>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <div class="col">
+            <div class="card bg-info text-light box-angka">
+                <div class="card-header title-box" id="fifthCard">
+                    Jumlah Makam Kosong
+                </div>
+                <div class="card-body text-center">
+                    <h3 id="fifthCardValue"></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col text-center">
+            <h5>Chart Bulanan</h5>
+        </div>
+        <div class="col text-center">
+            <h5>Prediksi Bulan Depan</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="bg-secondary static"></div>
+        </div>
+        <div class="col">
+            <div class="bg-secondary static"></div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('dashboard').classList.add('menu-visited');
+</script>
+<script src="/js/admin-layout.js" 
+    onload="
+    whatAdmin('<%- adminType %>'); 
+    insertInfoDashboard('<%= firstCard %>', '<%= secondCard %>', '<%= thirdCard %>', '<%= fourthCard %>', '<%= fifthCard %>'); ">
+</script>

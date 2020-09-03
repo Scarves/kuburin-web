@@ -1,0 +1,395 @@
+<div class="container-fluid" style="position:relative; max-height:100%; overflow-y: auto;">
+    <table class="table bg-light " id="dataAdminTable" style="position:relative; max-height:100%;">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    <b>No</b>
+                </th>
+                <th>
+                    <b>Kode Nisan</b>
+                </th>
+                <th>
+                    <b>Nama Nisan</b>
+                </th>
+                <th>
+                    <b>Text Nisan</b>
+                </th>
+                <th>
+                    <b>Model Nisan</b>
+                </th>
+                <th>
+                    <b>Gambar</b>
+                </th>
+                <th>
+                    <input type="checkbox" name="allItems" id="allItems">
+                </th>
+                <th class="text-right">
+                    <a href="#" class="no-underline">
+                        <button class="btn  btn-info" data-toggle="modal" data-target="#tambahNisan">tambah</button>
+                    </a>
+                    <!-- <a href="/admin/cetak-data-admin" class="no-underline">
+                        <button class="btn menu-visited btn-info">Cetak</button>
+                    </a> -->
+                    <!-- Modal Tambah -->
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="tambahNisan">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content lihat-modal px-2">
+                                <h4 class="text-center">
+                                    <b>
+                                        Tambah Data Nisan
+                                    </b>
+                                </h4>
+                                <form action="/admin/add-nisan" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="tambahKdNisan" name="tambahKdNisan">
+                                <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <div class="row text-left">
+                                    <div class="col text-info">Nama Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tambahNamaNisan" required>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col text-info">Text Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tambahTextNisan" required>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col text-info">Harga Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="tambahHargaNisan" required>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col text-info">Model Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <select name="tambahModelNisan" id="" class="form-control">
+                                            <option>Pilih</option>
+                                            <option value="1">Islam</option>
+                                            <option value="2">Kristen</option>
+                                            <option value="3">Hindu</option>
+                                            <option value="3">Budha</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row text-left ">
+                                    <div class="col text-info">Gambar Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col text-left">
+                                        <input type="file" class="" name="tambahGambarNisan" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col text-right">
+                                        <button type="reset" class="btn btn-secondary mr-2">Batal</button>
+                                        <button type="button" class="btn btn-info" onclick="triggerSubmitBtn()">Tambah</button>
+                                        <button type="submit" id="submitBtn" class="btn btn-info" hidden>Tambah</button>
+                                    </div>
+                                </div>
+                                
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+    <div class="row  mx-auto justify-content-center">
+    
+        <div class="col text-center">
+            <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+            <span id="pageList"></span>
+            <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+        </div>
+    </div>
+</div>
+<script>
+
+    function triggerSubmitBtn() {
+        fetch('/admin/get-kd-nisan')
+        .then(result => {
+            if(result.status == 200) {
+                return result.json();
+            }
+        })
+        .then(data => {
+            if(data.is_duplicated == false) {
+                console.log('kd nisannya ', data.kd_nisan);
+                document.getElementById('tambahKdNisan').value = data.kd_nisan;
+                document.getElementById('submitBtn').click();
+            }
+        })
+    }
+
+    function setModelNisan(model, kdNisan) {
+        document.getElementById(model + kdNisan).selected = true;
+    }
+
+    function onchangeGambarNisan(kdNisan) {
+        document.getElementById('ubahGambarNisan' + kdNisan).name = 'ubahGambarNisan';
+    }
+    
+    var dataNisan = [];
+    <% dataNisan.forEach(nisan => { %>
+        var nisanObj = {};
+        nisanObj.kdNisan = '<%= nisan.kd_nisan %>';
+        nisanObj.namaNisan = '<%= nisan.nama_nisan %>';
+        nisanObj.textNisan = '<%= nisan.text_nisan %>';
+        nisanObj.modelNisan = '<%= nisan.model_nisan %>';
+        nisanObj.gambarNisan = '<%= nisan.gambar_nisan %>';
+        nisanObj.hargaNisan = '<%= nisan.harga_nisan %>';
+        dataNisan.push(nisanObj);
+    <% }) %>
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataAdminTable');
+        var pageList = document.getElementById('pageList');
+
+        // flush all tbodies
+        flushTbody(table, false);
+        // Define wheter its to display search or not
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            flushTbody(table, true);
+        } else {
+            // Put main content obj
+            putData = dataNisan;
+        }
+        // flushTbody(table, true);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page1');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+        
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData((getIndex + 1), putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    // Search from data local
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' + keyword);
+        var result = dataNisan.filter(data => {
+            var regex = RegExp(keyword, 'g');
+            if(regex.test(data['namaNisan']) == true || regex.test(data['kdNisan']) == true) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+
+    function rowsOfData(count, nisan) {
+        return `
+            <tr>
+                <td>${count}</td>
+                <td>${nisan.kdNisan}</td>
+                <td>${nisan.namaNisan}</td>
+                <td>${nisan.textNisan}</td>
+                <td>${nisan.modelNisan}</td>
+                <td><img src="/admin/get-foto-nisan/${nisan.gambarNisan}" style="width:300px;" /></td>
+                <td>
+                    <input type="checkbox" name="a" id="a">
+                </td>
+                <td class="text-right">
+                    <a href="/admin/delete-nisan/${nisan.kdNisan}" class="no-underline">
+                        <button class="btn menu-visited btn-info">Hapus</button>
+                    </a>
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target="#ubah${nisan.kdNisan}" onclick="setModelNisan('${nisan.modelNisan}', '${nisan.kdNisan}')">Ubah</button>
+                    </a>
+                    <!-- modal ubah --!>
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="ubah${nisan.kdNisan}">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content px-4 lihat-modal">
+                                <h4 class="text-center">
+                                    <b>
+                                        Ubah Data Nisan
+                                    </b>
+                                </h4>
+                                <form action="/admin/update-nisan" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="ubahKdNisan" value="${nisan.kdNisan}">
+                                    <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <div class="row text-left">
+                                    <div class="col text-info">Nama Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="ubahNamaNisan" value="${nisan.namaNisan}" required>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col text-info">Text Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="ubahTextNisan" value="${nisan.textNisan}" required>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col text-info">Harga Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="ubahHargaNisan" value="${nisan.hargaNisan}" required>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col text-info">Model Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <select name="ubahModelNisan" id="" class="form-control">
+                                            <option>Pilih</option>
+                                            <option id="1${nisan.kdNisan}" value="1">Islam</option>
+                                            <option id="2${nisan.kdNisan}" value="2">Kristen</option>
+                                            <option id="3${nisan.kdNisan}" value="3">Hindu / Budha</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row text-left ">
+                                    <div class="col text-info">Gambar Nisan</div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col text-left">
+                                        <input type="file" class="" id="ubahGambarNisan${nisan.kdNisan}" onchange="onchangeGambarNisan('${nisan.kdNisan}')">
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col text-right">
+                                        <button type="reset" class="btn btn-secondary mr-2" data-dismiss="modal">Batal</button>
+                                        <button type="submit" id="submitBtn" class="btn btn-info">Ubah</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </td>
+            </tr>
+        `;
+    }
+    
+
+    document.getElementById('dataNisan').classList.add('menu-visited'); // On data TPU menu
+    document.getElementById('search').removeAttribute('hidden'); // Search bar visible
+</script>

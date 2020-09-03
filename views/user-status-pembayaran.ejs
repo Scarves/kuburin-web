@@ -1,0 +1,93 @@
+<div class="container ">
+    <div class="row justify-content-center my-4 ">
+        <h1 class="">Status Pembayaran</h1>
+    </div>
+    <div class="row justify-content-center my-4 pb-4">
+        <div class="col-9 py-3 my-4 border rounded">
+            <div class="row mb-3">
+                <div class="col">
+                    <b>Menunggu Pembayaran</b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ">
+                    No Pembayaran :
+                </div>
+                <div class="col text-right">
+                    Tanggal Pembayaran
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col ">
+                    <span id="kodePembayaran">
+                        <%= noPembayaran %>
+                    </span>
+                </div>
+                <div class="col text-right ">
+                    <span id="tglPembayaran">
+                        
+                    </span>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col ">
+                    Nama Pembayaran : 
+                    <span id="namaPembayaran">
+                        <%= namaPembayaran %>
+                    </span>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col ">
+                    Nama Ahli Waris : 
+                    <span id="namaAhliWaris">
+                        <%= namaAhliWaris %>
+                    </span>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col ">
+                    Alamat : 
+                    <span id="alamat">
+                        <%= alamat %>
+                    </span>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col ">
+                    No Telepon : 
+                    <span id="noTelepon">
+                        <%= telepon %>
+                    </span>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col ">
+                    Metode Pembayaran : 
+                    <span id="metodePembayaran">
+                        <%= metodePembayaran %>
+                    </span>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col ">
+                    Jumlah Pembayaran : 
+                    <span id="jumlahPembayaran">
+                        Rp.<%= jumlahPembayaran %>
+                    </span>
+                </div>
+            </div>
+            <hr class="hr-pembayaran">
+            <div class="row justify-content-end">
+                <a href="/profile">
+                    <button class="btn-navbar px-4 py-2 mr-4">selesai</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var dateNow = new Date();
+    dateConverted = dateNow.getDate() + '/' + dateNow.getMonth() + '/' + dateNow.getFullYear() +  ', ' +  dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds();
+    document.getElementById('tglPembayaran').innerHTML= dateConverted;
+</script>

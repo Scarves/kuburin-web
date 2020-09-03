@@ -1,0 +1,763 @@
+<table class="table bg-light" id="dataTpuTable">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                <b>No</b>
+            </th>
+            <th>
+                <b>Kode TPU</b>
+            </th>
+            <th>
+                <b>Nama TPU</b>
+            </th>
+            <th>
+                <b>Jumlah Makam</b>
+            </th>
+            <th>
+                <b>Luas</b>
+            </th>
+            <th>
+                <b>Terisi</b>
+            </th>
+            <th>
+                <b>Alamat TPU</b>
+            </th>
+            <th>
+                <input type="checkbox" name="allItems" id="allItems">
+            </th>
+            <th class="text-right">
+                <a href="#" class="no-underline">
+                    <button class="btn  btn-info" data-toggle="modal" data-target="#tambahTpu">tambah</button>
+                </a>
+                <a href="/admin/cetak-data-tpu" class="no-underline">
+                    <button class="btn menu-visited btn-info">Cetak</button>
+                </a>
+                <!-- Modal Tambah -->
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubahModal" aria-hidden="true" id="tambahTpu">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content lihat-modal">
+                            <h4 class="text-center">
+                                <b>
+                                    Tambah Data TPU
+                                </b>
+                            </h4>
+                            <p class="text-center">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                            </p>
+                            <form action="/admin/add-data-tpu" method="post">
+                            <div class="row mx-4 mb-3 px-3">
+                                <label for="namaTpu">
+                                    Nama TPU
+                                </label>
+                                <input type="text" class="form-control" name="tambahNamaTpu" id="tambahNamaTpu" required>
+                            </div>
+                            <div class="row mx-4 mb-3 px-3">
+                                <label for="nikKepalaTpu">
+                                    NIK Kepala TPU
+                                </label>
+                                <input type="text" class="form-control" name="tambahNikKepalaTpu" required>
+                            </div>
+                            <div class="row row-cols-2 mx-4 mb-3 text-left">
+                                <div class="col">
+                                    Nama Depan Kepala TPU
+                                    <input type="text" class="form-control" name="tambahNamaDepanKepalaTpu" required>
+                                </div>
+                                <div class="col">
+                                    Nama Belakang Kepala TPU
+                                    <input type="text" class="form-control" name="tambahNamaBelakangKepalaTpu" required>
+                                </div>
+                            </div>
+                            <div class="row mx-4 mb-3 px-3">
+                                <label for="alamatTpu">
+                                    Alamat
+                                </label>
+                                <input type="text" class="form-control" name="tambahAlamatTpu" required>
+                            </div>
+                            <div class="row row-cols-2 mx-4 mb-3 text-left">
+                                <div class="col">
+                                    Kode Pos
+                                    <input type="text" class="form-control" name="tambahKodePos" required>
+                                </div>
+                                <div class="col">
+                                    Luas
+                                    <input type="text" class="form-control" name="tambahLuasTpu">
+                                </div>
+                            </div>
+                            <div class="row row-cols-2 mx-4 mb-3 text-left">
+                                <div class="col">
+                                    Longtitude
+                                    <input type="text" class="form-control" name="tambahLongtitude" >
+                                </div>
+                                <div class="col text-left">
+                                    Latitude
+                                    <input type="text" class="form-control" name="tambahLatitude">
+                                </div>
+                            </div>
+                            <div class="row row-cols-3 mx-4 mb-3 text-left">
+                                <div class="col border-right" >
+                                    <fieldset class="">
+                                        <legend>Petak Makam Islam</legend>
+                                        <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                                        <input type="text" name="tambahIslamAA01" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                                        <input type="text" name="tambahIslamAA02" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A001</label>
+                                        <input type="text" name="tambahIslamA001" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A002</label>
+                                        <input type="text" name="tambahIslamA002" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A003</label>
+                                        <input type="text" name="tambahIslamA003" value="0">
+                                    </fieldset>
+                                </div>
+                                <div class="col text-left">
+                                    <fieldset class="">
+                                        <legend>Petak Makam Kristen</legend>
+                                        <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                                        <input type="text" name="tambahKristenAA01" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                                        <input type="text" name="tambahKristenAA02" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A001</label>
+                                        <input type="text" name="tambahKristenA001" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A002</label>
+                                        <input type="text" name="tambahKristenA002" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A003</label>
+                                        <input type="text" name="tambahKristenA003" value="0">
+                                    </fieldset>
+                                </div>
+                                <div class="col text-left border-left">
+                                    <fieldset class="">
+                                        <legend>Petak Makam Hindu/Budha</legend>
+                                        <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                                        <input type="text" name="tambahHbAA01" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                                        <input type="text" name="tambahHbAA02" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A001</label>
+                                        <input type="text" name="tambahHbA001" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A002</label>
+                                        <input type="text" name="tambahHbA002" value="0">
+                                        <label for="blokAA01">Maksimal Petak Blok A003</label>
+                                        <input type="text" name="tambahHbA003" value="0">
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row row mx-4 mb-3 ">
+                                <div class="col">
+                                    <button class="btn btn-secondary mr-3" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-info">Tambah</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </thead>
+</table>
+<div class="row  mx-auto justify-content-center">
+
+    <div class="col text-center">
+        <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+        <span id="pageList"></span>
+        <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+    </div>
+</div>
+<script>
+    
+    var dataTpu = [];
+    <% dataTpu.forEach(tpu => { %>
+        var tpuObj = {};
+        tpuObj.kdTpu = '<%= tpu.kd_tpu %>';
+        tpuObj.namaTpu = '<%= tpu.nama_tpu %>';
+        tpuObj.luas = '<%= tpu.luas %>';
+        tpuObj.terisi = '<%= tpu.terisi %>';
+        tpuObj.alamatTpu = '<%= tpu.alamat_tpu %>';
+        tpuObj.nikKepala = '<%= tpu.nik_kepala_tpu %>';
+        tpuObj.namaDepanKepala = '<%= tpu.nama_depan_kepala %>';
+        tpuObj.namaBelakangKepala = '<%= tpu.nama_belakang_kepala %>';
+        tpuObj.longtitude = '<%= tpu.longtitude %>';
+        tpuObj.latitude = '<%= tpu.latitude %>';
+        tpuObj.jumlahPegawai = '<%= tpu.jumlah_pegawai %>';
+        tpuObj.jumlahAdmin = '<%= tpu.jumlah_admin %>';
+        tpuObj.islamAA01 = <%= tpu.islam_aa01 %>;
+        tpuObj.islamAA02 = <%= tpu.islam_aa02 %>;
+        tpuObj.islamA001 = <%= tpu.islam_a001 %>;
+        tpuObj.islamA002 = <%= tpu.islam_a002 %>;
+        tpuObj.islamA003 = <%= tpu.islam_a003 %>;
+        tpuObj.kristenAA01 = <%= tpu.kristen_aa01 %>;
+        tpuObj.kristenAA02 = <%= tpu.kristen_aa02 %>;
+        tpuObj.kristenA001 = <%= tpu.kristen_a001 %>;
+        tpuObj.kristenA002 = <%= tpu.kristen_a002 %>;
+        tpuObj.kristenA003 = <%= tpu.kristen_a003 %>;
+        tpuObj.hbAA01 = <%= tpu.hb_aa01 %>;
+        tpuObj.hbAA02 = <%= tpu.hb_aa02 %>;
+        tpuObj.hbA001 = <%= tpu.hb_a001 %>;
+        tpuObj.hbA002 = <%= tpu.hb_a002 %>;
+        tpuObj.hbA003 = <%= tpu.hb_a003 %>;
+        tpuObj.petakIslam = tpuObj.islamAA01 + tpuObj.islamAA02 + tpuObj.islamA001 + tpuObj.islamA002 + tpuObj.islamA003;
+        tpuObj.petakKristen = tpuObj.kristenAA01 + tpuObj.kristenAA02 + tpuObj.kristenA001 + tpuObj.kristenA002 + tpuObj.kristenA003;
+        tpuObj.petakHinduBudha = tpuObj.hbAA01 + tpuObj.hbAA02 + tpuObj.hbA001 + tpuObj.hbA002 + tpuObj.hbA003;
+        tpuObj.jumlahMakam = tpuObj.petakIslam + tpuObj.petakKristen + tpuObj.petakHinduBudha;
+        dataTpu.push(tpuObj);
+    <% }) %>
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataTpuTable');
+        var pageList = document.getElementById('pageList');
+
+        // flush all tbodies
+        flushTbody(table, false);
+        // Define wheter its to display search or not
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            flushTbody(table, true);
+        } else {
+            // Put main content obj
+            putData = dataTpu;
+        }
+        // flushTbody(table, true);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page1');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+        
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData((getIndex + 1), putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+
+    // Search from data local
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' );
+        var result = dataTpu.filter(data => {
+            var regex = RegExp(keyword, 'gi');
+            if(regex.test(data['namaTpu']) == true) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+
+    function rowsOfData(count, data) {
+        return `
+            <tr>
+                <td>${count}</td>
+                <td>${data.kdTpu}</td>
+                <td>${data.namaTpu}</td>
+                <td>${data.jumlahMakam}</td>
+                <td>${data.luas}</td>
+                <td>${data.terisi}</td>
+                <td style="max-width: 300px;">${data.alamatTpu}</td>
+                <td>
+                    <input type="checkbox" name="a" id="a">
+                </td>
+                <td class="text-right">
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target="#lihat${data.kdTpu}" onclick="getPegawai('${data.kdTpu}');">Lihat</button>
+                    </a>
+                    <!-- Modal Lihat -->
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="lihat${data.kdTpu}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <h4 class="text-center">
+                                    <b>
+                                        Data TPU
+                                    </b>
+                                </h4>
+                                <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Kode TPU
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Jumlah Makam
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${data.kdTpu}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${data.jumlahMakam}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Nama TPU
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Luas
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${data.namaTpu}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${data.luas}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        NIK Kepala TPU
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Nama Kepala
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${data.nikKepala}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${data.namaDepanKepala} ${data.namaBelakangKepala}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Alamat
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Longtitude Latitude
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${data.alamatTpu}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${data.longtitude} ${data.latitude}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Terisi
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Jumlah Pegawai
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Jumlah Admin
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${data.terisi}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${data.jumlahPegawai}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${data.jumlahAdmin}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Jumlah Petak Makam Islam
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Jumlah Petak Makam Kristen
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Jumlah Petak Makam Hindu/Budha
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left border-right">
+                                        <fieldset class="">
+                                            <legend>${data.petakIslam}</legend>
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok AA01</b></label> <br>
+                                            ${data.islamAA01}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok AA02</b></label> <br>
+                                            ${data.islamAA02}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A001</b></label> <br>
+                                            ${data.islamA001}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A002</b></label> <br>
+                                            ${data.islamA002}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A003</b></label> <br>
+                                            ${data.islamA003}
+                                            <hr class="bg-info">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col text-left">
+                                        <fieldset class="">
+                                            <legend>${data.petakKristen}</legend>
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok AA01</b></label> <br>
+                                            ${data.kristenAA01}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok AA02</b></label> <br>
+                                            ${data.kristenAA02}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A001</b></label> <br>
+                                            ${data.kristenA001}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A002</b></label> <br>
+                                            ${data.kristenA002}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A003</b></label> <br>
+                                            ${data.kristenA003}
+                                            <hr class="bg-info">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col text-left border-left">
+                                        <fieldset class="">
+                                            <legend>${data.petakHinduBudha}</legend>
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok AA01</b></label> <br>
+                                            ${data.hbAA01}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok AA02</b></label> <br>
+                                            ${data.hbAA02}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A001</b></label> <br>
+                                            ${data.hbA001}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A002</b></label> <br>
+                                            ${data.hbA002}
+                                            <hr class="bg-info">
+                                            <label for="blokAA01"><b>Blok A003</b></label> <br>
+                                            ${data.hbA003}
+                                            <hr class="bg-info">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="text-left" id="pegawaiTable${data.kdTpu}"></div>
+                                <!-- Table data in modal -->
+                                <div class="row mb-3">
+                                    <div class="col text-right px-4">
+                                        <button class="btn btn-secondary mx-4" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="/admin/delete-data-tpu/${data.kdTpu}" class="no-underline">
+                        <button class="btn menu-visited btn-info">Hapus</button>
+                    </a>
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target="#ubah${data.kdTpu}">Ubah</button>
+                    </a>
+                    <!-- Modal Ubah / update --!>
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubahModal" aria-hidden="true" id="ubah${data.kdTpu}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <h4 class="text-center">
+                                    <b>
+                                        Ubah Data TPU
+                                    </b>
+                                </h4>
+                                <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <form action="/admin/update-data-tpu/${data.kdTpu}" method="post">
+                                <input type="text" name="ubahNikKepala" value="${data.nikKepala}" hidden />
+                                <div class="row mx-4 mb-3 text-left">
+                                    <div class="col">
+                                        <label for="kodeTpu">
+                                            Kode TPU
+                                        </label>
+                                        <b class="row ml-3">
+                                            ${data.kdTpu}
+                                        </b>
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3 px-3">
+                                    <label for="namaTpu">
+                                        Nama TPU
+                                    </label>
+                                    <input type="text" class="form-control" name="ubahNamaTpu" value="${data.namaTpu}" required>
+                                </div>
+                                <div class="row mx-4 mb-3 px-3">
+                                    <label for="nikKepala">
+                                        NIK Kepala TPU
+                                    </label>
+                                    <input type="text" class="form-control" name="ubahNewNikKepala" value="${data.nikKepala}" required>
+                                </div>
+                                <div class="row mx-4 mb-3 text-left">
+                                    <div class="col">
+                                        <label for="namaKepalaTpu">
+                                            Nama Depan Kepala TPU
+                                        </label>
+                                        <input type="text" class="form-control" name="ubahNamaDepanKepalaTpu" value="${data.namaDepanKepala}" required>
+                                    </div>
+                                    <div class="col">
+                                        <label for="namaKepalaTpu">
+                                            Nama Belakang Kepala TPU
+                                        </label>
+                                        <input type="text" class="form-control" name="ubahNamaBelakangKepalaTpu" value="${data.namaBelakangKepala}" required>
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3 px-3">
+                                    <label for="alamatTpu">
+                                        Alamat
+                                    </label>
+                                    <input type="text" class="form-control" name="ubahAlamatTpu" value="${data.alamatTpu}" required>
+                                </div>
+                                <div class="row row-cols-2 mx-4 mb-3 text-left">
+                                    <div class="col">
+                                        Kode Pos
+                                        <input type="text" class="form-control" name="ubahKodePos" value="${data.kdTpu.slice(0,5)}" required>
+                                    </div>
+                                    <div class="col">
+                                        Luas
+                                        <input type="text" class="form-control" name="ubahLuasTpu" value="${data.luas}" required>
+                                    </div>
+                                </div>
+                                <div class="row row-cols-2 mx-4 mb-3 text-left">
+                                    <div class="col">
+                                        Longtitude
+                                        <input type="text" class="form-control" name="ubahLongtitude" value="${data.longtitude}" required>
+                                    </div>
+                                    <div class="col text-left">
+                                        Latitude
+                                        <input type="text" class="form-control" name="ubahLatitude" value="${data.latitude}" required>
+                                    </div>
+                                </div>
+                                <div class="row row-cols-3 mx-4 mb-3 text-left">
+                                </div>
+                                <div class="row row-cols-3 mx-4 mb-3 text-left">
+                                    <div class="col">
+                                        <fieldset class="border-right">
+                                            <legend>Petak Makam Islam</legend>
+                                            <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                                            <input type="text" name="ubahIslamAA01" value="${data.islamAA01}">
+                                            <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                                            <input type="text" name="ubahIslamAA02" value="${data.islamAA02}">
+                                            <label for="blokAA01">Maksimal Petak Blok A001</label>
+                                            <input type="text" name="ubahIslamA001" value="${data.islamA001}">
+                                            <label for="blokAA01">Maksimal Petak Blok A002</label>
+                                            <input type="text" name="ubahIslamA002" value="${data.islamA002}">
+                                            <label for="blokAA01">Maksimal Petak Blok A003</label>
+                                            <input type="text" name="ubahIslamA003" value="${data.islamA003}">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col text-left">
+                                        <fieldset class="">
+                                            <legend>Petak Makam Kristen</legend>
+                                            <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                                            <input type="text" name="ubahKristenAA01" value="${data.kristenAA01}">
+                                            <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                                            <input type="text" name="ubahKristenAA02" value="${data.kristenAA02}">
+                                            <label for="blokAA01">Maksimal Petak Blok A001</label>
+                                            <input type="text" name="ubahKristenA001" value="${data.kristenA001}">
+                                            <label for="blokAA01">Maksimal Petak Blok A002</label>
+                                            <input type="text" name="ubahKristenA002" value="${data.kristenA002}">
+                                            <label for="blokAA01">Maksimal Petak Blok A003</label>
+                                            <input type="text" name="ubahKristenA003" value="${data.kristenA003}">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col text-left border-left">
+                                        <fieldset class="">
+                                            <legend>Petak Makam Hindu/Budha</legend>
+                                            <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                                            <input type="text" name="ubahHbAA01" value="${data.hbAA01}">
+                                            <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                                            <input type="text" name="ubahHbAA02" value="${data.hbAA02}">
+                                            <label for="blokAA01">Maksimal Petak Blok A001</label>
+                                            <input type="text" name="ubahHbA001" value="${data.hbA001}">
+                                            <label for="blokAA01">Maksimal Petak Blok A002</label>
+                                            <input type="text" name="ubahHbA002" value="${data.hbA002}">
+                                            <label for="blokAA01">Maksimal Petak Blok A003</label>
+                                            <input type="text" name="ubahHbA003" value="${data.hbA003}">
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row row-cols-2 mx-4 mb-3 ">
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <button type="cancel" class="btn btn-secondary mr-3" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-info">Ubah</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                </td>
+            </tr>
+        `;
+    }
+
+    // Get data pegawai by kode TPU
+    var getPegawai = (kdTpu) => new Promise((resolve, reject) => {
+        var count = 1;
+        var pegawaiTable = document.getElementById(`pegawaiTable${kdTpu}`);
+        pegawaiTable.innerHTML = '';
+
+        // Get data Pegawai
+        fetch(`/admin/get-data-pegawai/${kdTpu}`)
+            .then(data => {
+                return data.json();
+            })
+            .then(data => {
+                console.log('data pegawai ');
+                console.table(data);
+                // Declaring table body
+                pegawaiTable.innerHTML = ` 
+                    <table class="mx-auto table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Pegawai</th>
+                                <th>Jabatan</th>
+                                <th>Status Pegawai</th>
+                                <th>Email</th>
+                                <th>Telepon</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pegawaiValues${kdTpu}">
+
+                        </tbody>
+                    </table>
+                `;
+
+                var pegawaiValue = document.getElementById(`pegawaiValues${kdTpu}`);
+                // Put data pegawai into table body
+                data.forEach(pegawai => {
+                        pegawaiValue.innerHTML += `
+                        <tr>
+                            <td>${count}</td>
+                            <td>${pegawai.nama_pegawai}</td>
+                            <td>${pegawai.jabatan}</td>
+                            <td>${pegawai.status_pegawai}</td>
+                            <td>${pegawai.email}</td>
+                            <td>${pegawai.telepon}</td>
+                        </tr>
+                        `;
+                    count++;
+                });
+            })
+            .catch(error => console.error(error));
+    });
+
+    document.getElementById('dataTpu').classList.add('menu-visited'); // On data TPU menu
+    document.getElementById('search').removeAttribute('hidden'); // Search bar visible
+</script>

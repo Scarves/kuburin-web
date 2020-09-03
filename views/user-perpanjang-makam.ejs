@@ -1,0 +1,228 @@
+<div class="container" id="containerPerpanjang">
+    <div class="row row-cols-3 profile-box">
+        <!-- COLUMN 1 -->
+        <div class="col-2 color-edge-profile py-4 ">
+            <div class="row justify-content-center mt-4 ">
+                <div class="col">
+                    <a href="/profile" class="btn btn-outline-light side-menu-profile ">
+                        Profile Ahli Waris
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2 ">
+                <div class="col">
+                    <a href="/akun" class="btn btn-outline-light side-menu-profile ">
+                        Akun
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/perpanjang-makam" class="btn btn-outline-light side-menu-profile visited-stat ">
+                        Perpanjang Makam
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-pendaftaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pendaftaran
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-perpanjangan" class="btn btn-outline-light side-menu-profile ">
+                        Status Perpanjang
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/status-pembayaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="col-8 my-4 ">
+            <div class="row justify-content-center my-4">
+                <h4 class="font-header text-center"> Perpanjang <br> Makam </h4>
+            </div>
+            <form action="/perpanjang-makam" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="perpanjangNik" id="perpanjangNik" >
+            <div class="row">
+                <div class="col" id="perpanjangSelect">
+                   
+                </div>
+            </div>
+            <div class="px-4" id="infoJenazah" hidden>
+                <div class="row mt-4">
+                    <div class="col">
+                        <label for="nik" class="label-perpanjang-color">NIK</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="nik">x-nik-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="namaJenazah" class="label-perpanjang-color">Nama Jenazah</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="namaJenazah">x-nama-jenazah-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="kelamin" class="label-perpanjang-color">Kelamin</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" id="kelaminField">
+                        <input type="radio" name="kelamin" id="pria" disabled> Pria &nbsp;
+                        <input type="radio" name="kelamin" id="wanita" disabled> Wanita
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="agama" class="label-perpanjang-color">Agama</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="agama">x-agama-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="alamat" class="label-perpanjang-color">Alamat</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="alamat">x-alamat-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="tmptTglLahir" class="label-perpanjang-color">Tempat, Tanggal Lahir</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="tempat">x-tempat-x</span>, &nbsp;
+                        <span id="tglLahir">x-tgl-lahir-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="tglWafat" class="label-perpanjang-color">Tanggal Wafat</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="tglWafat">x-tgl-wafat-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="tglMakam" class="label-perpanjang-color">Tanggal Makam</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span id="tglMakam">x-tgl-makam-x</span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="iptm" class="label-perpanjang-color">Surat IPTM Asli</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="file" name="perpanjangIptm" id="iptmPerpanjang" hidden>
+                        <button type="button" class="btn btn-info form-control" onclick="getIptmPerpanjang()">Upload</button>
+                    </div>
+                </div>
+                <div class="row mt-3 justify-content-center">
+                    <button type="submit" class="mx-auto px-4 btn btn-info">Perpanjang</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!-- COLUMN 3 -->
+        <div class="col-2 color-edge-profile">
+            
+        </div>
+    </div>
+</div>
+<script>
+    var perpanjangSelect = document.getElementById('perpanjangSelect');
+    var dataPerpanjang = [];
+    <% dataPerpanjang.forEach(perpanjang => { %>
+        var perpanjang = {};
+        perpanjang.nikJenazah = '<%= perpanjang.nik_jenazah %>'.trim();
+        perpanjang.namaJenazah = '<%= perpanjang.nama_jenazah %>';
+        perpanjang.agama = '<%= perpanjang.agama %>';
+        perpanjang.tmptLahir = '<%= perpanjang.tmpt_lahir %>';
+        perpanjang.tglLahir = '<%= perpanjang.tgl_lahir %>';
+        perpanjang.tglWafat = '<%= perpanjang.tgl_wafat %>';
+        perpanjang.tglMakam = '<%= perpanjang.tgl_makam %>';
+        perpanjang.kelamin = <%= perpanjang.kelamin %>;
+        dataPerpanjang.push(perpanjang);
+    <% }) %>
+
+    if(dataPerpanjang.length > 0) {
+        perpanjangSelect.innerHTML =`
+            <select name="makam" id="makam" class="form-control" onchange="getDataPerpanjang()">
+                <option value="pilih" selected>Pilih Makam</option>
+            </select>
+        `;
+        dataPerpanjang.forEach(perpanjang => {
+            console.log('masuk foreach');
+            var dataSelect = document.createElement('option');
+            dataSelect.setAttribute('value', perpanjang.nikJenazah);
+            dataSelect.innerText = perpanjang.namaJenazah;
+            document.getElementById('makam').options.add(dataSelect);
+        });
+    } else {
+        perpanjangSelect.innerHTML = '<h5 class="mx-auto">Tidak ada makam yang dapat di perpanjang</h5>';
+    }
+
+    // Select makam in perpanjang makam
+    function getDataPerpanjang() {
+        var idMakam = document.getElementById('makam').value;
+        var infoJenazah = document.getElementById('infoJenazah');
+        console.log(idMakam);
+        if(idMakam != "pilih") {
+            console.log('niknya ', idMakam);
+            var indexPerpanjang = dataPerpanjang.map(element => element.nikJenazah).indexOf(idMakam);
+            console.log('indexnya ', indexPerpanjang);
+            infoJenazah.removeAttribute('hidden');
+            document.getElementById('perpanjangNik').value = idMakam;
+            document.getElementById('nik').innerHTML = dataPerpanjang[indexPerpanjang].nikJenazah;
+            document.getElementById('namaJenazah').innerHTML = dataPerpanjang[indexPerpanjang].namaJenazah;
+            if(dataPerpanjang[indexPerpanjang].kelamin == true) {
+                document.getElementById('wanita').checked = true;
+            } else {
+                document.getElementById('pria').checked = true;
+            }
+            document.getElementById('agama').innerHTML = dataPerpanjang[indexPerpanjang].agama;
+            document.getElementById('alamat').innerHTML = dataPerpanjang[indexPerpanjang].alamat;
+            document.getElementById('tempat').innerHTML = dataPerpanjang[indexPerpanjang].tmptLahir;
+            document.getElementById('tglLahir').innerHTML = dataPerpanjang[indexPerpanjang].tglLahir;
+            document.getElementById('tglWafat').innerHTML = dataPerpanjang[indexPerpanjang].tglWafat;
+            document.getElementById('tglMakam').innerHTML = dataPerpanjang[indexPerpanjang].tglMakam;
+
+        } else {
+            infoJenazah.setAttribute('hidden', null);
+        }
+    }
+</script>

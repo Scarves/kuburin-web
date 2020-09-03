@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS  & Asset -->
+    <script src="/jquery"></script>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin-layout.css">
+
+
+    <title><%= title %> </title>
+  </head>
+  <% if (title == 'LOGIN') { %>
+   <body>
+        <%- body %>
+        <div class="row justify-content-center fixed-bottom">
+            Alfi Nurfazri 41816010007 - Naldi Nashih Ulwan 41816010064
+        </div>
+   </body>
+  <% } else {%>
+  <body >
+    <div class="container-fluid bg-success">
+        <div class="row row-cols-2 " id="height-row-layout">
+            <div class="col-2 " id="height-side-menu">
+                <div class="row justify-content-center align-items-center layout-profile-image ">
+                    <div class="bg-light profile-image"></div>
+                </div>
+                <div class="row layout-menu">
+                    <div class="col">
+                        <% if (adminType == 'tpu') { %>
+                            <a href="/admin-tpu">
+                                <button type="button" class="side-btn py-2 mb-3" id="dashboard">Dashboard</button>
+                            </a>
+                            <!-- <a href="/admin-tpu/data-makam">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataMakam">Data Makam</button>
+                            </a> -->
+                            <div class="btn-group side-btn-group mb-3">
+                                <button type="button" class="side-btn-item" id="btnPendaftaran" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Data Pendaftaran
+                                </button>
+                                <span class="btn-lg dropdown-toggle"></span>
+                                <div class="dropdown-menu side-btn-link" aria-labelledby="btnPendaftaran" id="dataPendaftar">
+                                    <a href="/admin-tpu/data-pendaftaran-baru" class="side-btn-link dropdown-item">Data Pendaftar Baru</a>
+                                    <hr>
+                                    <a href="/admin-tpu/data-pendaftaran-tumpang" class="side-btn-link dropdown-item">Data Pendaftar Tumpang Tindih</a>
+                                </div>
+                            </div>
+                            <a href="/admin-tpu/data-perpanjang">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataPerpanjang">Data Perpanjang</button>
+                            </a>
+                            <a href="/admin-tpu/data-nisan">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataNisan">Data Nisan</button>
+                            </a>
+                            <a href="/admin-tpu/data-pembayaran">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataPembayaran">Data Pembayaran</button>
+                            </a>
+                            <a href="/admin-tpu/data-pegawai">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataPegawai">Data Pegawai</button>
+                            </a>
+                            <a href="/admin-tpu/profile-tpu">
+                                <button type="button" class="side-btn py-2 mb-3" id="profileTpu">Profile TPU</button>
+                            </a>
+                            <a href="/admin-tpu/pesan">
+                                <button type="button" class="side-btn py-2 mb-3" id="pesan">Pesan</button>
+                            </a>
+                            <a href="/admin-tpu/logout/<%= kdAdmin %>">
+                                <button type="button" class="side-btn py-2 mb-3" id="Logout">Logout</button>
+                            </a>
+                        <% } else { %>
+                            <a href="/admin">
+                                <button type="button" class="side-btn py-2 mb-3" id="dashboard">Dashboard</button>
+                            </a>
+                            <a href="/admin/data-ahli-waris">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataAhliWaris">Data Ahli Waris</button>
+                            </a>
+                            <a href="/admin/data-tpu">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataTpu">Data TPU</button>
+                            </a>
+                            <a href="/admin/data-admin">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataAdmin">Data Admin</button>
+                            </a>
+                            <a href="/admin/data-nisan">
+                                <button type="button" class="side-btn py-2 mb-3" id="dataNisan">Data Nisan</button>
+                            </a>
+                            <a href="/admin/pesan">
+                                <button type="button" class="side-btn py-2 mb-3" id="pesan">Pesan</button>
+                            </a>
+                            <a href="/admin/logout">
+                                <button type="button" class="side-btn py-2 mb-3" id="Logout">Logout</button>
+                            </a>
+                        <% } %> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-10  bg-light" id="content-col">
+                <div class="row header-content ">
+                    <div class="col align-self-end">
+                        <div class="row " class="my-3">
+                            <div class="col ">
+                                <% if (title != null ) {  %>
+                                <h3 id="titleContent">
+                                    <%= title %> 
+                                </h3>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mb-2" id="search" hidden>
+                            <div class="col-2 ">
+                                <% if (search != null ) {  %>
+                                <div class="input-group">
+                                    <input type="text" id="inputSearch" class="form-control">
+                                    <button type="button" class="btn btn-outline-light" onclick="searchData()">Go</button>
+                                </div>
+                                <% } %>
+                            </div>
+                            <div class="col-4  text-right" id="actionBtn" hidden>
+                                <button type="button" id="tambahBtn" class="btn btn-outline-light mr-2">Tambah</button>
+                                <button type="button" id="ubahBtn" class="btn btn-outline-light mr-2">Ubah</button>
+                                <button type="button" id="cetakBtn" class="btn btn-outline-light mr-2">Cetak</button>
+                                <button type="button" id="hapusBtn" class="btn btn-outline-light">hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row content ">
+                    <%- body %> 
+                </div>
+                <div class="row footer-content justify-content-center">
+                    Alfi Nurfazri 41816010007 - Naldi Nashih Ulwan 41816010064
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+    <!-- <ul id="nav-bottom" class="nav justify-content-center">
+        <li class="nav-link">
+            Alfi Nurfazri 41816010007 - Naldi Nashih Ulwan 41816010064
+        </li>
+    </ul> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
+    <script src="/popper"></script>
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script src="/js/admin-layout.js"></script>
+    <script>
+        // var socket = io();
+    </script>
+  </body>
+  <% } %>
+</html>

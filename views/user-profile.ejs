@@ -1,0 +1,306 @@
+<div class="container">
+    <div class="row row-cols-3 profile-box " style="height: 100vh;">
+        <!-- COLUMN 1 -->
+        <div class="col-2 color-edge-profile py-4 " style="height: 100%;">
+            <div class="row justify-content-center mt-4 ">
+                <div class="col">
+                    <a href="/profile" class="btn btn-outline-light side-menu-profile visited-stat">
+                        Profile Ahli Waris
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2 ">
+                <div class="col">
+                    <a href="/akun" class="btn btn-outline-light side-menu-profile">
+                        Akun
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/perpanjang-makam" class="btn btn-outline-light side-menu-profile">
+                        Perpanjang Makam
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-pendaftaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pendaftaran
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-perpanjangan" class="btn btn-outline-light side-menu-profile ">
+                        Status Perpanjang
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/status-pembayaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="col-8 my-4 ">
+            <div class="row mb-4">
+                <div class="col text-left">
+                    <button id="kk" class="btn btn-outline-light btn-navbar mr-4" data-toggle="modal" data-target="#kkModal" onclick="getKk()">KK</button>
+                    <!-- MODAL KK -->
+                    <div class="modal " id="kkModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered " role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">FOTO KARTU KELUARGA</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class=" mx-auto" id="modalBodyKk">
+                                    <div class="spinner-border mx-auto" role="status" style="width: 10vh; height: 10vh; border-width: 24px;" id="loadingKk">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <div class="row" id="addGambarRow" hidden>
+                                        <div class="col align-self-center ">
+                                            <h6 class="">Pilih Gambar</h6>
+                                        </div>
+                                        <div class="col ">
+                                            <button type="button" id="addKk" class="btn btn-outline-success" onclick="addKk()">Masukkan Kartu Keluarga</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" id="modalFooter">
+                                    <div class="row row-cols-2 mx-auto" style="width: 100%;" id="updateKk" hidden>
+                                        <div class="col-6 ">
+                                            <form action="/add-kk" method="post" enctype="multipart/form-data">
+                                                <input type="file" id="ubahKkField" name="kkField" onchange="activateUbahBtn()" hidden>
+                                                <button type="button" class="btn btn-outline-success" onclick="ubahKk()" >Ubah Kartu Keluarga</button> <br>
+                                                <button type="submit" id="ubahKkBtn" class="btn btn-primary" hidden>Ubah KK</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-6 text-right ">
+                                            <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </div>
+                                    <form class="" action="/add-kk" method="post" enctype="multipart/form-data" id="addKkForm" hidden>
+                                        <input type="file" id="kkField" name="kkField" onchange="activateKkAddBtn()" hidden>
+                                        <button type="submit" id="simpanKkBtn" class="btn btn-primary" disabled>Simpan KK</button>
+                                        <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="ktp" class="btn btn-outline-light btn-navbar" data-toggle="modal" data-target="#ktpModal" onclick="getKtp()">KTP</button>
+                    <!-- MODAL KTP -->
+                    <div class="modal " id="ktpModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered " role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">FOTO KARTU TANDA PENDUDUK</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class=" mx-auto" id="modalBodyKtp">
+                                    <div class="spinner-border mx-auto" role="status" style="width: 10vh; height: 10vh; border-width: 24px;" id="loadingKtp">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <div class="row" id="addGambarRowKtp" hidden>
+                                        <div class="col align-self-center ">
+                                            <h6 class="">Pilih Gambar</h6>
+                                        </div>
+                                        <div class="col ">
+                                            <button type="button" id="addKtp" class="btn btn-outline-success" onclick="addKtp()">Masukkan Kartu Tanda Penduduk</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" id="modalFooter">
+                                    <div class="row row-cols-2 mx-auto" style="width: 100%;" id="updateKtp" hidden>
+                                        <div class="col-6 ">
+                                            <form action="/add-ktp" method="post" enctype="multipart/form-data">
+                                                <input type="file" id="ubahKtpField" name="ktpField" onchange="activateUbahKtpBtn()" hidden>
+                                                <button type="button" class="btn btn-outline-success" onclick="ubahKtp()" >Ubah Kartu Tanda Penduduk</button> <br>
+                                                <button type="submit" id="ubahKtpBtn" class="btn btn-primary" hidden>Ubah KTP</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-6 text-right ">
+                                            <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </div>
+                                    <form class="" action="/add-ktp" method="post" enctype="multipart/form-data" id="addKtpForm" hidden>
+                                        <input type="file" id="ktpField" name="ktpField" onchange="activateKtpAddBtn()" hidden>
+                                        <button type="submit" id="simpanKtpBtn" class="btn btn-primary" disabled>Simpan KTP</button>
+                                        <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>NIK Jenazah</th>
+                        <th>Blok</th>
+                        <th>Blad</th>
+                        <th>Petak</th>
+                        <th>Nama TPU</th>
+                        <th>Alamat</th>
+                        <th>Tanggal Kadaluarsa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% dataJenazah.forEach(jenazah => { %>
+                        <% var count = 1; %> 
+                        <tr>
+                            <td>
+                                <%= count %> 
+                            </td>
+                            <td>
+                                <%= jenazah.nik_jenazah %> 
+                            </td>
+                            <td>
+                                <%= jenazah.blok %> 
+                            </td>
+                            <td>
+                                <%= jenazah.blad %> 
+                            </td>
+                            <td>
+                                <%= jenazah.petak %> 
+                            </td>
+                            <td>
+                                <%= jenazah.nama_tpu %> 
+                            </td>
+                            <td>
+                                <%= jenazah.alamat %> 
+                            </td>
+                            <td>
+                                <%= jenazah.tgl_kadaluarsa %> 
+                            </td>
+                        </tr>
+                        <% count++; %> 
+                    <% }) %> 
+                </tbody>
+            </table>
+        </div>
+        <!-- COLUMN 3 -->
+        <div class="col-2 color-edge-profile ">
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    // KK
+    function addKk() {
+        document.getElementById('kkField').click();
+    }
+    
+
+    function activateKkAddBtn() {
+        var simpanKkBtn = document.getElementById('simpanKkBtn');
+        var addKkForm = document.getElementById('addKkForm');
+        if(!document.getElementById('kkField').value) {
+            simpanKkBtn.disabled = true;
+            addKkForm.hidden = true;
+        } else {
+            simpanKkBtn.disabled = false;
+            addKkForm.hidden = false;
+        }
+    }
+
+    function getKk() {
+        var modalKk = document.getElementById('modalBodyKk');
+        var image = document.createElement('img');
+        if(document.getElementById('gambarKk')) {
+            document.getElementById('gambarKk').remove();
+        }
+        console.log('ada isinya');
+        image.src = '/get-kk';
+        image.setAttribute('id', 'gambarKk');
+        image.style.width = '100%';
+        image.onerror = () => {
+            console.log('image error');
+            document.getElementById('addGambarRow').hidden = false;
+            modalKk.removeChild(image);
+        };
+        image.onload = () => {
+            document.getElementById('updateKk').hidden = false;
+        };
+        document.getElementById('loadingKk').hidden = true;
+        modalKk.appendChild(image);
+    }
+
+    function ubahKk() {
+        document.getElementById('ubahKkField').click();
+    }
+
+    function activateUbahBtn() {
+        var ubahKkBtn = document.getElementById('ubahKkBtn');
+        if(!document.getElementById('ubahKkField').value) {
+            ubahKkBtn.hidden = true;
+        } else {
+            ubahKkBtn.hidden = false;
+        }
+    }
+
+    // KTP
+    function addKtp() {
+        document.getElementById('ktpField').click();
+    }
+    
+
+    function activateKtpAddBtn() {
+        var simpanKtpBtn = document.getElementById('simpanKtpBtn');
+        var addKtpForm = document.getElementById('addKtpForm');
+        if(!document.getElementById('ktpField').value) {
+            simpanKtpBtn.disabled = true;
+            addKkForm.hidden = true;
+        } else {
+            simpanKtpBtn.disabled = false;
+            addKtpForm.hidden = false;
+        }
+    }
+
+    function getKtp() {
+        var modalKtp = document.getElementById('modalBodyKtp');
+        var image = document.createElement('img');
+        console.log('ada isinya');
+        if(document.getElementById('gambarKtp')) {
+            document.getElementById('gambarKtp').remove();
+        }
+        image.src = '/get-ktp';
+        image.setAttribute('id', 'gambarKtp');
+        image.style.width = '100%';
+        image.onerror = () => {
+            console.log('image error');
+            document.getElementById('addGambarRowKtp').hidden = false;
+            modalKtp.removeChild(image);
+        };
+        image.onload = () => {
+            document.getElementById('updateKtp').hidden = false;
+        };
+        document.getElementById('loadingKtp').hidden = true;
+        modalKtp.appendChild(image);
+    }
+
+    function ubahKtp() {
+        document.getElementById('ubahKtpField').click();
+    }
+
+    function activateUbahKtpBtn() {
+        var ubahKtpBtn = document.getElementById('ubahKtpBtn');
+        if(!document.getElementById('ubahKtpField').value) {
+            ubahKtpBtn.hidden = true;
+        } else {
+            ubahKtpBtn.hidden = false;
+        }
+    }
+</script>

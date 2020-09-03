@@ -1,0 +1,823 @@
+<table class="table bg-light" id="dataPerpanjanganTable">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                <input type="checkbox" id="boxAll" onchange="allCheckboxes()">
+            </th>
+            <th>
+                <b>Kode Daftar</b>
+            </th>
+            <th>
+                <b>Nama Jenazah</b>
+            </th>
+            <th>
+                <b>Kelamin</b>
+            </th>
+            <th>
+                <b>Agama Jenazah</b>
+            </th>
+            <th>
+                <b>Nama Ahli Waris</b>
+            </th>
+            <th>
+                <b>Tgl. Perpanjang</b>
+            </th>
+            <th>
+                <b>Status Perpanjangan</b>
+            </th>
+            <th>
+                <b>Kode Lokasi</b>
+            </th>
+            <th>
+                <b>Tgl. Kadaluarsa</b>
+            </th>
+            <th>
+                <b>Status Pembayaran</b>
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+    <!-- <tbody id="tpuValues">
+    </tbody> -->
+</table>
+<div class="row  mx-auto justify-content-center">
+    <div class="col text-center">
+        <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+        <span id="pageList"></span>
+        <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+    </div>
+</div>
+<script>
+
+
+    // Update IPTM trigger button
+    function iptmTriggerBtn(kdPerpanjang) {
+        document.getElementById('ubahIptm' + kdPerpanjang).click();
+    }
+    // Onchange update foto IPTM 
+    function updatingIptm(kdPerpanjang) {
+        document.getElementById('ubahIptm' + kdPerpanjang).name = 'ubahIptmPerpanjang';
+    }
+    
+    var dataPerpanjang = [];
+    <% dataPerpanjang.forEach(perpanjang => { %>
+        var perpanjangObj = {};
+        perpanjangObj.kdPerpanjang = '<%= perpanjang.kd_perpanjang %>';
+        perpanjangObj.kdDaftar = '<%= perpanjang.kd_daftar %>';
+        perpanjangObj.namaJenazah = '<%= perpanjang.nama_jenazah %>';
+        perpanjangObj.kelamin = '<%= perpanjang.kelamin %>';
+        perpanjangObj.agama = '<%= perpanjang.agama_jenazah %>';
+        perpanjangObj.namaAhli = '<%= perpanjang.nama_ahli %>';
+        perpanjangObj.tglPerpanjang = '<%= perpanjang.tgl_perpanjang %>';
+        perpanjangObj.kdLokasi = '<%= perpanjang.kd_lokasi %>';
+        perpanjangObj.tglKadaluarsa = '<%= perpanjang.tgl_kadaluarsa %>';
+        perpanjangObj.statusPembayaran = '<%= perpanjang.status_pembayaran %>';
+        perpanjangObj.tglWafat = '<%= perpanjang.tgl_wafat %>';
+        perpanjangObj.tglDaftar = '<%= perpanjang.tgl_daftar %>';
+        perpanjangObj.tglMakam = '<%= perpanjang.tgl_makam %>';
+        perpanjangObj.tglLahir = '<%= perpanjang.tgl_lahir %>';
+        perpanjangObj.tmptLahir = '<%= perpanjang.tmpt_lahir %>';
+        perpanjangObj.telp = '<%= perpanjang.telp %>';
+        perpanjangObj.blok = '<%= perpanjang.blok %>';
+        perpanjangObj.email = '<%= perpanjang.email %>';
+        perpanjangObj.blad = '<%= perpanjang.blad %>';
+        perpanjangObj.alamatJenazah = '<%= perpanjang.alamat_jenazah %>';
+        perpanjangObj.alamatAhli = '<%= perpanjang.alamat_ahli %>';
+        perpanjangObj.petak = '<%= perpanjang.petak %>';
+        perpanjangObj.statusPerpanjang = '<%= perpanjang.status_perpanjang %>';
+        dataPerpanjang.push(perpanjangObj);
+    <% }) %>
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+    
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        // var getPosition = document.getElementById('tpuValues');
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataPerpanjanganTable');
+        var pageList = document.getElementById('pageList');
+
+        // getPosition.innerHTML = '';
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            flushTbody(table, true);
+            emptyData = `
+                <h4 class="text-center text-secondary"> Data Tidak Ditemukan </h4>
+            `;
+        } else {
+            putData = dataPerpanjang;
+            emptyData = `
+                <h4 class="text-center text-secondary">Belum Ada Data Saat Ini </h4>
+            `;
+        }
+
+        // flush all tbodies || Coba letakkan flush sebelum count, jangan sebelum kondisi displaymode
+        flushTbody(table, false);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page1');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData(putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    // Search from data local
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' + keyword);
+        var result = dataPerpanjang.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaJenazah'].toLowerCase()) == true || regex.test(data['namaAhli'].toLowerCase()) == true || regex.test(data['kdDaftar'].toLowerCase()) == true) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+    
+
+    document.getElementById('dataPerpanjang').classList.add('menu-visited'); // On data TPU menu
+    document.getElementById('search').removeAttribute('hidden'); // Search bar visible
+    document.getElementById('actionBtn').removeAttribute('hidden'); // Action buttons visible
+
+    var actionButtons = document.getElementById('actionBtn');
+    // Applying link to print report / cetak button
+    const cetakBtn = actionButtons.children[2];
+    const linkCetak = document.createElement('a');
+    linkCetak.setAttribute('href', '/admin-tpu/cetak-data-perpanjang');
+    linkCetak.appendChild(cetakBtn);
+    actionButtons.insertBefore(linkCetak, document.getElementById('actionBtn').children[2]);
+    // Applying link to add pegawai / tambah button
+    const tambahBtn = actionButtons.children[0];
+    // tambahBtn.onclick = () => {$('#tambahPegawai').modal('show')};
+    tambahBtn.hidden = true;
+    // Applying link to delete pegawai / hapus button
+    const hapusBtn = actionButtons.children[3];
+    hapusBtn.setAttribute('disabled', '');
+    hapusBtn.setAttribute('onclick', 'removeData("/admin-tpu/hapus-data-perpanjang")');
+    // Applying link Modal Ubah into ubah button
+    const ubahBtn = actionButtons.children[1];
+    ubahBtn.setAttribute('disabled', '');
+    
+    function getFoto(kdPerpanjang, email, nik) {
+        var ktpField = document.getElementById('ktp' + kdPerpanjang);
+        var kkField = document.getElementById('kk' + kdPerpanjang);
+        var iptmField = document.getElementById('iptm' + kdPerpanjang);
+        var iptmFieldUbah = document.getElementById('ubahIptm' + kdPerpanjang);
+
+        // Get KTP Ahli Waris
+        ktpField.src = `/admin-tpu/foto-ktp-perpanjang/${email}/${nik}`;
+        ktpField.style.width = '100%';
+        ktpField.onerror = () => {
+            console.log('get ktp perpanjang error');
+        };
+        // Get KK Ahli Waris
+        kkField.src = `/admin-tpu/foto-kk-perpanjang/${email}/${nik}`;
+        kkField.style.width = '100%';
+        kkField.onerror = () => {
+            console.log('get ktp perpanjang error');
+        };
+        // Get IPTM Perpanjang
+        iptmField.src = `/admin-tpu/foto-iptm-perpanjang/${email}/${nik}`;
+        iptmField.style.width = '100%';
+        iptmField.onerror = () => {
+            console.log('get ktp perpanjang error');
+        };
+        // Get IPTM Perpanjang for form Ubah
+        // iptmFieldUbah.src = `/admin-tpu/foto-iptm-perpanjang/${email}/${nik}`;
+        // iptmFieldUbah.style.width = '100%';
+        // iptmFieldUbah.onerror = () => {
+        //     console.log('get ktp perpanjang error');
+        // };
+    }
+
+    // File Button trigger
+    function gantiIptmTrigger(kdPerpanjang) {
+        document.getElementById('gantiIptm' + kdPerpanjang).click();
+    }
+
+    function confirmIptmBtn(kdPerpanjang) {
+        var fileBtn = document.getElementById('gantiIptm' + kdPerpanjang);
+        var confirmBtn = document.getElementById('konfirmasi' + kdPerpanjang);
+        var image = document.getElementById('ubahIptm' + kdPerpanjang);
+        confirmBtn.hidden = false;
+        // image.src = fileBtn.value;
+        var oldName = fileBtn.files[0].name;
+        var getDot = oldName.lastIndexOf('.');
+        var ext = oldName.substring(getDot + 1);
+        newName = 'hahaha.' + ext;
+        console.log('nama filenya ', newName);
+        oldName = newName;
+    }
+
+    function setStatPembayaran(kdPerpanjang, stat) {
+        console.log('trigger set statPem');
+        if(stat == 'true') {
+            document.getElementById('dibayar' + kdPerpanjang).selected = true;
+        } else {
+            document.getElementById('belumBayar' + kdPerpanjang).selected = true;
+        }
+    }
+    
+    function rowsOfData(perpanjang) {
+        return `
+            <tr>
+                <td><input type="checkbox" 
+                        name="checkbox${perpanjang.kdPerpanjang}" 
+                        id="checkbox${perpanjang.kdPerpanjang}" 
+                        class="checkbox" 
+                        onchange="isCheckedPerpanjang('${perpanjang.kdPerpanjang}', '${perpanjang.email}', '${perpanjang.kdDaftar}', '${perpanjang.statusPembayaran}')">
+                </td>
+                <td>${perpanjang.kdDaftar}</td>
+                <td>${perpanjang.namaJenazah}</td>
+                <td>${perpanjang.kelamin}</td>
+                <td>${perpanjang.agama}</td>
+                <td>${perpanjang.namaAhli}</td>
+                <td>${perpanjang.tglPerpanjang}</td>
+                <td>${perpanjang.statusPerpanjang}</td>
+                <td>${perpanjang.kdLokasi}</td>
+                <td>${perpanjang.tglKadaluarsa}</td>
+                <td>${perpanjang.statusPerpanjang}</td>
+                <td class="text-right">
+                    
+                    <a href="#" class="no-underline">
+                        <button class="btn menu-visited btn-info" data-toggle="modal" data-target="#lihat${perpanjang.kdPerpanjang}"
+                            onclick="getFoto('${perpanjang.kdPerpanjang}', '${perpanjang.email}', '${perpanjang.kdDaftar}')">
+                            Lihat Selengkapnya
+                        </button>
+                    </a>
+                    <!-- Modal Lihat -->
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="lihat${perpanjang.kdPerpanjang}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content lihat-modal">
+                                <h4 class="text-center">
+                                    <b>
+                                        Data Perpanjang
+                                    </b>
+                                </h4>
+                                <p class="text-center">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                </p>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Nama Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        NIK Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Wafat
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.namaJenazah}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.kdDaftar}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.tglWafat}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Kelamin Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Daftar
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Makam
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.kelamin}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.tglDaftar}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.tglMakam}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Lahir
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Nama Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Kadaluarsa
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.tglLahir}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.namaAhli}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.tglKadaluarsa}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tempat Lahir
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        No. Telepon
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Blok
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.tmptLahir}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.telp}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.blok}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Agama Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Email
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Blad
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.agama}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.email}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.blad}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Alamat Jenazah
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Alamat Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Petak
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.alamatJenazah}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.alamatAhli}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.petak}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        Tanggal Perpanjang
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Status Perpanjang
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        Status Pembayaran
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col text-left">
+                                        ${perpanjang.tglPerpanjang}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.statusPerpanjang}
+                                        <hr class="bg-info">
+                                    </div>
+                                    <div class="col text-left">
+                                        ${perpanjang.statusPembayaran == 'true' ? 'Dibayar' : 'Menunggu Pembayaran'}
+                                        <hr class="bg-info">
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="col text-left title-modal-color">
+                                        KTP Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        KK Ahli Waris
+                                    </div>
+                                    <div class="col text-left title-modal-color">
+                                        IPTM Asli
+                                    </div>
+                                </div>
+                                <div class="row mx-4 mb-3">
+                                    <div class="col"> 
+                                        <img src="" id="ktp${perpanjang.kdPerpanjang}" />
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="kk${perpanjang.kdPerpanjang}" />
+                                    </div>
+                                    <div class="col"> 
+                                        <img src="" id="iptm${perpanjang.kdPerpanjang}" />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col text-right px-4">
+                                        <button class="btn btn-secondary mx-4" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- modal ubah --!>
+                    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ubahModal" aria-hidden="true" id="ubahPerpanjang${perpanjang.kdPerpanjang}">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <form action="update-perpanjang" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="ubahPerpanjangNik" value="${perpanjang.kdDaftar.trim()}">
+                            <input type="hidden" name="ubahKdPerpanjang" value="${perpanjang.kdPerpanjang.trim()}">
+                            <div class="modal-content lihat-modal">
+                                <div class="row" >
+                                    <div class="col-8">
+                                        <h4 class="text-center">
+                                            <b>
+                                                Ubah Data Perpanjang
+                                            </b>
+                                        </h4>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Nama Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                NIK Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Wafat
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.namaJenazah}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.kdDaftar}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.tglWafat}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Kelamin Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Daftar
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Makam
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.kelamin}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.tglDaftar}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.tglMakam}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Lahir
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Nama Ahli Waris
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Kadaluarsa
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.tglLahir}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.namaAhli}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.tglKadaluarsa}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tempat Lahir
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                No. Telepon
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Blok
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.tmptLahir}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.telp}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.blok}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Agama Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Email
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Blad
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.agama}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.email}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.blad}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Alamat Jenazah
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Alamat Ahli Waris
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Petak
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.alamatJenazah}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.alamatAhli}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                ${perpanjang.petak}
+                                                <hr class="bg-info">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                IPTM
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                <button type="button" class="btn btn-info" onclick="iptmTriggerBtn('${perpanjang.kdPerpanjang.trim()}')">Pilih</button>
+                                                <input type="file" id="ubahIptm${perpanjang.kdPerpanjang.trim()}" onchange="updatingIptm('${perpanjang.kdPerpanjang.trim()}')" hidden>
+                                            </div>
+                                            <div class="col text-left">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        <div class="row mx-4">&nbsp;</div>
+                                        
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Tanggal Perpanjang
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.tglPerpanjang}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">
+                                            <div class="col text-left title-modal-color">
+                                                Status Perpanjang
+                                            </div>
+                                            <div class="col text-left title-modal-color">
+                                                Status Pembayaran
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4 mb-3">
+                                            <div class="col text-left">
+                                                ${perpanjang.tglPerpanjang}
+                                                <hr class="bg-info">
+                                            </div>
+                                            <div class="col text-left">
+                                                <select class="form-control" name="ubahStatusPembayaran" id="ubahStatusPembayaran${perpanjang.kdPerpanjang.trim()}">
+                                                    <option>Pilih</option>
+                                                    <option id="dibayar${perpanjang.kdPerpanjang.trim()}" value="true">Dibayar</option>
+                                                    <option id="belumBayar${perpanjang.kdPerpanjang.trim()}" value="false">Belum Dibayar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-4">&nbsp;</div>
+
+                                        <div class="row mb-3">
+                                            <div class="col text-right px-4">
+                                                <button type="submit" class="btn btn-info">Ubah</button>
+                                            </div>
+                                            <div class="col text-right px-4">
+                                                <button type="cancel" class="btn btn-secondary mx-4" data-dismiss="modal">Batal</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+
+                </td>
+            </tr>
+        `;
+        count++;
+    }
+</script>

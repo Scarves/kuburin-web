@@ -1,0 +1,107 @@
+<div class="" style="width: 100%; padding-left: 10%; padding-right: 10%;">
+    <div class="row row-cols-3 profile-box mx-auto" style="height: 100vh;">
+        <!-- COLUMN 1 -->
+        <div class="col-2 color-edge-profile py-4 " style="height: 100%;">
+            <div class="row justify-content-center mt-4 ">
+                <div class="col">
+                    <a href="/profile" class="btn btn-outline-light side-menu-profile">
+                        Profile Ahli Waris
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2 ">
+                <div class="col">
+                    <a href="/akun" class="btn btn-outline-light side-menu-profile">
+                        Akun
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/perpanjang-makam" class="btn btn-outline-light side-menu-profile">
+                        Perpanjang Makam
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-pendaftaran" class="btn btn-outline-light side-menu-profile ">
+                        Status Pendaftaran
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-perpanjangan" class="btn btn-outline-light side-menu-profile ">
+                        Status Perpanjang
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/status-pembayaran" class="btn btn-outline-light side-menu-profile visited-stat">
+                        Status Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="col-8 my-4 ">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>No.Pembayaran</th>
+                        <th>Nama Pembayaran</th>
+                        <th>Metode Pembayaran</th>
+                        <th>Jumlah Pembayaran</th>
+                        <th>Status Pembayaran</th>
+                        <th>Tanggal Pembayaran</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% var count = 1; %> 
+                    <% dataTransaksi.forEach(transaksi => { %>
+                        <tr>
+                            <td>
+                                <%= count %> 
+                            </td>
+                            <td>
+                                <%= transaksi.kd_pembayaran %> 
+                            </td>
+                            <td>
+                                <%= transaksi.nama_pembayaran %> 
+                            </td>
+                            <td>
+                                <%= transaksi.metode_pembayaran %> 
+                            </td>
+                            <td>
+                                <%= transaksi.jumlah_bayar %> 
+                            </td>
+                            <td>
+                                <%= transaksi.status_pembayaran %> 
+                            </td>
+                            <td>
+                                <%= transaksi.tgl_pembayaran %> 
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <span class="badge badge-success">Cetak</span>
+                                </a>
+                            </td>
+                        </tr>
+                        <% count++; %> 
+                    <% }) %> 
+                </tbody>
+            </table>
+        </div>
+        <!-- COLUMN 3 -->
+        <div class="col-2 color-edge-profile ">
+            
+        </div>
+    </div>
+</div>
+
+<script>
+</script>

@@ -1,0 +1,184 @@
+<table class="table bg-light">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                <b>No</b>
+            </th>
+            <th>
+                <b>Kode Ahli Waris</b>
+            </th>
+            <th>
+                <b>Nama Depan</b>
+            </th>
+            <th>
+                <b>Nama Belakang</b>
+            </th>
+            <th>
+                <b>NIK</b>
+            </th>
+            <th>
+                <b>Terakhir Login</b>
+            </th>
+            <th>
+                <input type="checkbox" name="allItems" id="allItems">
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody id="ahliWarisValues">
+    </tbody>
+</table>
+<script>
+    
+    var dataAhliWaris = [];
+    <% dataAhliWaris.forEach(waris => { %>
+        var ahliWarisObj = {};
+        ahliWarisObj.kodeAhliWaris = '<%= waris.kode_ahli_waris %>';
+        ahliWarisObj.namaDepan = '<%= waris.nama_depan %>';
+        ahliWarisObj.namaBelakang = '<%= waris.nama_belakang %>';
+        ahliWarisObj.nik = '<%= waris.nik %>';
+        ahliWarisObj.terakhirLogin = '<%= waris.terakhir_login %>';
+        ahliWarisObj.noKk = '<%= waris.no_kk %>';
+        ahliWarisObj.jenisKelamin = '<%= waris.jenis_kelamin %>';
+        ahliWarisObj.email = '<%= waris.email %>';
+        ahliWarisObj.alamat = '<%= waris.alamat %>';
+        ahliWarisObj.kelurahan = '<%= waris.kelurahan %>';
+        ahliWarisObj.kodePos = '<%= waris.kode_pos %>';
+        ahliWarisObj.kecamatan = '<%= waris.kecamatan %>';
+        ahliWarisObj.kotkab = '<%= waris.kotkab %>';
+        ahliWarisObj.provinsi = '<%= waris.provinsi %>';
+        ahliWarisObj.tglRegist = '<%= waris.tgl_regist %>';
+        ahliWarisObj.telp = '<%= waris.telp %>';
+        dataAhliWaris.push(ahliWarisObj);
+    <% }) %>
+    // console.table(dataAhliWaris);
+    // var copyOfData = JSON.parse(JSON.stringify(dataAhliWaris));
+
+    displayData('','');
+
+    function displayData(displayMode, searchResult){
+        var getPosition = document.getElementById('ahliWarisValues');
+        var putData;
+
+        getPosition.innerHTML = '';
+        if(displayMode == 'search') {
+            putData = searchResult;
+        } else {
+            putData = dataAhliWaris;
+        }
+        // Put data to page
+        var count = 1;
+        putData.forEach(ahliWaris => {
+            var tableRow = document.createElement('tr');
+            var dataCount = document.createElement('td');
+            var dataKodeAhliWaris = document.createElement('td');
+            var dataNamaDepan = document.createElement('td');
+            var dataNamaBelakang = document.createElement('td');
+            var dataNik = document.createElement('td');
+            var dataTerakhirLogin = document.createElement('td');
+            var dataCheckBox = document.createElement('td');
+            var dataBtnLihat = document.createElement('td');
+
+            var checkBox = document.createElement('input');
+            var linkBtnLihat = document.createElement('a');
+            var btnLihat = document.createElement('button');
+
+            checkBox.setAttribute('type', 'checkbox');
+            checkBox.setAttribute('id', ahliWaris.kodeAhliWaris);
+            linkBtnLihat.setAttribute('href', '#');
+            btnLihat.setAttribute('class', 'btn menu-visited btn-info');
+
+            dataCount.innerHTML = count;
+            dataKodeAhliWaris.innerHTML = ahliWaris.kodeAhliWaris;
+            dataNamaDepan.innerHTML = ahliWaris.namaDepan;
+            dataNamaBelakang.innerHTML = ahliWaris.namaBelakang;
+            dataNik.innerHTML = ahliWaris.nik;
+            dataTerakhirLogin.innerHTML = ahliWaris.terakhirLogin;
+            btnLihat.innerHTML = 'LIHAT';
+
+            dataCheckBox.appendChild(checkBox);
+            linkBtnLihat.appendChild(btnLihat);
+            dataBtnLihat.appendChild(linkBtnLihat);
+
+            tableRow.appendChild(dataCount);
+            tableRow.appendChild(dataKodeAhliWaris);
+            tableRow.appendChild(dataNamaDepan);
+            tableRow.appendChild(dataNamaBelakang);
+            tableRow.appendChild(dataNik);
+            tableRow.appendChild(dataTerakhirLogin);
+            tableRow.appendChild(dataCheckBox);
+            tableRow.appendChild(dataBtnLihat);
+            getPosition.appendChild(tableRow);
+        })
+    }
+
+
+    // Search from data local
+        function searchData() {
+            var keyword = document.getElementById('inputSearch').value;
+            console.log('valuenya ' + keyword);
+            var ccc = dataAhliWaris.filter(data => {
+                var regex = RegExp(keyword, 'g');
+                if(regex.test(data['namaDepan']) == true) {
+                    return data;
+                }
+
+            });
+            console.log(ccc);
+            displayData('search', ccc);
+        }
+
+    var getJenazah = (kdAhliWaris) => new Promise((resolve, reject) => {
+        var count = 1;
+        var jenazahTable = document.getElementById(`jenazahTable${kdAhliWaris}`);
+        
+        jenazahTable.innerHTML = '';
+        fetch(`/admin/get-data-jenazah/${kdAhliWaris}`)
+            .then(data => {
+                return data.json();
+            })
+            .then(data => {
+                console.log('data jenazah ');
+                console.table(data);
+                jenazahTable.innerHTML = ` 
+                    <table class="mx-auto table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIK Jenazah</th>
+                                <th>Nama Jenazah</th>
+                                <th>Nama TPU</th>
+                                <th>Blok</th>
+                                <th>Blad</th>
+                                <th>Petak</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jenazahValues${kdAhliWaris}">
+
+                        </tbody>
+                    </table>
+                `;
+                var jenazahValue = document.getElementById(`jenazahValues${kdAhliWaris}`);
+                data.forEach(jenazah => {
+                    console.log('niknya : ', jenazah.nik_jenazah);
+                        jenazahValue.innerHTML += `
+                        <tr>
+                            <td>${count}</td>
+                            <td>${jenazah.nik_jenazah}</td>
+                            <td>${jenazah.nama_jenazah}</td>
+                            <td>${jenazah.nama_tpu}</td>
+                            <td>${jenazah.blok}</td>
+                            <td>${jenazah.blad}</td>
+                            <td>${jenazah.petak}</td>
+                        </tr>
+                        `;
+                    count++;
+                });
+            })
+            .catch(error => console.error(error));
+    });
+    document.getElementById('dataAhliWaris').classList.add('menu-visited');
+    document.getElementById('search').removeAttribute('hidden');
+</script>

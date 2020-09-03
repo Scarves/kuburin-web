@@ -1,0 +1,336 @@
+<div class="container ">
+    <div class="row justify-content-center my-4 ">
+        <h1 class="">Rekomendasi TPU</h1>
+    </div>
+    <div class="row justify-content-center my-4 pb-4">
+        <div class="col-12 py-3 my-4 rounded" id="columnContent">
+            <!-- <div class="row row-cols-3" id="rowContent"> -->
+                <!-- <div class="col mb-1 border"> -->
+                    
+                <!-- </div> -->
+            <!-- </div> -->
+        </div>
+        <div class="row  mx-auto justify-content-center">
+
+            <div class="col text-center">
+                <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+                <span id="pageList"></span>
+                <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    console.log('<%= userLoc.longtitude %>');
+    var listTpu = [];
+    <% listTpu.forEach(tpu => { %>
+        var tpuObj = {};
+        tpuObj.kdTpu = '<%= tpu.kd_tpu %>';
+        tpuObj.namaTpu = '<%= tpu.nama_tpu %>';
+        tpuObj.blok = '<%= tpu.blok %>';
+        tpuObj.harga = <%= tpu.harga %>;
+        tpuObj.longtitude = <%= tpu.longtitude %>;
+        tpuObj.latitude = <%= tpu.latitude %>;
+        tpuObj.jumlahPetak = <%= tpu.jumlah_petak %>;
+        tpuObj.blad = <%= tpu.jumlah_petak %> / 200;
+        tpuObj.alamat = '<%= tpu.alamat %>';
+        tpuObj.candidateBlad = <%= tpu.candidate_blad %>;
+        tpuObj.candidatePetak = <%= tpu.candidate_petak %>;
+        listTpu.push(tpuObj);
+    <% }) %>
+
+    displayData('','');
+
+    // function flushTbody(table, minus) {
+    //     if(table.tBodies) {
+    //         var tbodiesLength = table.tBodies.length;
+    //         if(minus == true) { tbodiesLength--; };
+    //         console.log('length tb ', tbodiesLength);
+    //         document.getElementById('pageList').innerHTML = '';
+    //         for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+    //             table.tBodies[countTbodies].remove();
+
+    //         }
+    //     }
+    // }
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        var putData, emptyData;
+        var contentPerPage = 6; // Set your content per page here
+        var columnContent = document.getElementById('columnContent');
+        var pageList = document.getElementById('pageList');
+
+        // flush all tbodies
+        // flushTbody(table, false);
+        // Define wheter its to display search or not
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            // flushTbody(table, true);
+        } else {
+            // Put main content obj
+            putData = listTpu;
+        }
+        // flushTbody(table, true);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataRow = document.createElement('div');
+            noDataRow.setAttribute('class', 'row row-cols-3');
+            noDataRow.setAttribute('id', 'page1');
+            noDataRow.innerHTML = `
+                <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+            `;
+            rowContent.appendChild(noDataColumn);
+        }
+        
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+            // Setup base layer per page
+            var row = document.createElement('div');
+            row.setAttribute('class', 'row row-cols-3 ');
+            // Setup your pagination button here
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+            // Button pages logic
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            row.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                row.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // Put Content here
+                row.innerHTML += rowsOfData((getIndex + 1), putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            columnContent.appendChild(row);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    function rowsOfData(count, tpu) {
+        var content = `
+            <div class="col-4 mb-2 ">
+                <div class="box-tpu">
+                    <div class="row justify-content-center my3">
+                        <h5 id="namaTpu">${tpu.namaTpu}</h5>
+                    </div>
+                    <div class="row px-4 my-2">
+                        Alamat : &nbsp;
+                        <span id="alamat">${tpu.alamat}</span>
+                    </div>
+                    <div class="row row-cols-2 px-4">
+                        <div class="col">
+                            <a href="" data-toggle="modal" data-target="#map${tpu.kdTpu}" onclick="viewMap('${tpu.kdTpu}', '<%= userLoc.latitude %>', '<%= userLoc.longtitude %>', ${tpu.latitude}, ${tpu.longtitude})">
+                                <img src="/web-images/map-icon.png" alt="map icon" width="130" height="130">
+                            </a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="map${tpu.kdTpu}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">TPU ${tpu.namaTpu}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="" style="height: 612px;" id="viewMap${tpu.kdTpu}">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <table>
+                                <div class="row row-cols-2">
+                                    <div class="col">Blok :</div>
+                                    <div class="col">${tpu.blok}</div>
+                                </div>
+                                <div class="row row-cols-2">
+                                    <div class="col">blad :</div>
+                                    <div class="col"> ${tpu.blad}</div>
+                                </div>
+                                <div class="row row-cols-2">
+                                    <div class="col">Petak :</div>
+                                    <div class="col">${tpu.jumlahPetak}</div>
+                                </div>
+                                <div class="row row-cols-2">
+                                    <div class="col">Harga :</div>
+                                    <div class="col">${tpu.harga}</div>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row px-4 my-3">
+                        <button type="button" class="btn btn-outline-info form-control text-center" data-toggle="modal" data-target="#informasi${tpu.kdTpu}">Pilih</button>
+                        <!-- Modal Informasi Sewa Makam -->
+                        <div class="modal " id="informasi${tpu.kdTpu}" tabindex="-1" role="dialog" aria-labelledby="informasiModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered " role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Keterangan Penyewaan</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="modalBody">
+                                        <div class="row row-cols-2 text-left">
+                                            <div class="col">
+                                                <b>
+                                                    Nama TPU :
+                                                </b>
+                                            </div>
+                                            <div class="col">
+                                                ${tpu.namaTpu}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <b>
+                                                    Blok :
+                                                </b>
+                                            </div>
+                                            <div class="col">
+                                                ${tpu.blok}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <b>
+                                                    Harga :
+                                                </b>
+                                            </div>
+                                            <div class="col">
+                                                ${tpu.harga}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <b>
+                                                    No. Blad Disewa :
+                                                </b>
+                                            </div>
+                                            <div class="col">
+                                                ${tpu.candidateBlad}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <b>
+                                                    No. Petak Disewa :
+                                                </b>
+                                            </div>
+                                            <div class="col">
+                                                ${tpu.candidatePetak}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" id="modalFooter">
+                                        <form action="/sewa-makam-baru" method="post">
+                                            <input type="text" name="nikJenazah" id="nikJenazah" value="<%= makamCriteria.nikJenazah %>" hidden>
+                                            <input type="text" name="agamaJenazah" id="agamaJenazah" value="<%= makamCriteria.agamaJenazah %>" hidden>
+                                            <input type="text" name="blokJenazah" id="blokJenazah" value="<%= makamCriteria.blok %>" hidden>
+                                            <input type="text" name="hargaMakam" id="hargaMakam" value="${tpu.harga}" hidden>
+                                            <input type="text" name="selectedTpu" id="selectedTpu" value="${tpu.kdTpu}" hidden>
+                                            <input type="text" name="newBlad" id="newBlad" value="${tpu.candidateBlad}" hidden>
+                                            <input type="text" name="newPetak" id="newPetak" value="${tpu.candidatePetak}" hidden>
+                                            <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Pilh TPU</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        return content;
+    }
+
+    // GIS
+    function viewMap(idElement, fromLat, fromLong, toLat, toLong) {
+        setTimeout(() => {
+            var mymap = L.map('viewMap' + idElement);
+            var fromPoint = L.latLng(fromLat, fromLong);
+            var toPoint = L.latLng(toLat, toLong);
+            console.log('jaraknya ', fromPoint.distanceTo(toPoint) / 1000);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                tileSize: 512,
+                zoomOffset: -1
+            }).addTo(mymap);
+
+            L.Routing.control({
+                waypoints: [
+                    fromPoint,
+                    toPoint
+                ]
+            }).on('routesfound', (e) => {
+                var routes = e.routes;
+                console.log('jarak route, ', routes[0].summary.totalDistance);
+            }).addTo(mymap);
+        }, 1000);
+    }
+
+    function getNewMakam(kdTpu, blok) {
+        // fetch()
+    }
+</script>

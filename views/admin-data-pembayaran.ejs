@@ -1,0 +1,239 @@
+<table class="table bg-light" id="dataPembayaranTable">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                No.
+            </th>
+            <th>
+                <b>Kode Pembayaran</b>
+            </th>
+            <th>
+                <b>Nama Pembayaran</b>
+            </th>
+            <th>
+                <b>Metode Pembayaran</b>
+            </th>
+            <th>
+                <b>Status Pembayaran</b>
+            </th>
+            <th>
+                <b>Tgl. Pembayaran</b>
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+    <!-- <tbody id="tpuValues">
+    </tbody> -->
+</table>
+<div class="row  mx-auto justify-content-center">
+    <div class="col text-center">
+        <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+        <span id="pageList"></span>
+        <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+    </div>
+</div>
+<script>
+    
+    var dataPembayaran = [];
+    <% dataPembayaran.forEach(pembayaran => { %>
+        var pembayaranObj = {};
+        pembayaranObj.kdPembayaran = '<%= pembayaran.kd_pembayaran %>';
+        pembayaranObj.namaPembayaran = '<%= pembayaran.nama_pembayaran %>';
+        pembayaranObj.metodePembayaran = '<%= pembayaran.metode_pembayaran %>';
+        pembayaranObj.statusPembayaran = '<%= pembayaran.status_pembayaran %>';
+        pembayaranObj.tglPembayaran = '<%= pembayaran.tgl_pembayaran %>';
+        dataPembayaran.push(pembayaranObj);
+    <% }) %>
+
+    console.table(dataPembayaran);
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+    
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        // var getPosition = document.getElementById('tpuValues');
+        var putData, emptyData;
+        var contentPerPage = 10; // Set your content per page here
+        var table = document.getElementById('dataPembayaranTable');
+        var pageList = document.getElementById('pageList');
+
+        // getPosition.innerHTML = '';
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            flushTbody(table, true);
+            emptyData = `
+                <h4 class="text-center text-secondary"> Data Tidak Ditemukan </h4>
+            `;
+        } else {
+            putData = dataPembayaran;
+            emptyData = `
+                <h4 class="text-center text-secondary">Belum Ada Data Saat Ini </h4>
+            `;
+        }
+
+        // flush all tbodies || Coba letakkan flush sebelum count, jangan sebelum kondisi displaymode
+        flushTbody(table, false);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataTbody = document.createElement('tbody');
+            noDataTbody.setAttribute('id', 'page1');
+            noDataTbody.innerHTML = `
+                <tr>
+                    <td colspan="8">
+                        <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+                    </td>
+                </tr>
+            `;
+            table.appendChild(noDataTbody);
+        }
+
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var tbody = document.createElement('tbody');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            tbody.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                tbody.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                tbody.innerHTML += rowsOfData(count, putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            table.appendChild(tbody);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    // Search from data local
+    function searchData() {
+        var keyword = document.getElementById('inputSearch').value;
+        console.log('valuenya ' + keyword);
+        var result = dataPembayaran.filter(data => {
+            var regex = RegExp(keyword.toLowerCase(), 'g');
+            if(regex.test(data['namaPembayaran'].toLowerCase()) == true || regex.test(data['kdPembayaran'].toLowerCase()) == true) {
+                return data;
+            }
+
+        });
+        console.log(result);
+        displayData('search', result);
+    }
+
+    
+
+    document.getElementById('dataPembayaran').classList.add('menu-visited'); // On data TPU menu
+    document.getElementById('search').removeAttribute('hidden'); // Search bar visible
+    document.getElementById('actionBtn').removeAttribute('hidden'); // Action buttons visible
+
+    var actionButtons = document.getElementById('actionBtn');
+    // Applying link to print report / cetak button
+    const cetakBtn = actionButtons.children[2];
+    const linkCetak = document.createElement('a');
+    linkCetak.setAttribute('href', '/admin-tpu/cetak-data-pembayaran');
+    linkCetak.appendChild(cetakBtn);
+    actionButtons.insertBefore(linkCetak, document.getElementById('actionBtn').children[2]);
+    // Applying link to add pegawai / tambah button
+    const tambahBtn = actionButtons.children[0];
+    tambahBtn.hidden = true;
+    // tambahBtn.onclick = () => {$('#tambahPegawai').modal('show')};
+    // Applying link to delete pegawai / hapus button
+    const hapusBtn = actionButtons.children[3];
+    hapusBtn.hidden = true;
+    // hapusBtn.setAttribute('disabled', '');
+    // hapusBtn.setAttribute('onclick', 'removeData("/admin-tpu/hapus-data-pegawai")');
+    // Applying link Modal Ubah into ubah button
+    const ubahBtn = actionButtons.children[1];
+    ubahBtn.hidden = true;
+    // ubahBtn.setAttribute('disabled', '');
+    
+    
+    function rowsOfData(count, pembayaran) {
+        return `
+            <tr>
+                <td>${count}</td>
+                <td>${pembayaran.kdPembayaran}</td>
+                <td>${pembayaran.namaPembayaran}</td>
+                <td>${pembayaran.metodePembayaran}</td>
+                <td>${pembayaran.statusPembayaran}</td>
+                <td>${pembayaran.tglPembayaran}</td>
+            </tr>
+        `;
+    }
+</script>

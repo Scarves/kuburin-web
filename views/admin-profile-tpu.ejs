@@ -1,0 +1,190 @@
+<div class="container-fluid my-4 py-4" style="overflow-y: auto; max-height: 80vh;">
+    <!-- <form action="/admin-tpu/profile-tpu" method="post">
+    <input type="hidden" name="nikKepala" value="<%= dataTpu.nik_kepala %>">
+    <input type="hidden" name="kdTpu" value="<%= dataTpu.kd_tpu %>">
+    <div class="row">
+        <div class="col ">
+            <label for="kodeTpu">Kode TPU</label>
+            <span class="form-control" name="kodeTpu"><%= dataTpu.kd_tpu %> </span>
+        </div>
+        <div class="col">
+            <label for="namaTpu">Nama TPU</label>
+            <input type="text" class="form-control" name="namaTpu" value="<%= dataTpu.nama_tpu %>" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <label for="namaKepalaTpu">Nama Depan Kepala TPU</label>
+            <input type="text" class="form-control" name="namaDepanKepalTpu" value="<%= dataTpu.nama_depan_kepala %>" required>
+        </div>
+        <div class="col">
+            <label for="namaKepalaTpu">Nama Belakang Kepala TPU</label>
+            <input type="text" class="form-control" name="namaBelakangKepalTpu" value="<%= dataTpu.nama_belakang_kepala %>" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col ">
+            <label for="alamatTpu">Alamat TPU</label>
+            <textarea name="alamatTpu" class="textarea-tpu form-control" required><%= dataTpu.alamat_tpu %></textarea>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col ">
+            <label for="kodeTpu">Luas TPU</label>
+            <input type="text" class="form-control" name="luasTpu" value="<%= dataTpu.luas_tpu %>" required>
+        </div>
+        <div class="col">
+            <label for="namaTpu">Jumlah Admin</label>
+            <input type="text" class="form-control" name="jumlahAdmin" value="<%= dataTpu.jumlah_admin %>" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col ">
+            <label for="jumlahMakam">Jumlah Makam</label>
+            <input type="text" class="form-control" name="jumlahMakam" value="<%= dataTpu.jumlah_makam %>" required>
+        </div>
+        <div class="col">
+            <label for="jumlahPetak">JumlahPetak</label>
+            <input type="text" class="form-control" name="jumlahPetak" value="<%= dataTpu.jumlah_petak %>" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col ">
+            <label for="jumlahBlok">Jumlah Blok</label>
+            <input type="text" class="form-control" name="jumlahBlok" value="<%= dataTpu.jumlah_blok %>" required>
+        </div>
+        <div class="col">
+            <label for="jumlahPegawai">Jumlah Pegawai</label>
+            <input type="text" class="form-control" name="jumlahPegawai" value="<%= dataTpu.jumlah_pegawai %>" required>
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center">
+        <button type="submit" class="mx-auto btn btn-primary">Ubah</button>
+    </div>
+    </form> -->
+    <form action="/admin-tpu/profile-tpu" method="post">
+        <input type="text" name="kdTpu" value="<%= dataTpu.kd_tpu %>" hidden />
+        <input type="text" name="ubahNikKepala" value="<%= dataTpu.nik_kepala_tpu %>" hidden />
+        <div class="row mx-4 mb-3 text-left">
+            <div class="col">
+                <label for="kodeTpu">
+                    Kode TPU
+                </label>
+                <b class="row ml-3">
+                    <%= dataTpu.kd_tpu %>
+                </b>
+            </div>
+        </div>
+        <div class="row mx-4 mb-3 px-3">
+            <label for="namaTpu">
+                Nama TPU
+            </label>
+            <input type="text" class="form-control" name="ubahNamaTpu" value="<%= dataTpu.nama_tpu %>" required>
+        </div>
+        <div class="row mx-4 mb-3 px-3">
+            <label for="nikKepala">
+                NIK Kepala TPU
+            </label>
+            <input type="text" class="form-control" name="ubahNewNikKepala" value="<%= dataTpu.nik_kepala_tpu %>" required>
+        </div>
+        <div class="row mx-4 mb-3 text-left">
+            <div class="col">
+                <label for="namaKepalaTpu">
+                    Nama Depan Kepala TPU
+                </label>
+                <input type="text" class="form-control" name="ubahNamaDepanKepalaTpu" value="<%= dataTpu.nama_depan_kepala %>" required>
+            </div>
+            <div class="col">
+                <label for="namaKepalaTpu">
+                    Nama Belakang Kepala TPU
+                </label>
+                <input type="text" class="form-control" name="ubahNamaBelakangKepalaTpu" value="<%= dataTpu.nama_belakang_kepala %>" required>
+            </div>
+        </div>
+        <div class="row mx-4 mb-3 px-3">
+            <label for="alamatTpu">
+                Alamat
+            </label>
+            <input type="text" class="form-control" name="ubahAlamatTpu" value="<%= dataTpu.alamat_tpu %>" required>
+        </div>
+        <div class="row row-cols-2 mx-4 mb-3 text-left">
+            <div class="col">
+                Kode Pos
+                <input type="text" class="form-control" id="ubahKodePos" name="ubahKodePos" value="" required>
+            </div>
+            <div class="col">
+                Luas
+                <input type="text" class="form-control" name="ubahLuasTpu" value="<%= dataTpu.luas %>" required>
+            </div>
+        </div>
+        <div class="row row-cols-2 mx-4 mb-3 text-left">
+            <div class="col">
+                Longtitude
+                <input type="text" class="form-control" name="ubahLongtitude" value="<%= dataTpu.longtitude %>" required>
+            </div>
+            <div class="col text-left">
+                Latitude
+                <input type="text" class="form-control" name="ubahLatitude" value="<%= dataTpu.latitude %>" required>
+            </div>
+        </div>
+        <div class="row row-cols-3 mx-4 mb-3 text-left">
+        </div>
+        <div class="row row-cols-3 mx-4 mb-3 text-left">
+            <div class="col">
+                <fieldset class="border-right">
+                    <legend>Petak Makam Islam</legend>
+                    <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                    <input type="text" name="ubahIslamAA01" value="<%= dataTpu.islam_aa01 %>">
+                    <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                    <input type="text" name="ubahIslamAA02" value="<%= dataTpu.islam_aa02 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A001</label>
+                    <input type="text" name="ubahIslamA001" value="<%= dataTpu.islam_a001 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A002</label>
+                    <input type="text" name="ubahIslamA002" value="<%= dataTpu.islam_a002 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A003</label>
+                    <input type="text" name="ubahIslamA003" value="<%= dataTpu.islam_a003 %>">
+                </fieldset>
+            </div>
+            <div class="col text-left">
+                <fieldset class="">
+                    <legend>Petak Makam Kristen</legend>
+                    <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                    <input type="text" name="ubahKristenAA01" value="<%= dataTpu.kristen_aa01 %>">
+                    <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                    <input type="text" name="ubahKristenAA02" value="<%= dataTpu.kristen_aa02 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A001</label>
+                    <input type="text" name="ubahKristenA001" value="<%= dataTpu.kristen_a001 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A002</label>
+                    <input type="text" name="ubahKristenA002" value="<%= dataTpu.kristen_a002 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A003</label>
+                    <input type="text" name="ubahKristenA003" value="<%= dataTpu.kristen_a003 %>">
+                </fieldset>
+            </div>
+            <div class="col text-left border-left">
+                <fieldset class="">
+                    <legend>Petak Makam Hindu/Budha</legend>
+                    <label for="blokAA01">Maksimal Petak Blok AA01</label>
+                    <input type="text" name="ubahHbAA01" value="<%= dataTpu.hb_aa01 %>">
+                    <label for="blokAA01">Maksimal Petak Blok AA02</label>
+                    <input type="text" name="ubahHbAA02" value="<%= dataTpu.hb_aa02 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A001</label>
+                    <input type="text" name="ubahHbA001" value="<%= dataTpu.hb_a001 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A002</label>
+                    <input type="text" name="ubahHbA002" value="<%= dataTpu.hb_a002 %>">
+                    <label for="blokAA01">Maksimal Petak Blok A003</label>
+                    <input type="text" name="ubahHbA003" value="<%= dataTpu.hb_a003 %>">
+                </fieldset>
+            </div>
+        </div>
+        <div class="row row-cols-2 mx-4 mb-3 ">
+            <div class="col"></div>
+            <div class="col">
+                <button type="submit" class="btn btn-info">Ubah</button>
+            </div>
+        </div>
+        </form>
+</div>
+<script src="/js/admin-layout.js" onload="document.getElementById('profileTpu').classList.add('menu-visited')"></script>
+<script>
+    document.getElementById('ubahKodePos').value = '<%= dataTpu.kd_tpu %>'.slice(0,5);
+</script>

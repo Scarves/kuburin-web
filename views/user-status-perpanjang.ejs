@@ -1,0 +1,115 @@
+<div class="" style="width: 100%; padding-left: 10%; padding-right: 10%;">
+    <div class="row row-cols-3 profile-box mx-auto" style="height: 100vh;">
+        <!-- COLUMN 1 -->
+        <div class="col-2 color-edge-profile py-4 " style="height: 100%;">
+            <div class="row justify-content-center mt-4 ">
+                <div class="col">
+                    <a href="/profile" class="btn btn-outline-light side-menu-profile">
+                        Profile Ahli Waris
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2 ">
+                <div class="col">
+                    <a href="/akun" class="btn btn-outline-light side-menu-profile">
+                        Akun
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/perpanjang-makam" class="btn btn-outline-light side-menu-profile">
+                        Perpanjang Makam
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-pendaftaran" class="btn btn-outline-light side-menu-profile ">
+                        Status Pendaftaran
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-perpanjangan" class="btn btn-outline-light side-menu-profile visited-stat">
+                        Status Perpanjang
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/status-pembayaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="col-8 my-4 ">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>NIK Jenazah</th>
+                        <th>Nama</th>
+                        <th>Kelamin</th>
+                        <th>Agama</th>
+                        <th>Alamat</th>
+                        <th>Tgl. Makam</th>
+                        <th>Tgl. Kadaluarsa</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% var count = 1; %> 
+                    <% statusPerpanjang.forEach(perpanjang => { %>
+                        <tr>
+                            <td>
+                                <%= count %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.nik_jenazah %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.nama_jenazah %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.kelamin %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.agama %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.alamat %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.tgl_makam %> 
+                            </td>
+                            <td>
+                                <%= perpanjang.tgl_kadaluarsa %> 
+                            </td>
+                            <td>
+                                <% if(perpanjang.status != true && perpanjang.status != false) { %>
+                                    Menunggu Konfirmasi
+                                <% } else if(perpanjang.status == true) { %>
+                                    <a href="/selected-perpanjang/<%= perpanjang.nik_jenazah %>/<%= perpanjang.harga %>">
+                                        <span class="badge badge-success">Bayar</span>
+                                    </a>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <% count++; %> 
+                    <% }) %> 
+                </tbody>
+            </table>
+        </div>
+        <!-- COLUMN 3 -->
+        <div class="col-2 color-edge-profile ">
+            
+        </div>
+    </div>
+</div>
+
+<script>
+</script>

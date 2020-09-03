@@ -1,0 +1,201 @@
+<div class="container">
+    <div class="row row-cols-3 profile-box ">
+        <!-- COLUMN 1 -->
+        <div class="col-2 color-edge-profile py-4 ">
+            <div class="row justify-content-center mt-4 ">
+                <div class="col">
+                    <a href="/profile" class="btn btn-outline-light side-menu-profile ">
+                        Profile Ahli Waris
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2 ">
+                <div class="col">
+                    <a href="/akun" class="btn btn-outline-light side-menu-profile visited-stat">
+                        Akun
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/perpanjang-makam" class="btn btn-outline-light side-menu-profile">
+                        Perpanjang Makam
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-pendaftaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pendaftaran
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center my-2">
+                <div class="col">
+                    <a href="/status-perpanjangan" class="btn btn-outline-light side-menu-profile ">
+                        Status Perpanjang
+                    </a>
+                </div>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col">
+                    <a href="/status-pembayaran" class="btn btn-outline-light side-menu-profile">
+                        Status Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- COLUMN 2 -->
+        <div class="col-8 my-4 ">
+            <div class="row justify-content-center my-4">
+                <h4 class="font-header"> Akun </h4>
+            </div>
+            <form action="/akun/update-akun" method="post">
+            <input type="hidden" name="ubahNik" value="<%= dataAkun.nik %>">
+            <input type="hidden" name="ubahNoKk" value="<%= dataAkun.no_kk %>">
+            <div class="row">
+                <div class="col">
+                    <label for="nik">NIK</label>
+                    <input type="text" class="form-control ubah-data-akun" id="nik" name="ubahNewNik" value="<%= dataAkun.nik %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="nik">No KK</label>
+                    <input type="text" class="form-control ubah-data-akun" id="kk" name="ubahNewNoKk" value="<%= dataAkun.no_kk %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="namaDepan">Nama Depan</label>
+                    <input type="text" class="form-control ubah-data-akun" id="tambahNamaDepan" name="ubahNamaDepan" value="<%= dataAkun.nama_depan %>" required>
+                </div>
+                <div class="col">
+                    <label for="namaBelakang">Nama Belakang</label>
+                    <input type="text" class="form-control ubah-data-akun" id="namaBelakang" name="ubahNamaBelakang" value="<%= dataAkun.nama_belakang %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="alamat">Alamat</label>
+                    <textarea id="alamat" class="textarea-kontak form-control ubah-data-akun" name="ubahAlamat"  required><%= dataAkun.alamat %></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="kecamatan">Kecamatan</label>
+                    <input type="text" class="form-control ubah-data-akun" id="kecamatan" name="ubahKecamatan" value="<%= dataAkun.kecamatan %>" required>
+                </div>
+                <div class="col">
+                    <label for="keluarahan">Kelurahan</label>
+                    <input type="text" class="form-control ubah-data-akun" id="kelurahan" name="ubahKelurahan" value="<%= dataAkun.kelurahan %>" required>
+                </div>
+                <div class="col">
+                    <label for="kodePos">Kode Pos</label>
+                    <input type="text" class="form-control ubah-data-akun" id="kodePos" name="ubahKodePos" value="<%= dataAkun.kode_pos %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="kotkab">Kota / Kabupaten</label>
+                    <input type="text" class="form-control ubah-data-akun" id="kotkab" name="ubahKotkab" value="<%= dataAkun.kotkab %>" required>
+                </div>
+                <div class="col">
+                    <label for="provinsi">Provinsi</label>
+                    <input type="text" class="form-control ubah-data-akun" id="provinsi" name="ubahProvinsi" value="<%= dataAkun.provinsi %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="telepon">Telepon</label>
+                    <input type="text" class="form-control ubah-data-akun" id="telepon" name="ubahTelepon" value="<%= dataAkun.telepon %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="email">Email Address</label>
+                    <input type="text" class="form-control ubah-data-akun" id="email" name="ubahEmail" value="<%= dataAkun.email %>" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="kelamin">Kelamin</label>
+                    <select id="kelamin" class="form-control ubah-data-akun" name="ubahKelamin">
+                        <option id="pria" value="pria">Pria</option>
+                        <option id="wanita" value="wanita">Wanita</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col">
+                    <button type="button" id="ubah" class="btn-navbar px-4 py-2" onclick="enableEditAkun()">Ubah</button>
+                    <button type="submit" id="simpan" class="ubah-data-akun btn-navbar px-4 py-2">Simpan</button>
+                </div>
+            </div>
+            </form>
+            <hr>
+            <form action="/akun/update-password" method="post">
+            <div class="row my-4 justify-content-center">
+                <h5>Ganti Password</h5>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-7">
+                    <label for="passwordLama">Password Lama</label>
+                    <input type="text" id="passwordLama" name="passwordLama" class="form-control" required>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-7">
+                    <label for="passwordBaru">Password Baru</label>
+                    <input type="text" id="password" name="passwordBaru" class="form-control" oninput="comparePassword()" required>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-7">
+                    <label for="konfirmasiPassword">Konfirmasi Password</label>
+                    <sub class="text-danger" id="error"></sub>
+                    <input type="text" id="konfirmasiPassword" class="form-control" oninput="comparePassword()" required>
+                </div>
+            </div>
+            <div class="row my-4 justify-content-center">
+                <div class="col-7">
+                    <button type="submit" class="btn btn-outline-success">Simpan</button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!-- COLUMN 3 -->
+        <div class="col-2 color-edge-profile ">
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    var kelaminPria = document.getElementById('pria');
+    var kelaminWanita = document.getElementById('wanita');
+    var inputForm = document.getElementsByClassName('ubah-data-akun');
+    var getKelamin;
+    <% if(dataAkun.kelamin) { %>
+        getKelamin = <%= dataAkun.kelamin %>;
+    <% } %>
+
+    // var selectForm = document.getElementsByTagName('select');
+
+    // Disabled all form to edit data akun
+    for(i = 0; i < inputForm.length; i++) {
+        inputForm[i].disabled = true;
+    }
+    
+    if(getKelamin == true) {
+        kelaminWanita.setAttribute('selected', '');
+    } else if(getKelamin == false) {
+        kelaminPria.setAttribute('selected', '');
+    }
+
+    function enableEditAkun() {
+        for(i = 0; i < inputForm.length; i++) {
+        inputForm[i].disabled = false;
+    }
+    }
+</script>

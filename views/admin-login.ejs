@@ -1,0 +1,35 @@
+<div class="container login-height ">
+    <div class="row justify-content-center login-margin">
+        <div class="col-4 big-top-border">
+            <div class="row justify-content-center my-4">
+                <h1 class="font-header">Login</h1>
+            </div>
+            <form action="/admin/login" method="post">
+                <div class="col-7 py-3 mx-auto">
+                    <% if (notification == true) { %>
+                        <div class="alert alert-danger">
+                            <b>
+                                Kode Admin atau Password Salah!
+                            </b>
+                        </div>
+                    <% } %>
+                    <div class="row mt-4">
+                        <h4><label for="kdAdmin" class="">Kode Admin</label></h4>
+                    </div>
+                    <div class="row justify-content-center">
+                        <input type="text" class="form-control" name="kdAdmin" id="kdAdmin" required>
+                    </div>
+                    <div class="row mt-4">
+                        <h4><label for="password" class="form-password">Password</label></h4>
+                    </div>
+                    <div class="row mb-4 justify-content-center">
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                    <div class="row my-4 justify-content-center">
+                        <button type="submit" class="btn btn-outline-success px-4">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

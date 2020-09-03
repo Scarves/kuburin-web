@@ -1,0 +1,330 @@
+<div class="container ">
+    <div class="row justify-content-center my-4 ">
+        <h1 class="">List TPU</h1>
+    </div>
+    <!-- <div class="" id="kontenListTpu"></div> -->
+    <div class="row justify-content-center my-4 pb-4">
+        <div class="col-12 py-3 my-4 rounded" id="kontenListTpu">
+            <!-- <div class="row row-cols-3">
+                <div class="col mb-1">
+                    <div class="box-tpu">
+                        <div class="row justify-content-center my3">
+                            <h5 id="namaTpu">x-nama-tpu-x</h5>
+                        </div>
+                        <div class="row px-4 my-2">
+                            Alamat : &nbsp;
+                            <span id="alamat">x-alamat-x</span>
+                        </div>
+                        <div class="row px-4">
+                            Terisi : &nbsp;
+                            <span id="terisi">x-terisi-x</span>
+                        </div>
+                        <div class="row px-4">
+                            Kosong : &nbsp;
+                            <span id="kosong">x-kosong-x</span>
+                        </div>
+                        <div class="row px-4 my-3">
+                            <a href="/tpu/# " class="btn-navbar px-4 mr-4"> Lihat Selengkapnya </a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="row justify-content-center my-3">
+        <div class="col text-center">
+            <button class="btn menu-visited " onclick="toPage(currentPage - 1)"><</button>
+            <span id="pageList"></span>
+            <button class="btn menu-visited " onclick="toPage(currentPage + 1)">></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var listTpu = [];
+    <% listTpu.forEach(tpu => { %>
+        var tpuObj = {};
+        tpuObj.islam = '';
+        tpuObj.kristen = '';
+        tpuObj.hinduBudha = '';
+        tpuObj.kdTpu = '<%= tpu.kd_tpu %>';
+        tpuObj.namaTpu = '<%= tpu.nama_tpu %>';
+        tpuObj.luasTpu = '<%= tpu.luas_tpu %>';
+        tpuObj.terisi = '<%= tpu.terisi %>';
+        tpuObj.makamKosong = '<%= tpu.makam_kosong %>';
+        tpuObj.alamat = '<%= tpu.alamat %>';
+        <% if(tpu.islam == true) { %>
+            tpuObj.islam = `<span class="badge badge-success">Islam</span>`;
+        <% } %>
+        <% if(tpu.kristen == true) { %>
+            tpuObj.kristen = `<span class="badge badge-primary">Kristen</span>`;
+        <% } %>
+        <% if(tpu.hindu_budha == true) { %>
+            tpuObj.hinduBudha = `<span class="badge badge-primary">Hindu / Budha</span>`;
+        <% } %>
+        listTpu.push(tpuObj);
+    <% }) %>
+
+    displayData('','');
+
+    function flushTbody(table, minus) {
+        if(table.tBodies) {
+            var tbodiesLength = table.tBodies.length;
+            if(minus == true) { tbodiesLength--; };
+            console.log('length tb ', tbodiesLength);
+            document.getElementById('pageList').innerHTML = '';
+            for (countTbodies = 0; countTbodies < tbodiesLength; countTbodies++) {
+                table.tBodies[countTbodies].remove();
+
+            }
+        }
+    }
+
+    // Adjusting display data, wether it search mode or main mode
+    function displayData(displayMode, searchResult){
+        var putData, emptyData;
+        var contentPerPage = 6; // Set your content per page here
+        var kontenListTpu = document.getElementById('kontenListTpu');
+        var pageList = document.getElementById('pageList');
+
+        // flush all tbodies
+        // flushTbody(table, false);
+        // Define wheter its to display search or not
+        if(displayMode == 'search') {
+            putData = searchResult;
+            console.log('masuk search');
+            console.log('lengthnya ', putData.length);
+            // flushTbody(table, true);
+        } else {
+            // Put main content obj
+            putData = listTpu;
+        }
+        // flushTbody(table, true);
+        // Put data to page
+        var count = 1;
+
+        if(putData.length == 0) { // If theres no data
+            var noDataLayer = document.createElement('div');
+            noDataLayer.setAttribute('id', 'page1');
+            noDataLayer.innerHTML = `
+                <h4 class="text-center text-secondary"> Belum Ada Data Saat Ini </h4>
+            `;
+            kontenListTpu.appendChild(noDataLayer);
+        }
+        
+        var contentLength = putData.length; // set your object length here
+        var pageAmount = contentLength % contentPerPage == 0 ? (contentLength / contentPerPage) : (contentLength / contentPerPage) + 1;
+        // Making layer pages
+        console.log('page ', pageAmount);
+        for(i = 1; i <= pageAmount; i++) {
+            console.log('page ke', i);
+
+            // Setup your style button here
+            var kontenLayer = document.createElement('div');
+            kontenLayer.setAttribute('class', 'row row-cols-3');
+            var button = document.createElement('button');
+            button.setAttribute('id', `btnPage${i}`);
+            button.setAttribute('class', 'btn menu-visited btn-info');
+            button.setAttribute('onclick', `toPage(${i})`);
+            button.textContent = i;
+
+            if(i < 2) {
+                button.disabled = true;
+            }
+            pageList.appendChild(button);
+            switch(i) {
+                case 1 :
+                    currentIndex = 0;
+                    break;
+                case 2 :
+                    currentIndex = contentPerPage;
+                    break;
+                case i > 2 :
+                    currentIndex = (i * contentPerPage) - 1;
+                    break;
+                default :
+                    currentIndex = 0;
+                    break;
+            }
+            console.log('currentnya ', currentIndex);
+            kontenLayer.setAttribute('id', `page${i}`);
+            if(i > 1) {
+                kontenLayer.setAttribute('hidden', '');
+            }
+
+            // for (count = 1; count <= contentPerPage; count++) {
+            for (count = 1; count <= contentPerPage; count++) {
+                var getIndex = currentIndex;
+                if(!putData[getIndex]) { break; }; // when undefined or index is not exist then break the loop
+                console.log(count, putData[getIndex]);
+
+                // setup your tbody style
+                kontenLayer.innerHTML += pagesOfData(putData[getIndex]);
+                // Apply into tbody
+                // tbody.appendChild(tr);
+                currentIndex++;
+            }
+            kontenListTpu.appendChild(kontenLayer);
+            currentPage = 1; // have to assign the current page
+        }
+    }
+
+    // ToPage function is to make the other layer page visible while hid the current layer
+    function toPage(setPage) {
+        console.log(setPage);
+        if(document.getElementById(`page${setPage}`)) {
+            console.log('exist');
+            var currentLayerPage = document.getElementById(`page${currentPage}`);
+            var toLayerPage = document.getElementById(`page${setPage}`);
+            var btnCurrentPage = document.getElementById(`btnPage${currentPage}`);
+            var btnToPage = document.getElementById(`btnPage${setPage}`);
+            currentLayerPage.setAttribute('hidden', ''); // hid current page
+            toLayerPage.removeAttribute('hidden');
+            btnCurrentPage.disabled = false;
+            btnToPage.disabled = true;
+            currentPage = setPage;
+        }else {
+            console.log('layer page not exist');
+        }
+    }
+
+    function pagesOfData(tpu) {
+        return `
+       
+            <div class="col mb-1">
+                <div class="box-tpu">
+                    <div class="row justify-content-center my3">
+                        <h5 id="namaTpu">${tpu.namaTpu}</h5>
+                    </div>
+                    <div class="row px-4 my-2">
+                        Alamat : &nbsp;
+                        <span id="alamat">${tpu.alamat}</span>
+                    </div>
+                    <div class="row px-4">
+                        Terisi : &nbsp;
+                        <span id="terisi">${tpu.terisi}</span>
+                    </div>
+                    <div class="row px-4">
+                        Kosong : &nbsp;
+                        <span id="kosong">${tpu.makamKosong}</span>
+                    </div>
+                    <div class="row px-4 my-3">
+                        <button type="button" class="btn-navbar px-4 mr-4" data-toggle="modal" data-target="#lihat${tpu.kdTpu}" onclick="getJenazah('${tpu.kdTpu}')"> Lihat Selengkapnya </button>
+                        <!-- Modal Lihat -->
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="lihatModal" aria-hidden="true" id="lihat${tpu.kdTpu}">
+                            <div class="modal-dialog modal-xl" role="document">
+                                <div class="modal-content lihat-modal">
+                                    <h4 class="text-center">
+                                        <b>
+                                            Data TPU ${tpu.namaTpu}
+                                        </b>
+                                    </h4>
+                                    <p class="text-center">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit, facilis sunt, fugiat corrupti suscipit rerum dolorem nihil in nemo quam praesentium voluptas exercitationem quis a dignissimos laudantium, natus fugit consequuntur!
+                                    </p>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Agama Tersedia
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Makam Kosong
+                                        </div>
+                                        <div class="col text-left title-modal-color">
+                                            Luas TPU
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            ${tpu.islam} ${tpu.kristen} ${tpu.hinduBudha}
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            ${tpu.makamKosong}
+                                            <hr class="bg-info">
+                                        </div>
+                                        <div class="col text-left">
+                                            ${tpu.luasTpu}
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col text-left title-modal-color">
+                                            Alamat
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4 mb-3">
+                                        <div class="col text-left">
+                                            ${tpu.alamat}
+                                            <hr class="bg-info">
+                                        </div>
+                                    </div>
+                                    <div class="text-left" id="jenazahTable${tpu.kdTpu}"></div>
+                                    <div class="row mb-4">
+                                        <div class="col text-right mr-4"> 
+                                            <button class="btn btn-secondary">Tutup</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+        `;
+    };
+
+    // Get data pegawai by kode TPU
+    var getJenazah = (kdTpu) => new Promise((resolve, reject) => {
+        var count = 1;
+        var jenazahTable = document.getElementById(`jenazahTable${kdTpu}`);
+        jenazahTable.innerHTML = '';
+
+        // Get data Pegawai
+        fetch(`/get-jenazah-tpu/${kdTpu}`)
+            .then(data => {
+                return data.json();
+            })
+            .then(data => {
+                console.log('data jenazah ');
+                console.table(data);
+                // Declaring table body
+                jenazahTable.innerHTML = ` 
+                    <table class="mx-auto mb-4  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Blok</th>
+                                <th>Blad</th>
+                                <th>Petak</th>
+                                <th>Nama Jenazah</th>
+                                <th>Nama Ahli Waris</th>
+                                <th>Jenis Daftar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jenazahValues${kdTpu}">
+
+                        </tbody>
+                    </table>
+                `;
+
+                var jenazahValue = document.getElementById(`jenazahValues${kdTpu}`);
+                // Put data pegawai into table body
+                data.forEach(jenazah => {
+                        jenazahValue.innerHTML += `
+                        <tr>
+                            <td>${count}</td>
+                            <td>${jenazah.blok}</td>
+                            <td>${jenazah.blad}</td>
+                            <td>${jenazah.petak}</td>
+                            <td>${jenazah.nama_jenazah}</td>
+                            <td>${jenazah.nama_ahli_waris}</td>
+                            <td>${jenazah.jenis_daftar}</td>
+                        </tr>
+                        `;
+                    count++;
+                });
+            })
+            .catch(error => console.error(error));
+    });
+</script>
